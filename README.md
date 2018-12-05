@@ -1,1 +1,3 @@
-The files inhabiting this repository support my job application.
+This repository collects files that support my application to academic positions 
+in 2019.
+
