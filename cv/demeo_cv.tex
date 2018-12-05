@@ -1,0 +1,376 @@
+%_______________________________________________
+% @brief    LaTeX2e Resume for William J. DeMeo
+\documentclass[margin,line]{resume}
+\usepackage{url}
+\usepackage[shortlabels]{enumitem}
+%\usepackage{enumitem}
+\usepackage{xspace}
+
+\usepackage{graphicx}
+
+\usepackage[usenames,dvipsnames]{color}
+\definecolor{light-gray}{gray}{0.70}
+\definecolor{gray}{gray}{0.50}
+\definecolor{dark-gray}{gray}{0.30}
+
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{
+     citecolor    = gray,
+     urlcolor=Blue
+     %% linkcolor=Emerald
+}
+% \usepackage[yyyymmdd,hhmmss]{datetime}
+% \usepackage{background}
+% \backgroundsetup{
+%   % position=current page.east,
+%   angle=-90,
+%   % nodeanchor=east,
+%   vshift=-.2cm,
+%   % hshift=-10cm,
+%   % opacity=1,
+%   scale=5,
+%   contents={\textcolor{gray!80}{Last updated \today\ at \currenttime.}}
+% }
+
+% \usepackage[yyyymmdd,hhmmss]{datetime}
+% \usepackage[yyyymmdd]{datetime}
+\usepackage{datetime}
+\usepackage{background}
+\backgroundsetup{
+% position=current page.east,
+angle=0,
+% nodeanchor=south,
+vshift=-350mm,
+hshift=-75mm,
+%hshift=100cm,
+opacity=1,
+scale=1.1,
+  % contents={\textcolor{gray!80}{last updated on \today\ at \currenttime}}
+  contents={\textcolor{gray!80}{Page \thepage\ of 5 \hskip10cm Updated \today}}
+}
+%%%%%%  (end wjd addition of packages)
+
+
+
+\usepackage{ifthen}
+\usepackage[LabelsAligned]{currvita}     
+%\topmargin-10mm
+%_______________________________________________
+\begin{document}
+
+\newcommand{\Hawaii}{Hawai\kern.05em`\kern.05em\relax i\xspace}
+\newcommand{\Manoa}{M\=anoa\xspace}
+\newcommand{\Textron}[1]{\emph{Textron Systems Technical Report.} \hfill Kihei, #1}
+\newcommand{\nosmall}{}
+
+% Specify whether to include qrcode:
+
+\newboolean{UH-grad-extra}
+\setboolean{UH-grad-extra}{true}
+\setboolean{UH-grad-extra}{false}
+
+
+\newboolean{pagenumbers}
+\setboolean{pagenumbers}{true}
+\setboolean{pagenumbers}{false}
+
+\newboolean{qrcode}
+\setboolean{qrcode}{true}  % set to true to include qrcode
+\setboolean{qrcode}{false}  %
+
+\newboolean{ta}
+\setboolean{ta}{true}
+\setboolean{ta}{false}
+
+\newboolean{itg}
+\setboolean{itg}{true}
+\setboolean{itg}{false}
+
+\newboolean{tomandandy}
+\setboolean{tomandandy}{true}
+\setboolean{tomandandy}{false}
+
+\newboolean{extended-interests}
+\setboolean{extended-interests}{true} 
+%\setboolean{extended-interests}{false} 
+%\newcommand{\streetaddress}{1550 Kanalui St.}
+%\newcommand{\citystatezip}{Honolulu, HI 96816}
+\newcommand{\streetaddress}{1805 Spruce St, Apt E}
+\newcommand{\citystatezip}{Boulder, CO 80302}
+
+%\vspace{-6mm}
+\name{{\Large William DeMeo} \hskip104mm {\large\sc Curriculum Vit\ae}}
+
+\begin{resume}
+
+    %======================================================================================
+    % Contact Information
+    \section{\mysidestyle Contact\\Information}
+     \streetaddress   \hfill tel: 212-308-4134\\
+     \citystatezip       \hfill url: \href{http://williamdemeo.org}{williamdemeo.org}\\
+     {\small USA}             \hfill email: \href{mailto:williamdemeo@gmail.com}{williamdemeo@gmail.com}
+
+    %======================================================================================
+    % Research Interests
+     \vspace{-1mm}
+     \section{\mysidestyle Research Interests}
+
+     Universal algebra, lattice theory, logic, computational complexity, category theory, type theory, programming languages.
+    \ifthenelse{\boolean{extended-interests}}{    
+      \\[3pt] 
+        {\small {\it Applications:}
+          Computer-aided theorem proving with Lean and Coq, Big Data analysis with Scala/Spark, Blockchain technologies and functional programming.}
+        }{}
+
+    %======================================================================================
+    % Education
+    \vspace{-1mm}
+    \section{\mysidestyle Education}
+
+    Doctor of Philosophy in Mathematics, University of \Hawaii at \Manoa \hfill 2012\\    
+     Thesis: \textsl{Congruence lattices of finite algebras}. Advisor:  Ralph Freese
+
+    \vspace{-2mm}
+    Master of Science in Mathematics, New York University Courant Institute \hfill 1998\\
+    Thesis: \textsl{Approximating eigenvalues of large stochastic matrices}. Advisor:  Jonathan Goodman
+
+    \vspace{-2mm}
+    Bachelor of Arts in Economics, University of Virginia \hfill 1994
+    %    Major: ; Minor: Mathematics.
+
+    %======================================================================================
+    % ACADEMIC APPOINTMENTS
+    \vspace{-1mm}
+    \section{\mysidestyle Academic Appointments}
+    Burnett Meyer Instructor, University of Colorado, Boulder \hfill  2017--2019 \\[3pt]
+    Visiting Assistant Professor, University of Hawaii, Honolulu \hfill  2016--2017 \\[3pt]
+    Post-doctoral Associate, Iowa State University, Ames \hfill  2014--2016 \\[3pt]
+    Visiting Assistant Professor, University of South Carolina, Columbia \hfill  2012--2014
+
+    %% \\[5pt]
+    \ifthenelse{\boolean{ta}}{
+      \textsl{Instructor and Teaching Assistant}, University of Hawaii, Honolulu \hfill 2008--2012
+    }{}
+
+    %======================================================================================
+    % Professional Experience
+    \vspace{-1mm}
+    \section{\mysidestyle Professional\\Experience}
+    
+    Senior Research Scientist, Textron Systems Corporation  \hfill 2001--2006\\
+    Role: image processing and dsp research; algorithm design and complexity analysis
+    %           \nosmall Supervisor: Paul Billings
+
+    \ifthenelse{\boolean{tomandandy}}{
+      \textbf{Tomandandy, Inc.} \hfill \nosmall New York, NY \\
+      \textsl{Research Mathematician:} \nosmall musical acoustics and
+      computer music composition.  \hfill 1999--2001
+      \nosmall Supervisor: Andy Milburn 
+    }{}
+
+    \ifthenelse{\boolean{itg}}{
+    \textbf{Investment Technology Group, Inc.} \hfill \nosmall New York, NY \\
+    \textsl{Research Associate} \nosmall (Series 7 licensed) \hfill 1994--1995  \\
+    \nosmall Supervisor: David Cushing (phone: 617-951-5000) 
+    }{}
+    
+    %======================================================================================
+    % Honours and Awards
+    \vspace{-1mm}
+    \section{\mysidestyle Grants \& Awards}
+
+    NSF Research Grant {\small (grant no.~1500218)} \hfill 2015--2018\\
+    Project Title: \textsl{Algebras and algorithms, structure and complexity theory}\\ 
+    Role: postdoctoral fellow on a team with 6 senior scientists and 3 postdocs\\
+    Description: 3-yr collaborative research on algebraic approaches to constraint satisfaction problems
+
+    \vspace{-1mm}
+    Magellan Scholar Grant \hfill     2013--2014\\
+    Project Title: \textsl{What does a nonabelian group sound like?}\\
+    Role: faculty mentor for undergraduate research\\
+    Description: available at {\small \href{http://soundmath.github.io/GroupSound/}{soundmath.github.io/GroupSound/GroupSound}}
+
+    \vspace{-2mm}
+    ARCS Sarah Ann Martin Award for Outstanding Research in Mathematics \hfill 2011
+
+    \vspace{-2mm}
+    Best Paper Award, International Symposium on Musical Acoustics \hfill  2004 
+
+\vskip-2mm
+    %======================================================================================
+    \section{\mysidestyle Publications}
+
+    \input{aux/pubs1.tex}
+    
+    \ifthenelse{\boolean{pagenumbers}}{
+      \begin{center}
+        \vskip-8mm
+        \hfill (page 1 of 5)
+      \end{center}
+    }{}
+    \newpage
+
+~\vspace{-15mm}
+
+    % %======================================================================================
+    % \section{\mysidestyle Publications (continued)}
+
+    \input{aux/pubs2.tex}
+
+\vspace{-2mm}    
+    %======================================================================================
+    \section{\mysidestyle Summer Schools Attended}
+
+    \input{aux/summerschools.tex}
+
+\vspace{-2mm}    
+    %======================================================================================
+    \section{\mysidestyle Data Science Credentials}
+
+    %% %======================================================================================
+    %% \section{\mysidestyle Courses with Certificates}
+    \input{aux/training.tex}
+
+
+    %======================================================================================
+
+
+    %% \newpage
+
+    
+    %======================================================================================
+    \section{\mysidestyle Synergistic Activities}
+
+    \input{aux/synergistic.tex}
+
+
+    \ifthenelse{\boolean{pagenumbers}}{
+      \begin{center}
+        \vskip-15mm
+        \hfill (page 2 of 5)
+      \end{center}
+    }{}
+
+    \newpage
+    %======================================================================================
+    \section{\mysidestyle Teaching Experience}
+    \input{aux/teaching.tex}
+     
+    \ifthenelse{\boolean{pagenumbers}}{
+      \begin{center}
+        %\vskip-4mm
+        \hfill (page 3 of 5)
+      \end{center}
+    }{}
+    \newpage
+
+     %======================================================================================
+    \section{\mysidestyle Talks}
+
+
+    \newcommand\vsp{-1.5mm}
+    \newcommand\talkurl[5]{\noindent \textsl{#1} \href{#4}{#5} \hfill #2 \\ #3}
+    % USAGE: \talk{title}{city date}{conf/seminar name}{url}{urltext}
+    \newcommand\talk[3]{\noindent \textsl{#1}\hfill #2 \\ #3}
+    % USAGE: \talk{title}{city date}{conf/seminar name}
+
+    %% (Slides for some of the talks listed below are available at
+    %% \href{https://github.com/williamdemeo/Talks}{github.com/williamdemeo/Talks})
+
+    \input{aux/talks1.tex}
+
+    \ifthenelse{\boolean{pagenumbers}}{
+      \begin{center}
+        %\vskip-4mm
+        \hfill (page 4 of 5)
+      \end{center}}{}
+
+    \newpage
+
+     %======================================================================================
+    \section{\mysidestyle Talks (continued)}
+    \input{aux/talks2.tex}
+
+    \vskip1cm
+
+    %______________________________________________________________________________
+    \section{\mysidestyle References} 
+
+    \input{aux/refs.tex}
+
+
+    \ifthenelse{\boolean{pagenumbers}}{
+      \begin{center}
+        \vskip2cm
+        \hfill (page 5 of 5)
+    \end{center}}{}
+
+\end{resume}
+
+\end{document}
+
+
+
+
+
+
+%% \begin{tabular}{@{}p{6cm}p{6cm}}
+%% \textbf{Ralph Freese}       &  \textbf{William Lampe}*                  \\
+%% Professor of Mathematics    &  Professor of Mathematics                      \\
+%% University of Hawaii       &  University of Hawaii                      \\
+%% 2565 McCarthy Mall       &  2565 McCarthy Mall     \\
+%% Honolulu, HI 96822     & Honolulu, HI 96822 \\
+%% phone: 808-956-4680   &  phone: 808-956-4680 \\
+%% email: \url{ralph@math.hawaii.edu} &  email: \url{bill@math.hawaii.edu}
+%% \end{tabular}
+
+%% \begin{tabular}{@{}p{6cm}p{6cm}}
+%% \textbf{Clifford Bergman}*            &  \textbf{Peter Jipsen}                    \\
+%% Barbara J. Janson Professor and Chair &  Associate Professor of Mathematics \\
+%% Department of Mathematics                  &  Chapman University\\
+%% Iowa State University       &  545 W. Palm Ave\\
+%% Ames, Iowa 50011-2064 USA & Orange, CA 92866 \\
+%% phone: 515-294-1752   &  phone: 714-744-7918\\
+%% email: \url{cbergman@iastate.edu} &  email: \url{jipsen@chapman.edu}
+%% \end{tabular}
+
+%% \begin{tabular}{@{}p{6cm}p{6cm}}
+%% \textbf{George McNulty}           & \\%  \textbf{Eva Czabarka}* \\
+%% Professor of Mathematics     & \\% Associate Professor of Mathematics                      \\
+%% University of South Carolina     &\\%  University of South Carolina\\
+%% 1523 Greene Street              &\\% 1523 Greene Street\\
+%% Columbia, SC 29208              &\\% Columbia, SC 29208 \\
+%% phone: 803-777-7469             &\\%  phone: 803-777-7524\\
+%% email: \url{mcnulty@math.sc.edu} &%  email: \url{czabarka@math.sc.edu}
+%% \end{tabular}
+
+%% \begin{tabular}{@{}p{6cm}p{6cm}}
+%% \textbf{George McNulty}           &  \textbf{Eva Czabarka}* \\
+%% Professor of Mathematics     &  Associate Professor of Mathematics                      \\
+%% University of South Carolina     &  University of South Carolina\\
+%% 1523 Greene Street              & 1523 Greene Street\\
+%% Columbia, SC 29208              & Columbia, SC 29208 \\
+%% phone: 803-777-7469             &  phone: 803-777-7524\\
+%% email: \url{mcnulty@math.sc.edu} &  email: \url{czabarka@math.sc.edu}
+%% \end{tabular}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+545 W. Palm Ave
+Orange, CA 92866, USA
+
+\begin{tabular}{@{}p{6cm}p{6cm}}
+\textbf{J.B.~Nation}            &  \textbf{David Cushing}                    \\
+Professor of Mathematics                            &  Senior Vice President                       \\
+University of Hawaii                    &  Wellington Capital Management                    \\
+2565 McCarthy Mall       &  280 Congress Street   \\
+Honolulu, HI 96822 & Boston, Massachusetts 02210 \\
+phone: 808-956-4680   &  phone: 617-951-5000 \\
+e-mail: \url{jb@math.hawaii.edu} &  e-mail: \url{info@wellington.com}    \\
+\end{tabular}
+
+%____________________________________________________________________________________
+% EOF
