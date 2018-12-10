@@ -46,7 +46,7 @@ hshift=-75mm,
 opacity=1,
 scale=1.1,
   % contents={\textcolor{gray!80}{last updated on \today\ at \currenttime}}
-  contents={\textcolor{gray!80}{Page \thepage\ of 5 \hskip10cm Updated \today}}
+  contents={\textcolor{gray}{Page \thepage\ of 5 \hskip11cm Updated \today}}
 }
 %%%%%%  (end wjd addition of packages)
 
@@ -200,22 +200,13 @@ scale=1.1,
     %======================================================================================
     \section{\mysidestyle Publications}
 
-    \input{aux/pubs1.tex}
+    \input{aux/pubs.tex}
     
-    \ifthenelse{\boolean{pagenumbers}}{
-      \begin{center}
-        \vskip-8mm
-        \hfill (page 1 of 5)
-      \end{center}
-    }{}
-    \newpage
-
-~\vspace{-15mm}
 
     % %======================================================================================
     % \section{\mysidestyle Publications (continued)}
 
-    \input{aux/pubs2.tex}
+    % \input{aux/pubs2.tex}
 
 \vspace{-2mm}    
     %======================================================================================
