@@ -175,7 +175,7 @@ with no special training in computer science.
 Thus our goal is a formal mathematical library that has the look and feel of the 
 informal language in which most mathematicians are accustomed to working.
 
-This research is part of a broader effort currently underway in a number of countries, carried out by disparate research groups with a common goal---to develop the next generation of \textbf{practical formal foundations of informal mathematics}, and to codify these foundations in a formal language that feels natural to mathematicians. In short, our goal is to present \emph{mathematics as it should be}.
+This research is part of a broader effort currently underway in a number of countries, carried out by disparate research groups with a common goal---to develop the next generation of \textbf{practical formal foundations for informal mathematics}, and to codify these foundations in a formal language that feels natural to mathematicians. In short, our goal is to present \emph{mathematics as it should be}.
 \end{abstract}
 
 \section{Introduction and Motivation}
@@ -466,15 +466,14 @@ The short explanation is that types can depend on \emph{parameters}. For example
 Consider the type \lstinline{vec α n}, that is, the type of vectors of length 
 \lstinline{n} whose entries inhabit the type \lstinline{α}. The type \lstinline{vec α n} depends on one type parameter, \lstinline{α : Type}, and one \emph{value parameter}, \lstinline{n : ℕ}.  Thus, dependent types are generic types that can depend, not only on type parameters, but also on value parameters.
 
-Suppose we wish to write a function \lstinline{cons} that inserts a new element at the head of a list. What type should cons have? Such a function is polymorphic: we expect the cons function for ℕ, bool, or an arbitrary type α to behave the same way. So it makes sense to take this type to be the first argument to \lstinline{cons}, so that for any type \lstinline{α}, \lstinline{cons α} is the function that takes an element \lstinline{a : α} and a list 
+Suppose we wish to write a function \lstinline{cons} that inserts a new element at the head of a list. What type should \lstinline{cons} have? Such a function is polymorphic: we expect the \lstinline{cons} function for \lstinline{ℕ}, \lstinline{bool}, or an arbitrary type \lstinline{α} to behave the same way. Thus, it makes sense to take this type to be the first argument to \lstinline{cons}, so that for any type \lstinline{α}, \lstinline{cons α} is the function that takes an element \lstinline{a : α} and a list 
 \lstinline{ℓ : list α} and returns \lstinline{cons α a ℓ = a :: ℓ} 
 (that is, \lstinline{ℓ} with \lstinline{a} prepended).
-% In other words, for every α, cons α is the function that takes an element \lstinline{a : α} and a list \lstinline{l : list α}, and returns a new list, so we have \lstinline{con α a l : list α}.
 
-It is clear that \lstinline{cons α} should have type \lstinline{α → list α → list α}. But what type should \lstinline{cons} have? A first guess might be \lstinline{Type → α → list α → list α}, but, on reflection, this does not make sense! The \lstinline{α} in this expression does not refer to anything, whereas it should refer to whatever is passed in for the argument of type \lstinline{Type}. In other words, assuming \lstinline{α : Type} is the first argument to \lstinline{cons α}, the type of the next two arguments should be \lstinline{α} and \lstinline{list α}. These types vary depending on the first input argument. 
+While it's clear that \lstinline{cons α} should have type \lstinline{α → list α → list α}, less clear is what type \lstinline{cons} should have; perhaps \lstinline{Type → α → list α → list α}. But this is nonsense since the type parameter \lstinline{α} does not refer to anything, whereas it should refer to whatever is passed in for the argument of type \lstinline{Type}. In other words, \emph{assuming} \lstinline{α : Type} is the first argument to \lstinline{cons}, then the type of the next two arguments will be \lstinline{α} and \lstinline{list α}, which are types that depend on the first input argument. 
 
 This example is an instance of a \emph{dependent function type}, also known as a \lstinline{Pi} type. Given \lstinline{α : Type} and \lstinline{β : α → Type},
-view \lstinline{β} as an indexed family of types over the index set \lstinline{α}; for each \lstinline{a : α} we have a type \lstinline{β a}.  The type \lstinline{Π(x : α), β x} denotes the type of functions \lstinline{f} with the property that, for each \lstinline{a : α, f a} is an element of \lstinline{β a}, so the type of the value returned by \lstinline{f} \emph{depends} on the input argument. In case \lstinline{β} is a constant function, so \lstinline{β x} doesn't vary with \lstinline{x}, the type \lstinline{Π(x : α), β x} is no different from the (non-dependent) function type \lstinline{α → β}. Indeed, in dependent type theory, and in Lean, the \lstinline{Pi} construction is fundamental, and \lstinline{α → β} is just notation for \lstinline{Π(x : α), β x} in the special case in which \lstinline{β} is constant.
+view \lstinline{β} as an indexed family of types over the index set \lstinline{α}; for each \lstinline{a : α} we have a type \lstinline{β a}.  The type \lstinline{Π(x : α), β x} denotes the type of functions \lstinline{f} with the property that, for each \lstinline{a : α, f a} is an element of \lstinline{β a}, so the type of the value returned by \lstinline{f} \emph{depends} on the input argument. In case \lstinline{β} is a constant function, the type \lstinline{Π(x : α), β x} is no different from the (non-dependent) function type \lstinline{α → β}. Indeed, in dependent type theory, and in Lean, the \lstinline{Pi} construction is fundamental, and \lstinline{α → β} is just notation for \lstinline{Π(x : α), β x} in the special case in which \lstinline{β} is constant.
 
 % \subsection{Curry-Howard Correspondence}
 % % Propositions-as-types, proofs-as-programs}
@@ -547,7 +546,7 @@ The challenge is to design a sound, complete, and yet efficient encoding of Lean
 
 
 
-\section{Proof of Concept: some informal universal algebra in Lean}
+\section{Proof of Concept: basic universal algebra in Lean}
 % This section outlines a few aspects of our plan to examine the core foundations of our main area of expertise, universal algebra, and represent these foundations in a way that is not only easy to codify in Lean, but also remains accessible to working mathematicians. The resulting libraries will aim to make it easier to use Lean to find new proofs, verify existing proofs, and test conjectures.
 
 % Specifically, we 
@@ -555,9 +554,8 @@ This section explains how and why dependent and inductive types
 are useful for efficiently expressing certain fundamental constructs of universal algebra.
 A few concrete examples will showcase the power and expressiveness of the Lean language,
 and demonstrate how it enables us to codify advanced mathematics in a constructive and computable way.  In particular, we will show how to use Lean to represent each of the following concepts: 
-\emph{operations}, \emph{algebras}, \emph{term algebra}, \emph{subalgebra}.
-Our formal representations of these will be clear, concise, and computable, and we will strive to use notation that seems natural and self-explanatory to a general algebraist.
-
+\emph{operation}, \emph{algebra}, \emph{subuniverse}, and \emph{term algebra}.
+Our formal representations of these will be clear, concise, and computable, and we will develop a notation and formal syntax that seems natural and self-explanatory to a general algebraist.
 Our goal is to demonstrate the power of Lean's type system for expressing 
 mathematical concepts constructively, and to show that if we make
 careful design choices at the start of our development, then our formal 
@@ -611,7 +609,7 @@ $f (h \circ a) \colon B$.
 
 
 
-\subsection{Operations and Algebras in Lean: \lstinline{lean-ualib/basic.lean}}\
+\subsection{Operations and Algebras in Lean \href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/basic.lean}{(\lstinline{lean-ualib/basic.lean})}}\
 
 \noindent Let us now look at the actual Lean implementation of a few basic concepts from
 universal algebra, highlighting the similarity that can be achieved between the formal and 
@@ -932,7 +930,7 @@ If  $b \in X_{n+1}- X_n$,  then  $b  =  f \, a$ for a basic  $k$-ary
 operation $f$ and  $a \in X_n^k$.  But  $\forall i, \, a\, i  \in  \Sg^{\alg A}(X)$  and  since  this latter  object  is  a  subuniverse,  $b\in  \Sg^{\alg A}(X)$  as  well.
 \end{proof}
 
-\subsection{Subuniverses in Lean: \lstinline{lean-ualib/subuniverse.lean}}\
+\subsection{Subuniverses in Lean \href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/subuniverse.lean}{(\lstinline{lean-ualib/subuniverse.lean})}}\
 
 \noindent The  argument in the proof of Theorem~\ref{thm:1.14} is  of  a  type  that  one  
 encounters  frequently  throughout  algebra.  It  has  two  parts.  First  that  $Y$  is  a 
@@ -957,57 +955,100 @@ namespace subuniverse
     -- Subuniverse generated by X
     definition Sg (X : set α) : set α := ⋂₀ {U | Sub U ∧ X ⊆ U}
 \end{lstlisting}  
-Here \lstinline{⋂₀} is notation for 
+Here \lstinline{⋂₀ S} is notation for 
 \begin{lstlisting}
 sInter (S : set (set α)) : set α := λs, {a | ∀ t ∈ s, a ∈ t }}
 \end{lstlisting}
-So, if \lstinline{S : set (set α)} (i.e., a collection of sets of type \lstinline{α}),
-then \lstinline{sInter S} is the intersection of the sets in \lstinline{S}.
+So, if \lstinline{S : set (set α)}, a collection of sets of type \lstinline{α},
+then \lstinline{⋂₀ S} is the intersection of the sets in \lstinline{S}.
 
-Here are some helper definitions and lemmas, most of which are already part of the standard Lean library.
+Here are some helper definitions and theorems, the first two of which are already part of the standard Lean library.
 \begin{lstlisting}
-    definition index_of_sub_above_X (X : set α) (C : I → set α) : 
-    I → Prop := λ i, Sub (C i) ∧ X ⊆ (C i) 
-  
-    lemma mem_Inter_of_mem {s : I → set α} : 
+    -- Intersection introduction rule
+    theorem Inter.intro {s : I → set α} : 
     ∀ x, (∀ i, x ∈ s i) → (x ∈ ⋂ i, s i) :=
     assume x h t ⟨a, (eq : t = s a)⟩, eq.symm ▸ h a
-  
-    lemma Inter.elim {x : α} (C : I → set α) : 
+        
+    -- Intersection elimination rule
+    theorem Inter.elim {x : α} (C : I → set α) : 
     (x ∈ ⋂ i, C i) →  (∀ i, x ∈ C i) := 
     assume h : x ∈ ⋂ i, C i, by simp at h; apply h
-    
+        
+    -- Intersection of subuniverses is a subuniverse
     lemma sub_of_sub_inter_sub (C : I → set α) : 
     (∀ i, Sub (C i)) → Sub ⋂i, C i :=
     assume h : ∀ i, Sub (C i), show  Sub (⋂i, C i), from 
-      assume f a (h1 : (∀ x, a x ∈ ⋂i, C i)), 
-        show A f a ∈ (⋂i, C i), from 
-          have h4 : ∀ j, A f a ∈ C j, from 
-            assume j : I, show A f a ∈ C j, from 
-              have h3 : ∀ x, a x ∈ (C j), from 
-                assume x, Inter.elim C (h1 x) j,
-                (h j) f a h3,
-          (mem_Inter_of_mem (A f a)) h4
-
+      assume (f : F) (a : ρ f → α) (h₁ : ∀ x, a x ∈ ⋂i, C i), 
+      show A f a ∈ ⋂i, C i, from 
+        Inter.intro (A f a) 
+        (λ j, (h j) f a (λ x, Inter.elim C (h₁ x) j))
+        
+    -- X is a subset of Sg(X)
     lemma subset_X_of_SgX (X : set α) : X ⊆ Sg X := 
-    assume x (h1 : x ∈ X), show x ∈ ⋂₀ {U | Sub U ∧ X ⊆ U}, from 
-      assume V (h2 : V ∈ {U | Sub U ∧ X ⊆ U}),  show x ∈ V, from 
-        have h3: Sub V ∧ X ⊆ V, from h2, 
-        h3.right h1
-  
+    assume x (h : x ∈ X), 
+    show x ∈ ⋂₀ {U | Sub U ∧ X ⊆ U}, from 
+      assume W (h₁ : W ∈ {U | Sub U ∧ X ⊆ U}),  
+      show x ∈ W, from 
+        have h₂ : Sub W ∧ X ⊆ W, from h₁, 
+        h₂.right h
+        
+    -- A subuniverse that contains X also contains Sg X
     lemma sInter_mem {X : set α} (x : α) : 
     x ∈ Sg X  →  ∀ {R : set α }, Sub R → X ⊆ R → x ∈ R := 
-    (assume (h1 : x ∈ Sg X) (R : set α)  (h2 : Sub R) (h3 : X ⊆ R), 
-      show x ∈ R, from h1 R (and.intro h2 h3))
-  
-    lemma sInter_mem_of_mem {X : set α} (x : α) : 
-    x ∈ Sg X  ↔  ∀ {R : set α }, Sub R → X ⊆ R → x ∈ R := 
-    iff.intro
-      (assume (h1 : x ∈ Sg X) (R : set α)  (h2 : Sub R) (h3 : X ⊆ R), 
-        show x ∈ R, from h1 R (and.intro h2 h3))
-      (assume (h1 : ∀ {R : set α}, Sub R → X ⊆ R → x ∈ R), 
-        show x∈ Sg X, from h1 (sub_SgX X) (subset_X_of_SgX X))
-\end{lstlisting}  
+    assume (h₁ : x ∈ Sg X) (R : set α)  (h₂ : Sub R) (h₃ : X ⊆ R), 
+    show x ∈ R, from h₁ R (and.intro h₂ h₃)
+        
+    -- Sg X is a Sub
+    lemma SgX_is_Sub (X : set α) : Sub (Sg X) := 
+    assume (f : F) (a : ρ f → α) (h₀ : ∀ i, a i ∈ Sg X), 
+    show A f a ∈ Sg X, from 
+      assume W (h : Sub W ∧ X ⊆ W), show A f a ∈ W, from 
+        have h₁ : Sg X ⊆ W, from 
+          assume r (h₂ : r ∈ Sg X), show r ∈ W, from 
+            sInter_mem r h₂ h.left h.right,
+            have h' : ∀ i, a i ∈ W, from assume i, h₁ (h₀ i),
+            (h.left f a h')
+        
+        
+    parameter (X : set α)
+        
+    inductive Y : set α
+    | var (x : α) : x ∈ X → Y x
+    | app (f : F) (a : ρ f → α) : (∀ i, Y (a i)) → Y (A f a)
+        
+    -- Y is a Sub
+    lemma Y_is_Sub : (Sub Y) := 
+    assume f a (h: ∀ i, Y (a i)), show Y (A f a), from 
+      Y.app f a h 
+        
+    -- Y is the Sub generated by X
+    theorem sg_inductive : Sg X = Y :=
+    have h' : X ⊆ Y, from 
+      assume x (h3 : x ∈ X), show x  ∈ Y, from Y.var x h3,
+        
+      have h : Sub Y, from 
+        assume f a (h1 : ∀ x, Y (a x)), 
+        show Y (A f a), from Y.app f a h1,
+        
+      have l : Sg X ⊆ Y, from 
+        assume u (h3 : u ∈ Sg X), 
+        show u ∈ Y, from (sInter_mem u) h3 h h',
+        
+      have r : Y ⊆ Sg X, from
+        assume a (p: a ∈ Y), show a ∈ Sg X, from
+        have q : a ∈ Y → a ∈ Sg X, from 
+          Y.rec 
+          --base: a = x ∈ X
+          ( assume x (h1 : x ∈ X), 
+            show x ∈ Sg X, from subset_X_of_SgX X h1 )
+          --inductive: a = A f b for some b with ∀ i, b i ∈ Sg X
+          ( assume f b (h2 : ∀ i, b i ∈ Y) (h3 : ∀ i, b i ∈ Sg X),
+            show A f b ∈ Sg X, from SgX_is_Sub X f b h3 ),
+        q p,
+ 
+      subset.antisymm l r
+ 
+ \end{lstlisting}  
 
 Now we are ready to formalize the theorems and proofs from Section~\ref{sec:subuniverses}.
 
@@ -1163,7 +1204,7 @@ Finally, the uniqueness of $g$ follows from Lemma~\ref{ex:1.16.6.brief}.
 \end{proof}
 
 
-\subsection{Terms and Free Algebras in Lean: \lstinline{lean-ualib/free.lean}}\
+\subsection{Terms and Free Algebras in Lean \href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/free.lean}{(\lstinline{lean-ualib/free.lean})}}\
 
 \noindent We now demonstrate Lean's support of inductive types, which are 
 essential for defining infinite objects in a constructive and computable way. 
@@ -1983,11 +2024,13 @@ A development version of the archive is available as well.
   #check Prop → Prop      -- Type 
   #check Sort              -- Type 
   #check Sort → Sort      -- Type 
+
   #check Type              -- Type 1
   #check Type → Type      -- Type 1
   #check Sort 1            -- Type 1
   #check Prop → Type      -- Type 1
   #check Sort 0 → Sort 1  -- Type 1
+
   #check Type 1            -- Type 2
   #check Type 1 → Prop    -- Type 2
   #check Type 1 → Sort 2  -- Type 2
