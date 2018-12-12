@@ -368,6 +368,7 @@ Lean is a very young language, and its domain-specific libraries for special dis
 it is unlikely that the libraries and tools that come out of the effort will meet the needs and expectations of most working mathematicians.
 
 \subsection{Lean's Hierarchy of Sorts and Types}
+\label{sec:leans-hierarchy-of-sorts-and-types}
 Like its more mature cousins Agda and Coq, Lean takes for its logical foundations \emph{dependent type theory} with \emph{inductive types} and \emph{universes}. However, unlike Agda and Coq, Lean's universes are \emph{not cumulative}.\footnote{Although we are trying hard to avoid overly technical discussions here, we will point out that lack of cumulative universes in Lean does not reduce Lean's expressiveness; instances in which universe cumulativity would be exploited in Coq can be handled in Lean using \emph{universe polymorphism} and the \lstinline{lift} map.}
 At the bottom of the hierarchy is \lstinline{Type 0}, which is usually denoted by \lstinline{Type}.
 Think of  \lstinline{Type} as the universe of ``small'' or ``ordinary'' types.  At the next level is \lstinline{Type 1}, which is a larger universe of types that contains \lstinline{Type} as an \emph{element}. \lstinline{Type 2} is  larger still and contains  \lstinline{Type 1} as an element, and so on. 
@@ -535,8 +536,8 @@ We also want to contribute to the Lean simplifier’s support for arithmetic and
 of the challenges is to perform the heuristic selection in a robust way, so that filtering can be used both for proof search and for rechecking the proof. Existing filters, whether they rely on machine learning [12] or not, suffer from a lack of ``diversity:'' they tend to select many equivalent lemmas
 while ignoring some key lemmas. Ideas from research in search engines will likely apply.
 
-Finally, it will be useful to integrate external automatic theorem provers in Lean. A new generation of higher-order provers is emerging—including Leo-III, Satallax, and higher-order versions of CVC4, E, Vampire, and veriT. My ERC project Matryoshka 3 funds work on E and veriT. Integrating these provers will be a high-impact deliverable that will dramatically increase automation.
-The challenge is to design a sound, complete, and yet efficient encoding of Lean’s rich type system, based on my work on polymorphic type encodings [11]—and to reconstruct proofs in Lean.
+% Finally, it will be useful to integrate external automatic theorem provers in Lean. A new generation of higher-order provers is emerging—including Leo-III, Satallax, and higher-order versions of CVC4, E, Vampire, and veriT. My ERC project Matryoshka 3 funds work on E and veriT. Integrating these provers will be a high-impact deliverable that will dramatically increase automation.
+% The challenge is to design a sound, complete, and yet efficient encoding of Lean’s rich type system, based on my work on polymorphic type encodings [11]—and to reconstruct proofs in Lean.
 
 
 
@@ -546,60 +547,37 @@ The challenge is to design a sound, complete, and yet efficient encoding of Lean
 
 
 
-\section{Proof of Concept: basic universal algebra in Lean}
+\section{Proof of Concept: Lean Universal Algebra}
 % This section outlines a few aspects of our plan to examine the core foundations of our main area of expertise, universal algebra, and represent these foundations in a way that is not only easy to codify in Lean, but also remains accessible to working mathematicians. The resulting libraries will aim to make it easier to use Lean to find new proofs, verify existing proofs, and test conjectures.
 
 % Specifically, we 
-This section explains how and why dependent and inductive types 
-are useful for efficiently expressing certain fundamental constructs of universal algebra.
-A few concrete examples will showcase the power and expressiveness of the Lean language,
-and demonstrate how it enables us to codify advanced mathematics in a constructive and computable way.  In particular, we will show how to use Lean to represent each of the following concepts: 
+This section demonstrates the utility of dependent and inductive types 
+by expressing some fundamental concepts of universal algebra in Lean.  
+% A few concrete examples will showcase the power and expressiveness of the Lean language, and demonstrate how it enables us to codify advanced mathematics in a constructive and computable way.  
+In particular, we will formally represent each of the following:  
 \emph{operation}, \emph{algebra}, \emph{subuniverse}, and \emph{term algebra}.
-Our formal representations of these will be clear, concise, and computable, and we will develop a notation and formal syntax that seems natural and self-explanatory to a general algebraist.
-Our goal is to demonstrate the power of Lean's type system for expressing 
-mathematical concepts constructively, and to show that if we make
-careful design choices at the start of our development, then our formal 
-theorems and proofs can be as efficient and readable as their Informal Language analogs.
+Our formal representations of these concepts will be clear, concise, and computable, and we will develop a notation and syntax that should seem natural and self-explanatory to algebraists. Our goal here is to demonstrate the power of Lean's type system for expressing mathematical concepts precisely and constructively, and to show that if we make careful design choices at the start of our development, then our formal theorems \emph{and their proofs} can approximate the efficiency and readability of their Informal Language analogs.
 
 \subsection{Operations and Algebras}
-The symbols $\N$, $\omega$, and {\tt nat} are used interchangeably; they all denote the 
-set of natural numbers. A \emph{signature} $S = (F, \rho)$ consists of a set $F$ of 
-\emph{operation symbols}, along with a \emph{similarity type} function $\rho \colon F \to N$. 
-The value $\rho f \in N$  is called the \emph{arity} of $f$. Although in the classical theory 
-we usually assume $N = \N$, for much of the basic theory this is inconsequential and, as 
-we will see below, when implementing general operations in Lean
-it is often unnecessary to commit in advance to a specific 
-\emph{arity type}.\footnote{An exception is the quotient algebra construction
-since, unless we restrict ourselves to finitary operations, lifting a basic operation 
-to a quotient= requires some form of choice.}
+We use $\omega$ to denote (our semantic concept of) the natural numbers.
+The symbols $\N$ and {\tt nat} are synonymous, both denoting the \emph{type of natural numbers}, as implemented in Lean. A \emph{signature} $S = (F, \rho)$ consists of a set $F$ of \emph{operation symbols}, along with a \emph{similarity type} function $\rho \colon F \to N$. The value $\rho f \in N$  is called the \emph{arity} of $f$. In classical universal algebra we typically assume $N = \omega$, but for most of the basic theory this choice is inconsequential and, as we will see when implementing general operations in Lean, it is unnecessary to commit in advance to a specific \emph{arity type}.\footnote{An exception is the \emph{quotient algebra type} since, unless we restrict ourselves to finitary operations, lifting a basic operation to a quotient requires some form of choice.}
 
 Classical universal algebra is the study of \emph{varieties} (or \emph{equational classes}) 
 of algebraic structures where an \emph{algebraic structure} is denoted by $\alg A = \< A, F^{\alg A}\>$ and consists of a set $A$, called the \emph{carrier} of the algebra, along with a set $F^{\alg A}$ of operations defined on $A$, one for each operation symbol; that is,
 \[F^{\alg A} = \{f^{\alg A} \mid f\in F \text{ and } f^{\alg A} \colon (\rho f \to A) \to A\}.\] 
 
-Some of the renewed interest in universal algebra has focused on representations of algebras 
-in categories other than $\set$, multisorted algebras, and higher type universal algebra.  
-(See, for example,~\cite{MR2757312,MR3003214,finster:2018,gepner:2018,MR1173632}.)  These are natural generalizations that we plan to integrate into future iterations of the 
-\lstinline{lean-ualib}, once we have a working implementation of the core of classical (single-sorted, set-based) universal algebra.
+Some of the renewed interest in universal algebra has focused on representations of algebras in categories other than $\set$, multisorted algebras, and higher type universal algebra~\cite{MR2757312,MR3003214,finster:2018,gepner:2018,MR1173632}.  These are natural generalizations that we plan to integrate into future versions of our \lstinline{lean-ualib} software library, once we have a working implementation of the core of classical (single-sorted, set-based) universal algebra.
 
-Suppose $A$ is a set and $f$ is a $\rho f$-ary 
-operation on $A$. In this case, we often write $f \colon A^{\rho f} \to A$.  
-If $N$ happens to be $\N$, then $\rho f$ 
-denotes the set $\{0, 1, \dots, \rho f -1\}$ and a function $g \colon \rho f \to A$, identified with its graph, is simply a $\rho f$-tuple of elements from $A$.
+Suppose $A$ is a set and $f$ is a $\rho f$-ary operation on $A$. In this case, we often write $f \colon A^{\rho f} \to A$.  If $N$ happens to be $\N$, then $\rho f$ denotes the set $\{0, 1, \dots, \rho f -1\}$ and a function $g \colon \rho f \to A$, identified with its graph, is simply a $\rho f$-tuple of elements from $A$.
 % ; that is, for each $i\in \rho f$, $g i \in A$.
-By identifying $A^{\rho f}$ with the type $\rho f \to A$ of functions from $\rho f$ to $A$, 
-we identify the $A^{\rho f} \to A$ with the type 
-$(\rho f \to A) \to A$. 
-The notation $f \colon A^{\rho f} \to A$ is then equivalent to the assertion that $f$ inhabits
-the type $(\rho f \to A) \to A$. 
+The domain $A^{\rho f}$ can be represented by the type $\rho f \to A$ of functions from $\rho f$ to $A$, and we will represent operations $f \colon A^{\rho f} \to A$ using the function type $(\rho f \to A) \to A$. 
+% That is, when representing $f \colon A^{\rho f} \to A$ is then equivalent to the assertion that $f$ inhabits
+% the type $(\rho f \to A) \to A$. 
 % , denoted $f \colon (\rho f \to A) \to A$.
 
 Fix $m\in \N$. An $m$-tuple, $a = (a_0, a_1, \dots, a_{m-1}) \in A^m$ is 
-literally a function $a \colon m \to A$, defined for each $i < m$ by $a\, i = a_i$.
-Therefore, if $h \colon A \to B$, then $h\circ a \colon m \to B$ is the tuple 
-% $(h \, a_0, h \, a_1, \dots, h \, a_{m-1})\in B^m$, 
-whose value at $i$ is $(h\circ a)\, i = h \, a\, i = h\, a_i$ and has type $B$. 
-On the other hand, if $g \colon A^m \to A$, then $g \, a$ has type $A$.
+(the graph of) the function $a \colon m \to A$, defined for each $i < m$ by $a\, i = a_i$. Therefore, if $h \colon A \to B$, then $h\circ a \colon m \to B$ is the tuple % $(h \, a_0, h \, a_1, \dots, h \, a_{m-1})\in B^m$, 
+whose value at $i$ is $(h\circ a)\, i = h \, a\, i = h\, a_i$, which has type $B$. On the other hand, if $g \colon A^m \to A$, then $g \, a$ has type $A$.
 % is the element $g(a_0, a_1, \dots, a_{m-1}) \in A$.
 If $f \colon (\rho f \to B) \to B$ is a $\rho f$-ary operation on $B$,  
 if $a \colon \rho f \to A$ is a $\rho f$-tuple on $A$, and if 
@@ -611,29 +589,25 @@ $f (h \circ a) \colon B$.
 
 \subsection{Operations and Algebras in Lean \href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/basic.lean}{(\lstinline{lean-ualib/basic.lean})}}\
 
-\noindent Let us now look at the actual Lean implementation of a few basic concepts from
-universal algebra, highlighting the similarity that can be achieved between the formal and 
-informal rendering of these concepts.
-We start with the \emph{type of operation symbols} and the \emph{type of signatures}.
+\noindent This section presents our implementation of operations and algebras in Lean, highlighting the similarity between the formal and informal rendering of these concepts. We start with the \emph{type of operation symbols} and the \emph{type of signatures}.
 % import data.set
 \begin{lstlisting}
   import data.set
   definition op (β α) := (β → α) → α
 \end{lstlisting}  
-An example of an operation of type \lstinline{op} is the projection function \lstinline{π},
+An example of an operation of type \lstinline{op (β α)} is the projection function \lstinline{π},
 of arity \lstinline{β} on the \emph{carrier type} \lstinline{α}, which we define in Lean as follows:
 \begin{lstlisting}
   definition π {β α} (i) : op β α := λ a, a i
 \end{lstlisting}
-The operation \lstinline{π i} maps a given tuple \lstinline{a : β → α} to its value \lstinline{a i} at  \lstinline{i}. For instance, suppose we have types $\alpha$ and $\beta$, and 
-variables \lstinline{i : β} and \lstinline{f : β → α},
+The operation \lstinline{π i} maps a given tuple \lstinline{a : β → α} to its value at input \lstinline{i}. For instance, suppose we have types $\alpha$ and $\beta$ of arbitrary \emph{height},\footnote{The \emph{height} of a type is simply type's \emph{level} (see Section~\ref{sec:leans-hierarchy-of-sorts-and-types}), and the syntax \lstinline{Type*} indicates that we do not wish to commit in advance to a specific height.} and variables \lstinline{i : β} and \lstinline{f : β → α}.
 \begin{lstlisting}
   variables (α : Type*) (β : Type*) (i : β) (f : β → α) 
 \end{lstlisting}
 Then the command \lstinline{#check π i f} shows that the type of \lstinline{π i f} is \lstinline{α}, as expected, since \lstinline{π i f = f i}.
 
-We define a signature as a structure with two fields, the type \lstinline{F} of operation symbols and an \emph{arity function}
-\lstinline{ρ : F → Type*}, which maps each operation symbol $f$ to its arity $\rho f$.
+We define a signature as a structure with two fields, the type \lstinline{F} of \emph{operation symbols} and an \emph{arity function}
+\lstinline{ρ : F → Type*}, which takes each operation symbol $f$ to its arity $\rho f$.
 \begin{lstlisting}
   structure signature := mk :: (F : Type*) (ρ : F → Type*)
 \end{lstlisting}  
@@ -649,42 +623,38 @@ First, let us fix a signature \lstinline{S} and define some convenient notation.
   \end{lstlisting}  
 The first definition allows us to write \lstinline{f : F} (instead of \lstinline{f : S.F}) 
 to indicate that the operation symbol \lstinline{f} inhabits \lstinline{F}; 
-the second definition is included so that, instead of \lstinline{S.ρ f}, we can denote the arity of \lstinline{f} by \lstinline{ρ f}, which is identical to the familiar Informal Language syntax.
+similarly, the second definition allows us to denote the arity of \lstinline{f} by \lstinline{ρ f} (instead of \lstinline{S.ρ f}).  In these two cases, the Lean syntax matches our Informal Language notation exactly.
 
-The definition of \lstinline{algebra_on} makes sense, if we are given a signature \lstinline{S} and a carrier type \lstinline{α}, then an \lstinline{S}-algebra over \lstinline{α} is determined by its operations on $\alpha$.\footnote{plus whatever equational laws it models.} 
+The definition of \lstinline{algebra_on} makes sense; if we are given a signature \lstinline{S} and a carrier type \lstinline{α}, then an \lstinline{S}-algebra over \lstinline{α} is determined by its operations on $\alpha$.\footnote{plus whatever equational laws it may models; our handling of \emph{theories} and \emph{models} in Lean is beyond the scope of this project description; for more information, see~\href{https://github.com/UniversalAlgebra/lean-ualib/}{\lstinline{https://github.com/UniversalAlgebra/lean-ualib/}}} 
 An inhabitant of the type \lstinline{algebra_on} assigns an interpretation to each \lstinline{op} symbol \lstinline{f : F}, which yields a function of type \lstinline{(ρ f → α) → α}.
 
 Finally, we define an algebra.  Since an algebra pairs a carrier with an interpretation of the operation symbols, we use the \emph{dependent pair type}, 
 \lstinline{Σ (x : A), B x}, also known as 
-a \emph{Sigma type}. This is the type of ordered pairs \lstinline{<a, b>}, where \lstinline{a : A} and \lstinline{b} is of type \lstinline{B a}, which may depend on \lstinline{a}. Just as a \emph{Pi type} \lstinline{Π (x : A), B x} generalizes the notion of function type \lstinline{A → B} by allowing the codomain \lstinline{B x} to depend on the input argument \lstinline{x}, a Sigma type \lstinline{Σ (x : A), B x} generalizes the cartesian product \lstinline{A × B} by allowing the type \lstinline{B x} of the second argument of the ordered pair to depend on the first, \lstinline{x}.\footnote{Lean's built-in \lstinline{sigma} type is defined as follows:\\
+a \emph{Sigma type}. This is the type of ordered pairs \lstinline{<a, b>}, where \lstinline{a : A}, and \lstinline{b} has type \lstinline{B a} which may depend on \lstinline{a}. Just as the \emph{Pi type} \lstinline{Π (x : A), B x} generalizes the notion of function type \lstinline{A → B} by allowing the codomain \lstinline{B x} to depend on the value \lstinline{x} of the input argument, a Sigma type \lstinline{Σ (x : A), B x} generalizes the cartesian product \lstinline{A × B} by allowing the type \lstinline{B x} of the second argument of the ordered pair to depend on the value \lstinline{x} of the first.\footnote{Lean's built-in \lstinline{sigma} type is defined as follows:\\
 \lstinline{structure sigma {α : Type u} (β : α → Type v) := mk :: (fst : α) (snd : β fst)}}
   
-Since an algebra $\<A, F^{\alg A}\>$ is an ordered pair where the type of the second argument depends on the first, it is natural to encode an algebra in type theory using a Sigma type. 
-Indeed, we define \lstinline{algebra} in \lstinline{lean-ualib} as follows:
+Since an algebra $\<A, F^{\alg A}\>$ is an ordered pair where the type of the second argument depends on the first, it is natural to encode an algebra in type theory using a Sigma type, and we do so in the \lstinline{lean-ualib} library as follows:
 \begin{lstlisting}
-  -- (section continued from * above)
-  definition algebra := sigma algebra_on
+    -- (section continued from * above)
+    definition algebra := sigma algebra_on
     instance alg_carrier : has_coe_to_sort algebra := ⟨_, sigma.fst⟩
     instance alg_operations : has_coe_to_fun algebra := ⟨_, sigma.snd⟩
   end
 \end{lstlisting}  
-The last two lines are tagged with \lstinline{has_coe_to_sort} and \lstinline{has_coe_to_fun}, respectively, which allows us to take advantage of a very nice feature of Lean called \emph{coercions}. Using this feature we can write programs using syntax that looks very similar to our Informal Language. For instance, the standard notation for the interpretation of the operation symbol $f$ in the algebra $\alg A = \<A, F^{\alg A}\>$ is $f^{\alg A}$.  In our implementation, the interpretation of $f$ is denoted simply by \lstinline{A f}. While \lstinline{A f} is not identical to
-the Informal Language's $f^{\alg A}$, one could argue that it is just as elegant, and that adapting to it does not impose an unacceptable burden on the user. 
+The last two lines are tagged with \lstinline{has_coe_to_sort} and \lstinline{has_coe_to_fun}, respectively, because here we are using a very nice feature of Lean called \emph{coercions}. Using this feature we can write programs using syntax that looks very similar to our Informal Language. For instance, the standard notation for the interpretation of the operation symbol $f$ in the algebra $\alg A = \<A, F^{\alg A}\>$ is $f^{\alg A}$.  In our implementation, the interpretation of $f$ is denoted by \lstinline{A f}. While \lstinline{A f} is not identical to the Informal Language's $f^{\alg A}$, it is arguably just as elegant, and we believe that adapting to it will not be a great burden on the user. 
 % Another example that demonstrates the utility of coercions is our definition of \lstinline{is_subalgebra}, a function that takes as input two algebraic structures and decides whether the second structure is a subalgebra of the first.  Here is the definition.
 % \begin{lstlisting}
 %     def is_subalgebra {S : signature} {α : Type*} {β : Type*}
 %     (A : algebra_on S α) {β : set α} (B : algebra_on S β) :=
 %     ∀ f b, ↑(B f b) = A f ↑b
 %   \end{lstlisting}
-To see this notation in action, let us look at how the \lstinline{lean-ualib} represents the assertion that a function is an \lstinline{A}-homomorphism.
+To see this notation in action, let us look at how the \lstinline{lean-ualib} represents the assertion that a function is an \lstinline{S}-homomorphism.
 \begin{lstlisting}
   definition homomorphic {S : signature} 
   {A : algebra S} {B : algebra S} (h : A → B) := 
   ∀ f a, h (A f a) = B f (h ∘ a)
 \end{lstlisting}
-If we compare this with a common Informal Language representation of homomorphism, say,
-$\forall f \; \forall a \; h (f^{\alg A} (a)) = f^{\alg B} (h \circ a)$,
-we see that the \lstinline{lean-ualib} definition is quite similar.
+Comparing this with a common Informal Language definition of a homomorphism, which is typically something similar to $\forall f \; \forall a \; h (f^{\alg A} (a)) = f^{\alg B} (h \circ a)$, we expect working algebraists to find the \lstinline{lean-ualib} syntax quite satisfactory.
 
 
 
@@ -760,9 +730,9 @@ $g \colon (\rho f \to A) \to (m \to A)$.
 
 Let $I$ be a set and let $\sA = \{A_i \colon i \in I\}$ be
 a collection of sets indexed by $I$.
-Let $\alg{A} = \prod_{i\in I} A_i$ be the Cartesian product of 
+Let $\alg A = \prod_{i\in I} A_i$ be the Cartesian product of 
 the sets in $\sA$. 
-View the elements of $\alg{A}$ as functions:
+View the elements of $\alg A$ as functions:
 \begin{equation}
   \label{eq:7}
   a \in \prod_{i\in I} A_i \quad \iff
@@ -870,15 +840,16 @@ Thus, the full (dependent) type specification of the projection operation is
 \subsection{Subuniverses}
 \label{sec:subuniverses}
 In this section, we describe another important concept in universal 
-algebra and use it to illustrate the underlying theme that motivates
-this research proposal. This is the concept of a \emph{subuniverse}.  %The concepts are \emph{subalgebras} and \emph{congruences}.
+algebra, the \emph{subuniverse}, and use it to illustrate one of the underlying themes that motivates this research project.
+% concepts are \emph{subalgebras} and \emph{congruences}.
+Indeed, subuniverses give us our first opportunity to demonstrations the power of \emph{inductively defined types}. Such types are essential for working with infinite objects in a constructive and computable way and for proving (by induction of course!) properties of these objects. 
 
 % Recall, a \emph{signature} $S = (F, \rho)$ consists of a set $F$ of \emph{operation symbols}
 % along with an \emph{arity function} $\rho \colon F \to N$; that is, the \emph{arity}
 % of the operation symbol $f \in F$ is $\rho f$, which belongs to some set $N$.
 
-% An \emph{algebra} $\alg{A} = (A, F^{\alg A})$ \emph{in the signature} $S$, 
-% or $S$-\emph{algebra}, is a set $A$, called the \emph{universe} of $\alg{A}$, and a set 
+% An \emph{algebra} $\alg A = (A, F^{\alg A})$ \emph{in the signature} $S$, 
+% or $S$-\emph{algebra}, is a set $A$, called the \emph{universe} of $\alg A$, and a set 
 % $F^{\alg A} = \{ f^{\alg A} \mid f \in F\}$ of \emph{basic operations} of $\alg A$. 
 % Precisely, each operation symbol $f\in F$ is given an
 % \emph{iterpretation in} $\alg A$, viz.~a particular function 
@@ -889,29 +860,29 @@ We denote by $\sansS \alg A$ the set of all subuniverses of $\alg A$.
 If $B$ is a subuniverse of $\alg A$ and 
 $F^{\res{\alg A}{B}} = \{\res{f^{\alg A}}{B} \mid f \in F\}$ is the set of 
 basic operations of $\alg A$ restricted to $B$, 
-then $\alg B = (B, F^{\res{\alg A}{B}})$ is a \emph{subalgebra} of $\alg A$.
+then $\alg B = \< B, F^{\res{\alg A}{B}}\>$ is a \emph{subalgebra} of $\alg A$.
+Conversely, all subalgebras are of this form.
 
-If $\alg{A}$ is an algebra and $X  \subseteq  A$ a subset of the 
-universe of $\alg{A}$, then the \emph{subuniverse of} $\alg A$ 
+If $\alg A$ is an algebra and $X  \subseteq  A$ a subset of the 
+universe of $\alg A$, then the \emph{subuniverse of} $\alg A$ 
 \emph{generated by}  $X$ is defined as follows:
 \begin{equation}
   \label{eq:SgDef}
-\Sg^{\alg{A}}(X)  =  \bigcap \{U \in  \sansS \alg A \mid  X  \subseteq  U\}.
+\Sg^{\alg A}(X)  =  \bigcap \{U \in  \sansS \alg A \mid  X  \subseteq  U\}.
 \end{equation}
 
 % \subsubsection{Congruences}
-To give another exhibition of the efficiency and ease with which we can formalize basic but important mathematical concepts in Lean, we now present a fundamental theorem about 
-subalgebra generation, first in the Informal Language, and then formally in Lean.
-Note that the added complexity of the formal version is rather minor and superficial.
+To give another exhibition of the efficiency and ease with which we can formalize basic but important mathematical concepts in Lean, we now present a fundamental theorem about subalgebra generation, first in the Informal Language, and then formally in Section~\ref{sec:subuniverses-in-lean}.
+Notice that the added complexity of the Lean implementation of this theorem is not significant, and the proof seems quite readable (especially when compared to similar proofs in Coq).  
 
 \begin{theorem}[\protect{\cite[Thm.~1.14]{MR2839398}}] 
 \label{thm:1.14} Let $\alg A  = \<A,F^{\alg A}\>$  be  an  algebra in the signature 
 $S = (F, \rho)$ and let $X \subseteq A$.  
 Define, by recursion on $n$, the sets $X_n$ as follows:
-\begin{align*}
- X_0  &=  X; \\
- X_{n+1} &=  X_n  \cup \{ f \,a  \mid f \in F, \; a \in X_n^{\rho f}\}.
-\end{align*} 
+\begin{align}
+ X_0  &=  X;\label{def:subalgebra-inductive-1} \\
+ X_{n+1} &=  X_n  \cup \{ f \,a  \mid f \in F, \; a \in X_n^{\rho f}\}.\label{def:subalgebra-inductive-2}
+\end{align} 
 Then  $\Sg^{\alg A}(X) =  \bigcup X_n$.
 \end{theorem}
 \begin{proof}
@@ -930,12 +901,12 @@ If  $b \in X_{n+1}- X_n$,  then  $b  =  f \, a$ for a basic  $k$-ary
 operation $f$ and  $a \in X_n^k$.  But  $\forall i, \, a\, i  \in  \Sg^{\alg A}(X)$  and  since  this latter  object  is  a  subuniverse,  $b\in  \Sg^{\alg A}(X)$  as  well.
 \end{proof}
 
-\subsection{Subuniverses in Lean \href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/subuniverse.lean}{(\lstinline{lean-ualib/subuniverse.lean})}}\
+\subsection{Subuniverses in Lean \href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/subuniverse.lean}{(\lstinline{lean-ualib/subuniverse.lean})}}
+\label{sec:subuniverses-in-lean}\
 
-\noindent The  argument in the proof of Theorem~\ref{thm:1.14} is  of  a  type  that  one  
-encounters  frequently  throughout  algebra.  It  has  two  parts.  First  that  $Y$  is  a 
-subuniverse  containing  $X$.  Second  that  any  subuniverse  containing  $X$  must 
-contain  $Y$.  Let us now see how this argument is formalized in Lean. 
+\noindent The argument in the proof of Theorem~\ref{thm:1.14} is  of  a  type  that one encounters frequently throughout algebra.  It has two parts. First  that $Y$ is a subuniverse of $\alg A$ that contains $X$. Second that any  subuniverse containing $X$ must also contain $Y$.  
+
+We now show how the subalgebra concept and the foregoing argument is formally implemented in Lean.
 
 \begin{lstlisting}
 import basic
@@ -943,10 +914,13 @@ import data.set
 namespace subuniverse
   section
     open set
-    parameters {α : Type*} {S : signature} (A : algebra_on S α) 
-    parameters {I : Type} {R : I → set α} 
-    definition F := S.F
-    definition ρ := S.ρ 
+    parameter {α : Type*}       -- the carrier type 
+    parameter {S : signature}
+    parameter (A : algebra_on S α) 
+    parameter {I : Type}        -- a collection of indices
+    parameter {R : I → set α}  -- an indexed set of sets of type α
+    definition F := S.F         -- the type of operation symbols
+    definition ρ := S.ρ         -- the opereation arity function
 
     -- Definition of subuniverse
     definition Sub (β : set α) : Prop :=
@@ -955,14 +929,12 @@ namespace subuniverse
     -- Subuniverse generated by X
     definition Sg (X : set α) : set α := ⋂₀ {U | Sub U ∧ X ⊆ U}
 \end{lstlisting}  
-Here \lstinline{⋂₀ S} is notation for 
-\begin{lstlisting}
-sInter (S : set (set α)) : set α := λs, {a | ∀ t ∈ s, a ∈ t }}
-\end{lstlisting}
-So, if \lstinline{S : set (set α)}, a collection of sets of type \lstinline{α},
-then \lstinline{⋂₀ S} is the intersection of the sets in \lstinline{S}.
+Lean syntax for the intersection operation on collections of \emph{sets} is 
+\lstinline{⋂₀}.
+% , so the intersection of the sets in \lstinline{S} is \lstinline{⋂₀ S}.
+%\footnote{Technically, \lstinline{⋂₀ S} denotes \begin{lstlisting}  sInter (S : set (set α)) : set α := {λs, a | ∀ t ∈ s, a ∈ t} \end{lstlisting} Given a collection \lstinline{S : set (set α)} of sets of type \lstinline{α}, \lstinline{⋂₀ S} is the intersection of the sets} % in \lstinline{S}, as claimed.}
 
-Here are some helper definitions and theorems, the first two of which are already part of the standard Lean library.
+Next we need ``introduction'' and ``elimination'' rules for arbitrary intersections, plus the useful fact that the intersection of subuniverses is a subuniverse. 
 \begin{lstlisting}
     -- Intersection introduction rule
     theorem Inter.intro {s : I → set α} : 
@@ -982,7 +954,9 @@ Here are some helper definitions and theorems, the first two of which are alread
       show A f a ∈ ⋂i, C i, from 
         Inter.intro (A f a) 
         (λ j, (h j) f a (λ x, Inter.elim C (h₁ x) j))
-        
+      \end{lstlisting}        
+The next three lemmas show that \lstinline{Sg X} is the smallest subuniverse  containing \lstinline{X}.
+      \begin{lstlisting}        
     -- X is a subset of Sg(X)
     lemma subset_X_of_SgX (X : set α) : X ⊆ Sg X := 
     assume x (h : x ∈ X), 
@@ -1008,115 +982,50 @@ Here are some helper definitions and theorems, the first two of which are alread
             sInter_mem r h₂ h.left h.right,
             have h' : ∀ i, a i ∈ W, from assume i, h₁ (h₀ i),
             (h.left f a h')
-        
-        
-    parameter (X : set α)
-        
-    inductive Y : set α
-    | var (x : α) : x ∈ X → Y x
-    | app (f : F) (a : ρ f → α) : (∀ i, Y (a i)) → Y (A f a)
-        
-    -- Y is a Sub
-    lemma Y_is_Sub : (Sub Y) := 
-    assume f a (h: ∀ i, Y (a i)), show Y (A f a), from 
-      Y.app f a h 
-        
-    -- Y is the Sub generated by X
-    theorem sg_inductive : Sg X = Y :=
-    have h' : X ⊆ Y, from 
-      assume x (h3 : x ∈ X), show x  ∈ Y, from Y.var x h3,
-        
-      have h : Sub Y, from 
-        assume f a (h1 : ∀ x, Y (a x)), 
-        show Y (A f a), from Y.app f a h1,
-        
-      have l : Sg X ⊆ Y, from 
-        assume u (h3 : u ∈ Sg X), 
-        show u ∈ Y, from (sInter_mem u) h3 h h',
-        
-      have r : Y ⊆ Sg X, from
-        assume a (p: a ∈ Y), show a ∈ Sg X, from
-        have q : a ∈ Y → a ∈ Sg X, from 
-          Y.rec 
-          --base: a = x ∈ X
-          ( assume x (h1 : x ∈ X), 
-            show x ∈ Sg X, from subset_X_of_SgX X h1 )
-          --inductive: a = A f b for some b with ∀ i, b i ∈ Sg X
-          ( assume f b (h2 : ∀ i, b i ∈ Y) (h3 : ∀ i, b i ∈ Sg X),
-            show A f b ∈ Sg X, from SgX_is_Sub X f b h3 ),
-        q p,
- 
-      subset.antisymm l r
- 
- \end{lstlisting}  
+\end{lstlisting}        
+A primary motivation for this project was our observation that, on the one hand,
+many important constructs in universal algebra can be defined inductively, and on the other hand, type theory in general, and Lean in particular, offers excellent support for defining inductive types and powerful tactics for proving their properties. These two facts suggest that there could be much to gain from implementing universal algebra in an expressive type system that offers powerful tools for proving theorems about inductively defined types.
 
-Now we are ready to formalize the theorems and proofs from Section~\ref{sec:subuniverses}.
-
-\begin{lstlisting}  
-    parameter (X : set α)
-  
-    -- Sg X is a Sub
-    theorem sub_SgX (X : set α) : Sub (Sg X) := 
-    assume f a (h : ∀ i, a i ∈ Sg X), show A f a ∈ Sg X, from 
-      assume U (h1 : Sub U ∧ X ⊆ U), show A f a ∈ U, from 
-        have h3 : Sg X ⊆ U, from 
-          assume r (h4 : r ∈ Sg X), show r ∈ U, from 
-            sInter_mem r h4 h1.left h1.right,
-        have h5 : ∀ i, a i ∈ U, from assume i, h3 (h i),
-        (h1.left f a h5)
-    
-
-  
-    inductive Y : set α
-    | var (x : α) : x ∈ X → Y x
-    | app (f : S.F) (a : S.ρ f → α) : (∀ i, Y (a i)) → Y (A f a)
-  
-    -- Y is a Sub
-    lemma sub_Y : (Sub Y) := 
-    assume f a (h: ∀ i, Y (a i)), show Y (A f a), from 
-    Y.app f a h 
-  
-    -- Y is the smallest Sub containing X
-    lemma sub_min_Y (U : set α) : Sub U → X ⊆ U → Y ⊆ U :=
-    assume (h₁ : Sub U) (h₂ : X ⊆ U),
-    assume (y : α)  (p : Y y), show U y, from 
-      have q : Y y → Y y → U y, from 
-        Y.rec
-        --base: y = x ∈ X
-        ( assume y (h : X y) (h' : Y y), h₂ h )
-        --inductive: y = A f a for some a with ∀ i, a i ∈ Y
-        ( assume f a (h : ∀ i, Y (a i)) (h' : ∀ i, Y (a i) → U (a i)) (h'' : Y (A f a)),
-          have h₄ : ∀ i, a i ∈ U, from 
-            assume i, h' i (h i), show U (A f a), from h₁ f a h₄ ),
-      q p p
-  
-    -- Y is the Sub generated by X
-    theorem sg_inductive : Sg X = Y :=
-      have h' : X ⊆ Y, from 
-        assume x (h3 : x ∈ X), show x  ∈ Y, from Y.var x h3,
-
-      have h : Sub Y, from 
-        assume f a (h1 : ∀ x, Y (a x)), show Y (A f a), from Y.app f a h1,
-
-      have l : Sg X ⊆ Y, from 
-        assume u (h3 : u ∈ Sg X), show u ∈ Y, from (sInter_mem u) h3 h h',
-  
-      have r : Y ⊆ Sg X, from
-        assume a (p: a ∈ Y), show a ∈ Sg X, from
-          have q : a ∈ Y → a ∈ Sg X, from 
-            Y.rec 
-            --base: a = x ∈ X
-            ( assume x (h1 : x ∈ X), show x ∈ Sg X, from subset_X_of_SgX X h1 )
-            --inductive: a = A f b for some b with ∀ i, b i ∈ Sg X
-            ( assume f b (h2 : ∀ i, b i ∈ Y) (h3 : ∀ i, b i ∈ Sg X),
-              show A f b ∈ Sg X, from sub_SgX X f b h3 ),
-          q p,
-      subset.antisymm l r
-  end
-  
-end subuniverse
+So, we are pleased to present the following inductive type that implements 
+the \emph{subuniverse generated by a set}; cf.~the Informal Language definition~(\ref{def:subalgebra-inductive-1}),~(\ref{def:subalgebra-inductive-2}).
+\begin{lstlisting}        
+  inductive Y (X : set α) : set α
+  | var (x : α) : x ∈ X → Y x
+  | app (f : F) (a : ρ f → α) : (∀ i, Y (a i)) → Y (A f a)
 \end{lstlisting}  
+Next we prove that the type \lstinline{Y X} defines a subuniverse, and that it is, in fact, equal to $\Sg^{\alg A}(X)$.
+\begin{lstlisting}  
+  -- Y X is a subuniverse
+  lemma Y_is_Sub (X : set α) : Sub (Y X) := 
+  assume f a (h: ∀ i, Y X (a i)), show Y X (A f a), from 
+  Y.app f a h 
 
+  -- Y X is the subuniverse generated by X
+  theorem sg_inductive (X : set α) : Sg X = Y X :=
+  have h₀ : X ⊆ Y X, from 
+    assume x (h : x ∈ X), 
+    show x  ∈ Y X, from Y.var x h,
+  have h₁ : Sub (Y X), from 
+    assume f a (h : ∀ x, Y X (a x)), 
+    show Y X (A f a), from Y.app f a h,
+  have inc_l : Sg X ⊆ Y X, from 
+    assume u (h : u ∈ Sg X), 
+    show u ∈ Y X, from (sInter_mem u) h h₁ h₀,
+  have inc_r : Y X ⊆ Sg X, from
+    assume a (h: a ∈ Y X), show a ∈ Sg X, from
+      have h' : a ∈ Y X → a ∈ Sg X, from 
+        Y.rec
+        --base: a = x ∈ X
+        ( assume x (h1 : x ∈ X), 
+          show x ∈ Sg X, from subset_X_of_SgX X h1 )
+        --inductive: a = A f b for some b with ∀ i, b i ∈ Sg X
+        ( assume f b (h2 : ∀ i, b i ∈ Y X) (h3 : ∀ i, b i ∈ Sg X),
+          show A f b ∈ Sg X, from SgX_is_Sub X f b h3 ),
+      h' h,
+  subset.antisymm inc_l inc_r
+  \end{lstlisting}  
+Observe that the last proof proceeds exactly as would a typical informal proof that two sets are equal---prove two subset inclusions and then apply the \lstinline{subset.antisymm} rule: \lstinline{A ⊆ B → B ⊆ A → A = B}. 
+We proved \lstinline{Y X ⊆ Sg X} in this case by induction using the \emph{recursor}, \lstinline{Y.rec}, which Lean creates for us automatically whenever an inductive type is defined. The Lean keyword \lstinline{assume} is syntactic sugar for \lstinline{λ}; this and other notational conveniences, such as Lean's \lstinline{have...from} and \lstinline{show...from} syntax, make it possible to render formal proofs in a very clear and readable way.
 
 
 
@@ -1126,79 +1035,59 @@ end subuniverse
 
 \subsection{Terms and Free Algebras}
 \label{sec:free-algebras}
-% Let $\alg A = \<A, F^{\alg A}\>$ be a $S$-algebra. % with congruence lattice $\Con\<A, \dots \>$.
-Recall that a \emph{clone} on a nonempty set $A$ is a set of operations on $A$
-that contains the projection operations and is closed under general composition. 
-Let $\sansC A$ denote the set of all clones on $A$.
-The \emph{clone of term operations}
-of a $S$-algebra $\alg A$, denoted by $\Clo \alg A$,
-is the smallest clone on $A$ containing the basic operations of $\alg A$, that is,
-\[
-\Clo \alg A = \bigcap \{ U \in \sansC A \mid F^{\alg A} \subseteq U\}.
-\]
-The set of $n$-ary members of 
-$\Clo \alg A$ is sometimes denoted by $\Clo_n \alg A$ % = \{t \in \Clo \alg A \mid \rho t = n\}$
-(despite the fact that the latter is obviously not a clone).
-The clone of \emph{polynomials} of $\alg A$, 
-denoted by $\Pol \alg A$, is the clone generated by the basic operations
-of $\alg A$ and the constant unary maps on $A$. The set of $n$-ary members of 
-$\Pol \alg A$ is sometimes denoted by $\Pol_n \alg A$.
-The smallest clone on a set $A$ is the set of all projections $\Proj A := \{\pi^n_i \mid 0\leq i < n < \omega\}$, defined as follows: for $0\leq i < n < \omega$, if  
-$a \colon n \to A$, then $\pi^n_i a = a\, i$.
- 
-\begin{theorem}[\protect{\cite[Thm.~4.3.]{MR2839398}}] 
- Let $A$ be a set and $S = (F, \rho)$ a signature.
-  Define
- \begin{align*}
-  F_0 &= \Proj A;\\
- F_{n+1} &= F_n \cup \{ f g \mid f \in F, g \colon \rho f \to (F_n \cap (\rho g \to A)) \}, \text{ for } n < \omega.
+% \begin{definition}
+%   \label{def:terms}
+Fix a signature $S = (F, \rho)$ and let $X$ be a set disjoint from $F$. The 
+elements of $X$ are called \emph{variables}. For every $n < \omega$, let 
+$F_n = \rho^{-1}\{n\}$ be the set of $n$-ary operation symbols. 
+By a word on $X \cup F$ we mean a nonempty, finite sequence of members of $X \cup T$. We denote the concatenation of sequences by simple juxtaposition.
+We define, by recursion on $n$, the sets $T_n$ of words on $X \cup F$ by
+\begin{align*}
+  T_0 &= X \cup F_0;\\
+ T_{n+1} &= T_n \cup \{ f s \mid f \in F, \; \, s \colon \rho f \to T_n\}. 
  \end{align*}
- Then $\Clo^A(F) =  \bigcup_n F_n$.
-\end{theorem}
+Define the set of \emph{terms in the signature $S$ over $X$} by $T_S(X) = \bigcup_{n<\omega}T_n$.
 
+The definition of $T_S(X)$ is recursive, indicating that \emph{the set of terms in a signature can be implemented in Lean as an inductive type}. We will confirm this in the next subsection, but before doing so, we impose an algebraic structure on $T_S(X)$, and then state and prove some basic but important facts about this algebra.  These will also be formalized in the next section, giving us another chance to compare Informal Language proofs to their formal Lean counterparts, and to show off inductively defined types in Lean.
+
+If $w$ is a term, let $|w|$ be the least $n$ such that $w \in T_n$, called the \emph{height} of $w$. The height is a useful index for recursion and induction. Notice that the set $T_S(X)$ is nonempty iff either $X$ or $F_0$ is nonempty. As long as $T_S(X)$ is nonempty, we can impose upon this set an algebraic structure. For every basic operation symbol $f \in F$ let $f^{\alg T_S(X)}$ be the operation on $T_S(X)$ that maps each tuple $t : \rho f \to T_S(X)$ to the term $f t$. We define $\alg T_S(X)$ to be the algebra with universe $T_S(X)$ and with basic operations $f^{\alg T_S(X)}$ for each $f \in F$.
+
+The construction of $\alg T_S(X)$ may seem to be making something out of nothing,but it plays a crucial role in the theory. Indeed, Part~(2) of Theorem~\ref{thm:4.21} below asserts that $\alg T_S(X)$ is \emph{universal for $S$-algebras}.  To prove this, we need the following basic lemma, which states that a homomorphism is uniquely determined by its restriction to a generating set. 
 \begin{lemma}
   \label{ex:1.16.6.brief} 
-  Let $f$ and $g$ be homomorphisms from $\alg{A}$ to $\alg{B}$.
-If $X \subseteq A$ and $X$ generates $\alg{A}$ and
+  Let $f$ and $g$ be homomorphisms from $\alg A$ to $\alg B$.
+If $X \subseteq A$ and $X$ generates $\alg A$ and
     $\restr{f}{X} = \restr{g}{X}$, then $f = g$. 
 \end{lemma}
 \begin{proof}
-  Suppose the subset $X \subseteq A$ generates $\alg{A}$ and suppose
+  Suppose the subset $X \subseteq A$ generates $\alg A$ and suppose
   $\restr{f}{X} = \restr{g}{X}$.
   Fix an arbitrary element $a\in A$.  We show $f(a) = g(a)$.
-  Since $X$ generates $\alg{A}$, there exists a (say, $n$-ary) term $t$ and 
+  Since $X$ generates $\alg A$, there exists a (say, $n$-ary) term $t$ and 
   a tuple $(x_1, \dots, x_n) \in X^n$ such that 
-  $a = t^{\alg{A}}(x_1, \dots, x_n)$. Therefore, 
+  $a = t^{\alg A}(x_1, \dots, x_n)$. Therefore, 
   \begin{align*}
-    f(a) = f(t^{\alg{A}}(x_1, \dots, x_n)) &= t^{\alg{B}}(f(x_1), \dots, f(x_n))\\
-                                    &= t^{\alg{B}}(g(x_1), \dots, g(x_n))
-                                     = g(t^{\alg{A}}(x_1, \dots, x_n)) = g(a).
+    f(a) = f(t^{\alg A}(x_1, \dots, x_n)) &= t^{\alg B}(f(x_1), \dots, f(x_n))\\
+                                    &= t^{\alg B}(g(x_1), \dots, g(x_n))
+                                     = g(t^{\alg A}(x_1, \dots, x_n)) = g(a).
   \end{align*}
-  In other words, a homomorphism is uniquely determined by its restriction to 
-  a generating set. 
 \end{proof}
 
 \begin{theorem}[\protect{\cite[Thm.~4.21]{MR2839398}}] 
   \label{thm:4.21}
-  Let $\rho$ be a similarity type.
+  Let $S = (F, \rho)$ be a signature.
   \begin{enumerate}
-    \item $\alg{T}_\rho(X)$ is generated by $X$.
-    \item For every algebra $\alg{A}$ of type $\rho$ and every function 
-    $h\colon X \to A$ there is a unique homomorphism $g\colon \alg{T}_\rho(X) \to \alg{A}$ 
+    \item $\alg T_S(X)$ is generated by $X$.
+    \item For every $S$-algebra $\alg A$ and every function 
+    $h\colon X \to A$ there is a unique homomorphism $g\colon \alg{T}_S(X) \to \alg A$ 
     such that $\restr{g}{X} = h$.
   \end{enumerate}
 \end{theorem}
-\begin{proof} The definition of $\alg{T}_\rho(X)$ exactly parallels the construction in 
-Theorem 1.14. That accounts for (1). For (2), define $g(t)$ by induction on $|t|$. 
-Suppose $|t| = 0$. Then $t \in X \cup \class{F}_0$. If $t \in X$ then define 
-$g(t) = h(t)$. For $t \in \class{F}_0$, $g(t) = t^{\alg{A}}$. 
-Note that since $\alg{A}$ is an algebra of type $\rho$ and $t$ is a nullary 
-operation symbol, $t^{\alg{A}}$ is defined.
+\begin{proof} The definition of $\alg{T}_S(X)$ exactly parallels the construction in Theorem~\ref{thm:1.14}. That accounts for (1). For (2), define $g(t)$ by induction on $\rho t$. Suppose $\rho t = 0$. Then $t \in X \cup F$. If $t \in X$ then define $g(t) = h(t)$. For $t \notin X$, $g(t) = t^{\alg A}$. 
+Note that since $\alg A$ is an $S$-algebra and $t$ is a nullary operation symbol, $t^{\alg A}$ is defined.
 
-For the inductive step, let $|t| = n + 1$. Then $t = f(s_1, \dots, s_k)$ for some 
-$f \in \class{F}_k$ and $s_1, \dots, s_k$ each of height at most $n$. We define
-$g(t) = f^{\alg{A}}(g(s_1), \dots, g(s_k))$.
-
+For the inductive step, let $|t| = n + 1$. Then $t = f(s_1, \dots, s_k)$ for some $f \in F_k$ and $s_1, \dots, s_k$ each of height at most $n$. We define
+$g(t) = f^{\alg A}(g(s_1), \dots, g(s_k))$.
 By its very definition, $g$ is a homomorphism.
 Finally, the uniqueness of $g$ follows from Lemma~\ref{ex:1.16.6.brief}. 
 \end{proof}
@@ -1206,9 +1095,8 @@ Finally, the uniqueness of $g$ follows from Lemma~\ref{ex:1.16.6.brief}.
 
 \subsection{Terms and Free Algebras in Lean \href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/free.lean}{(\lstinline{lean-ualib/free.lean})}}\
 
-\noindent We now demonstrate Lean's support of inductive types, which are 
-essential for defining infinite objects in a constructive and computable way. 
-We define an inductive type that constructs the (infinite) 
+\noindent As a second demonstrate of inductive types in Lean, 
+we define a type representing the (infinite) 
 collection $\mathbb T (X)$ of all terms of a given signature.
 \begin{lstlisting}
   import basic
@@ -1224,8 +1112,8 @@ collection $\mathbb T (X)$ of all terms of a given signature.
     def Term : algebra S := ⟨term, term.app⟩
   end
 \end{lstlisting}
-The set of terms along with the operations $F^{\alg T} := \{\mathtt{app \,f} \mid f : F\}$ forms an algebra $\alg T(X) = \< \mathbb T(X), F^{\alg T}\>$ in the signature $S = (F, \rho)$. Suppose $\alg A = \< A, F^{\alg A}\>$ is an algebra in the same signature and $h \colon X \to A$ is an arbitrary function.  We will show that $h \colon X \to A$ has a unique \emph{extension} (or \emph{lift}) to a homomorphism from $\mathbf T(X)$ to $\alg A$.  Since $\alg A$ and $h \colon X \to A$ were aribtrary, this unique homomorphic lifting property holds universally; accordingly we say that the term algebra $\alg T(X)$ is \emph{absolutely free} for the signature $S$.
-Before implementing the formal proof of this fact in Lean, let us first define some convenient ``syntactic sugar.''
+The set of terms along with the operations $F^{\alg T} := \{\mathtt{app \,f} \mid f : F\}$ forms an algebra $\alg T(X) = \< \mathbb T(X), F^{\alg T}\>$ in the signature $S = (F, \rho)$. Suppose $\alg A = \< A, F^{\alg A}\>$ is an algebra in the same signature and $h \colon X \to A$ is an arbitrary function.  We will show that $h \colon X \to A$ has a unique \emph{extension} (or \emph{lift}) to a homomorphism from $\mathbf T(X)$ to $\alg A$.  Since $\alg A$ and $h \colon X \to A$ are aribtrary, this unique homomorphic lifting property holds universally; accordingly we say that the term algebra $\alg T(X)$ is \emph{universal} for $S$-algebras.
+Before implementing the formal proof of this fact in Lean, let us first define some domain specific syntactic sugar.
 \begin{lstlisting}
 section
   open term
@@ -1278,37 +1166,73 @@ end
 
 
 
-
-
-
-
 %|||||||||||||||||||||||||||| OMIT BELOW |||||||||||||||||||||||||||||||||||||||
 %VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
 \ifextver
 
+
+
+% Let $\alg A = \<A, F^{\alg A}\>$ be a $S$-algebra. % with congruence lattice $\Con\<A, \dots \>$.
+Recall that a \emph{clone} on a nonempty set $A$ is a set of operations on $A$
+that contains the projection operations and is closed under general composition. 
+Let $\sansC A$ denote the set of all clones on $A$.
+The \emph{clone of term operations}
+of an \lstinline{S}-algebra $\alg A$, denoted by $\Clo \alg A$,
+is the smallest clone on $A$ containing the basic operations of $\alg A$, that is,
+\[
+\Clo \alg A = \bigcap \{ U \in \sansC A \mid F^{\alg A} \subseteq U\}.
+\]
+The set of $n$-ary members of 
+$\Clo \alg A$ is sometimes denoted by $\Clo_n \alg A$ % = \{t \in \Clo \alg A \mid \rho t = n\}$
+(despite the fact that the latter is obviously not a clone).
+
+We now state a theorem that shows how the clone of term operations of a signature can be defined inductively.
+% The clone of \emph{polynomials} of $\alg A$, 
+% denoted by $\Pol \alg A$, is the clone generated by the basic operations
+% of $\alg A$ and the constant unary maps on $A$. The set of $n$-ary members of 
+% $\Pol \alg A$ is sometimes denoted by $\Pol_n \alg A$.
+% The smallest clone on a set $A$ is the set of all projections $\Proj A := \{\pi^n_i \mid 0\leq i < n < \omega\}$, defined as follows: for $0\leq i < n < \omega$, if  
+% $a \colon n \to A$, then $\pi^n_i a = a\, i$.
+ 
+\begin{theorem}[\protect{\cite[Thm.~4.3.]{MR2839398}}] 
+ Let $X$ be a set and $S = (F, \rho)$ a signature.
+  Define
+  \begin{align*}
+    F_0 &= \Proj X;\\
+   F_{n+1} &= F_n \cup \{ f g \mid f \in F, g \colon \rho f \to (F_n \cap (\rho g \to X)) \}, \text{ for } n < \omega.
+   \end{align*}
+   Then $\Clo^X(F) =  \bigcup_n F_n$.
+\end{theorem}
+This theorem indicates that \emph{the clone of terms can be implemented in Lean as an inductive type}. 
+
+
+
+
+
+
 \begin{theorem}[\protect{\cite[Thm.~4.32]{MR2839398}}] 
   \label{thm:4.32} 
-Let $\alg{A}$ and $\alg{B}$ be algebras of type $\rho$.
+Let $\alg A$ and $\alg B$ be algebras of type $\rho$.
 \begin{enumerate}
   \item
-    For every $n$-ary term $t$ and homomorphism $g\colon \alg{A} \to \alg{B}$, 
+    For every $n$-ary term $t$ and homomorphism $g\colon \alg A \to \alg B$, 
     we have 
-    $g(t^{\alg{A}}(a_1,\dots, a_n)) = t^{\alg{B}}(g(a_1),\dots, g(a_n))$.
+    $g(t^{\alg A}(a_1,\dots, a_n)) = t^{\alg B}(g(a_1),\dots, g(a_n))$.
   \item
-    For every term $t \in T_\rho(X_\omega)$ and every $\theta \in \Con(\alg{A})$, we have
-    $\va \equiv_\theta \vb \implies t^{\alg{A}}(\va) \equiv_\theta t^{\alg{A}}(\vb)$.
+    For every term $t \in T_\rho(X_\omega)$ and every $\theta \in \Con(\alg A)$, we have
+    $\va \equiv_\theta \vb \implies t^{\alg A}(\va) \equiv_\theta t^{\alg A}(\vb)$.
   \item
     For every subset $Y$ of $A$, we have
-    \[\Sg^{\alg{A}}(Y) = 
-    \{ t^{\alg{A}}(a_1,\dots, a_n) : t \in T(X_n), a_i \in Y, i \leq n < \omega\}.\]
+    \[\Sg^{\alg A}(Y) = 
+    \{ t^{\alg A}(a_1,\dots, a_n) : t \in T(X_n), a_i \in Y, i \leq n < \omega\}.\]
 \end{enumerate}
 \end{theorem}
 \begin{proof} 
   The first statement is an easy induction on $|t|$. 
-  The second statement follows from the first by taking $\alg{B} = \alg{A}/\theta$ 
+  The second statement follows from the first by taking $\alg B = \alg A/\theta$ 
   and $g$ the canonical homomorphism. For the third statement, again by induction on the 
-  height of $t$, every subalgebra must be closed under the action of $t^{\alg{A}}$. 
+  height of $t$, every subalgebra must be closed under the action of $t^{\alg A}$. 
   Thus the right-hand side is contained in the left. On the other hand, the right-hand 
   side is clearly a subalgebra containing the elements of $Y$ (take $t = x_1$) from 
   which the reverse inclusion follows.
@@ -1321,52 +1245,52 @@ Let $\alg{A}$ and $\alg{B}$ be algebras of type $\rho$.
 \subsection{Elementary facts}
 \begin{lemma}[\protect{\cite[Ex.~1.16.6]{MR2839398}}]
   \label{ex:1.16.6} 
-  Let $f$ and $g$ be homomorphisms from $\alg{A}$ to $\alg{B}$.
+  Let $f$ and $g$ be homomorphisms from $\alg A$ to $\alg B$.
   Let $E(f,g) = \{ a \in A : f(a) = g(a) \}$ (the \emph{equalizer} of $f$ and $g$). 
   \begin{enumerate}
-    \item	$E(f,g)$ is a subuniverse of $\alg{A}$.
-    \item If $X \subseteq A$ and $X$ generates $\alg{A}$ and
+    \item	$E(f,g)$ is a subuniverse of $\alg A$.
+    \item If $X \subseteq A$ and $X$ generates $\alg A$ and
     $\restr{f}{X} = \restr{g}{X}$, then $f = g$. 
-    \item If $\alg{A}, \alg{B}$ are finite and $X$ generates $\alg{A}$, 
-    then $|\!\Hom{\alg{A},\alg{B}}| \leq |B|^{|X|}$.
+    \item If $\alg A, \alg B$ are finite and $X$ generates $\alg A$, 
+    then $|\!\Hom{\alg A,\alg B}| \leq |B|^{|X|}$.
   \end{enumerate}
 \end{lemma}
 \begin{proof}
-  Let $\rho$ be the similarity type of $\alg{A}$ and $\alg{B}$, and 
-  $p$ a (say, $n$-ary) operation symbol in $\rho$. Then, 
+  Let $S = (F, \rho)$ be the signature of $\alg A$ and $\alg B$, and 
+  $p$ a (say, $n$-ary) operation symbol in $F$. Then, 
   for every tuple $(a_1, \dots, a_n) \in E(f,g)^n$,
   \begin{align*}
-    f(p^{\alg{A}}(a_1, \dots, a_n)) &= p^{\alg{B}}(f(a_1), \dots, f(a_n))\\
-                                    &= p^{\alg{B}}(g(a_1), \dots, g(a_n))
-                                     = g(p^{\alg{A}}(a_1, \dots, a_n)).
+    f(p^{\alg A}(a_1, \dots, a_n)) &= p^{\alg B}(f(a_1), \dots, f(a_n))\\
+                                    &= p^{\alg B}(g(a_1), \dots, g(a_n))
+                                     = g(p^{\alg A}(a_1, \dots, a_n)).
   \end{align*}
   Therefore, $E(f,g)$ is closed under $p$.  Since $p$ was arbitrary, 
   $E(f,g)$ is closed under all operations in $\rho$ and is thus a 
-  subuniverse of $\alg{A}$.
+  subuniverse of $\alg A$.
 
-  Suppose the subset $X \subseteq A$ generates $\alg{A}$ and suppose
+  Suppose the subset $X \subseteq A$ generates $\alg A$ and suppose
   $\restr{f}{X} = \restr{g}{X}$.
   Fix an arbitrary element $a\in A$.  We show $f(a) = g(a)$.
-  Since $X$ generates $\alg{A}$, there exists a (say, $n$-ary) term $t$ and 
+  Since $X$ generates $\alg A$, there exists a (say, $n$-ary) term $t$ and 
   a tuple $(x_1, \dots, x_n) \in X^n$ such that 
-  $a = t^{\alg{A}}(x_1, \dots, x_n)$. Therefore, 
+  $a = t^{\alg A}(x_1, \dots, x_n)$. Therefore, 
   \begin{align*}
-    f(a) = f(t^{\alg{A}}(x_1, \dots, x_n)) &= t^{\alg{B}}(f(x_1), \dots, f(x_n))\\
-                                    &= t^{\alg{B}}(g(x_1), \dots, g(x_n))
-                                     = g(t^{\alg{A}}(x_1, \dots, x_n)) = g(a).
+    f(a) = f(t^{\alg A}(x_1, \dots, x_n)) &= t^{\alg B}(f(x_1), \dots, f(x_n))\\
+                                    &= t^{\alg B}(g(x_1), \dots, g(x_n))
+                                     = g(t^{\alg A}(x_1, \dots, x_n)) = g(a).
   \end{align*}
   In other words, a homomorphism is uniquely determined by its restriction to 
   a generating set. There are exactly $|B|^{|X|}$ functions from $X$ to $B$ so, 
-  assuming $X$ generates $\alg{A}$, we have
-  $|\!\Hom{\alg{A},\alg{B}}| \leq |B|^{|X|}$.
+  assuming $X$ generates $\alg A$, we have
+  $|\!\Hom{\alg A,\alg B}| \leq |B|^{|X|}$.
 \end{proof}
 
 \begin{lemma}[\protect{\cite[Ex.~1.26.8]{MR2839398}}]
   \label{ex:1.26.8}
-  Suppose $f \in \Hom{\alg{A},\alg{B}}$, $g \in \Hom{\alg{A},\alg{C}}$, 
-  $f$ is surjective, and $\ker f \subseteq \ker g$, then $\exists h \in \Hom{\alg{B},\alg{C}}$, $g = h \compose f$.
-  % Let $f \colon \alg{A} \to \alg{B}$ and $f \colon \alg{A} \to \alg{C}$ be homomorphisms, with $g$ surjective. Prove that if $\ker g \subseteq \ker f$, then there is a homomorphism 
-  % $h \colon \alg{C} \to \alg{B}$ such that $f = h \compose g$.
+  Suppose $f \in \Hom{\alg A,\alg B}$, $g \in \Hom{\alg A,\alg{C}}$, 
+  $f$ is surjective, and $\ker f \subseteq \ker g$, then $\exists h \in \Hom{\alg B,\alg{C}}$, $g = h \compose f$.
+  % Let $f \colon \alg A \to \alg B$ and $f \colon \alg A \to \alg{C}$ be homomorphisms, with $g$ surjective. Prove that if $\ker g \subseteq \ker f$, then there is a homomorphism 
+  % $h \colon \alg{C} \to \alg B$ such that $f = h \compose g$.
 \end{lemma}
 \begin{proof}
 Define $h\colon B \to C$ as follows: for each $b\in B$, choose (by Axiom of Choice!) $a_0\in f^{-1}\{b\}$
@@ -1383,10 +1307,10 @@ Then,
 \begin{align*}
 p^{\alg{C}}(h(b_1), \dots, h(b_n)) &=  p^{\alg{C}}(h f(a_1), \dots, h f(a_n))\\
 &=  p^{\alg{C}}(g(a_1)), \dots, g(a_n))\\
-&=  g p^{\alg{A}}(a_1, \dots, a_n))\\
-&=  h f p^{\alg{A}}(a_1, \dots, a_n)\\
-&=  h p^{\alg{B}}(f(a_1), \dots, f(a_n))\\
-&=  h p^{\alg{B}}(b_1, \dots, b_n).
+&=  g p^{\alg A}(a_1, \dots, a_n))\\
+&=  h f p^{\alg A}(a_1, \dots, a_n)\\
+&=  h p^{\alg B}(f(a_1), \dots, f(a_n))\\
+&=  h p^{\alg B}(b_1, \dots, b_n).
 \end{align*}
 \end{proof}
 
@@ -1394,12 +1318,12 @@ p^{\alg{C}}(h(b_1), \dots, h(b_n)) &=  p^{\alg{C}}(h f(a_1), \dots, h f(a_n))\\
 \begin{definition}
 Let $\rho$ be a similarity type. 
 An \emph{identity of type} $\rho$ is an ordered pair of terms, written 
-$p \approx q$, from $T_\rho(X_\omega)$. Let $\alg{A}$ be an algebra of type $\rho$.
-We say that $\alg{A}$ satisfies $p\approx q$ if $p^{\alg{A}} = q^{\alg{A}}$. 
-In this situation, we write $\alg{A} \models p \approx q$.
+$p \approx q$, from $T_\rho(X_\omega)$. Let $\alg A$ be an algebra of type $\rho$.
+We say that $\alg A$ satisfies $p\approx q$ if $p^{\alg A} = q^{\alg A}$. 
+In this situation, we write $\alg A \models p \approx q$.
 If $\class{K}$ is a class of algebras of type $\rho$, we write 
-$\class{K} \models p \approx q$ if $\forall \alg{A} \in \class{K}$, 
-$\alg{A} \models p \approx q$. Finally, if $\Sigma$ is a set of equations, 
+$\class{K} \models p \approx q$ if $\forall \alg A \in \class{K}$, 
+$\alg A \models p \approx q$. Finally, if $\Sigma$ is a set of equations, 
 we write $\class{K} \models \Sigma$ if every member of $\class{K}$ satisfies
 every member of $\Sigma$.
 \end{definition}
@@ -1408,7 +1332,7 @@ every member of $\Sigma$.
 of similarity type $\rho$. We define 
 $\Id{\class{K}} = \{p \approx q : \class{K} \models p \approx q\}$ 
 and
-$\Mod{\Sigma} = \{ \alg{A} : \alg{A} \models \Sigma \}$.
+$\Mod{\Sigma} = \{ \alg A : \alg A \models \Sigma \}$.
 Classes of the form $\Mod{\Sigma}$ are called \emph{equational classes}, and $\Sigma$ is called 
 an \emph{equational base} or an \emph{axiomatization} of the class. $\Mod{\Sigma}$ is called the 
 class of \emph{models} of $\Sigma$. Dually, a set of identities of the form $\Id{\class{K}}$ is called an 
@@ -1427,23 +1351,23 @@ class of \emph{models} of $\Sigma$. Dually, a set of identities of the form $\Id
 \begin{lemma}[\protect{\cite[Lem.~4.37]{MR2839398}}]
   \label{lem:4.37} 
   $\class{K} \models p \approx q$ 
-  if  and  only  if  for  every  $\alg{A} \in \class{K}$  and  every  
-  $h\in \Hom{\alg{T}(X_\omega),\alg{A}}$,  we  have  $h(p)  =  h(q)$.
+  if  and  only  if  for  every  $\alg A \in \class{K}$  and  every  
+  $h\in \Hom{\alg{T}(X_\omega),\alg A}$,  we  have  $h(p)  =  h(q)$.
 \end{lemma} 
 \begin{proof} First  assume  that  $\class{K} \models p\approx  q$.  
-  Pick  $\alg{A}$ and $h$ as  in  the  theorem.  Then
-  $\alg{A} \models p\approx q \implies p^{\alg{A}} = q^{\alg{A}} \implies 
-  p^{\alg{A}}(h(x_1), \dots, h(x_n)) = q^{\alg{A}}(h(x_1), \dots, h(x_n))$.
+  Pick  $\alg A$ and $h$ as  in  the  theorem.  Then
+  $\alg A \models p\approx q \implies p^{\alg A} = q^{\alg A} \implies 
+  p^{\alg A}(h(x_1), \dots, h(x_n)) = q^{\alg A}(h(x_1), \dots, h(x_n))$.
   Since  $h$  is  a  homomorphism,  we  get  
-  $h(p^{\alg{A}}(x_1, \dots, x_n)) = h(q^{\alg{A}}(x_1, \dots, x_n))$, i.e., $h(p) = h(q)$.
+  $h(p^{\alg A}(x_1, \dots, x_n)) = h(q^{\alg A}(x_1, \dots, x_n))$, i.e., $h(p) = h(q)$.
 
-  To  prove  the  converse  we  must  take  any  $\alg{A} \in \class{K}$  and  
-  $a_1, \dots, a_n \in A$ and show that $p^{\alg{A}}(x_1, \dots, x_n) = q^{\alg{A}}(x_1, \dots, x_n)$.
+  To  prove  the  converse  we  must  take  any  $\alg A \in \class{K}$  and  
+  $a_1, \dots, a_n \in A$ and show that $p^{\alg A}(x_1, \dots, x_n) = q^{\alg A}(x_1, \dots, x_n)$.
   Let $h_0 \colon X_\omega \to A$ be a function with $h_0(x_i) = a_i$ for $i\leq n$.
   By  Theorem~\ref{thm:4.21},  $h_0$ extends  to  a homomorphism  $h$ from $\alg{T}(X_\omega)$
-  to $\alg{A}$.  By  assumption  $h(p)  =  h(q)$.  Since 
-  $h(p)  =  h(p^{\alg{A}}(x_1, \dots, x_n)) = 
-  p^{\alg{A}}(h(x_1), \dots, h(x_n)) =  p^{\alg{A}}(a_1,\dots, a_n)$ 
+  to $\alg A$.  By  assumption  $h(p)  =  h(q)$.  Since 
+  $h(p)  =  h(p^{\alg A}(x_1, \dots, x_n)) = 
+  p^{\alg A}(h(x_1), \dots, h(x_n)) =  p^{\alg A}(a_1,\dots, a_n)$ 
   (and  similarly  for  $q$)  the  result  follows. 
 \end{proof}
 
@@ -1475,8 +1399,8 @@ class of \emph{models} of $\Sigma$. Dually, a set of identities of the form $\Id
   from which (b) follows since $p = p^{\alg{T}}(x_1,\dots, x_n)$ and $q = q^{\alg{T}}(x_1,\dots, x_n)$.
 
   Finally assume (b). We wish to apply Lemma~\ref{lem:4.37}. 
-  Let $\alg{A} \in \class{K}$ and $h \in \Hom{\alg{T},\alg{A}}$. 
-  Then $\alg{T}/\ker h \in \sansS(\alg{A}) \subseteq \sansS(\class{K})$ so $\ker h \supseteq \lambda$. 
+  Let $\alg A \in \class{K}$ and $h \in \Hom{\alg{T},\alg A}$. 
+  Then $\alg{T}/\ker h \in \sansS(\alg A) \subseteq \sansS(\class{K})$ so $\ker h \supseteq \lambda$. 
   Then (b) implies that $h(p) = h(q)$ hence (a) holds.
 \end{proof}
 
@@ -1500,16 +1424,16 @@ direction uses the same argument as in Theorem~\ref{thm:4.38}. So assume
 that 
 $p^{\alg F(Y)}(y_1, \dots, y_n) = q^{\alg F(Y)}(y_1, \dots, y_n)$.
 To show that $\class{K} \models p \approx q$, let 
-$\alg{A} \in \class{K}$ and $a_1$, $\dots$, $a_n \in A$. 
-We must show $p^{\alg{A}}(a_1, \dots, a_n) = q^{\alg{A}}(a_1, \dots, a_n)$. 
-There is a homomorphism $h\colon \alg F(Y) \to \alg{A}$ 
+$\alg A \in \class{K}$ and $a_1$, $\dots$, $a_n \in A$. 
+We must show $p^{\alg A}(a_1, \dots, a_n) = q^{\alg A}(a_1, \dots, a_n)$. 
+There is a homomorphism $h\colon \alg F(Y) \to \alg A$ 
 such that $h(y_i) = a_i$ for $i \leq n$. Then
 \begin{align*}
- p^{\alg{A}}(a_1, \dots, a_n) &= p^{\alg{A}}(h (y_1), \dots, h (y_n))
+ p^{\alg A}(a_1, \dots, a_n) &= p^{\alg A}(h (y_1), \dots, h (y_n))
 = h(p^{\alg F(Y)}(y_1, \dots, y_n))\\
 &= h(q^{\alg F(Y)}(y_1, \dots, y_n))
-= q^{\alg{A}}(h(y_1), \dots, h(y_n))\\
-&= q^{\alg{A}}(a_1, \dots, a_n).
+= q^{\alg A}(h(y_1), \dots, h(y_n))\\
+&= q^{\alg A}(a_1, \dots, a_n).
 \end{align*}
 ese general goals 
 \end{proof}
@@ -1527,17 +1451,17 @@ The obvious choice is to use the set of all equations that hold in $\var{W}$.
 To this end, take $\Sigma = \Id{\var{W}}$. Let $\close{\var{W}} = \Mod{\Sigma}$. 
 Clearly, $\var{W} \subseteq \close{\var{W}}$. We shall prove the reverse inclusion.
 
-Let $\alg{A} \in \close{\var{W}}$ and $Y$ a set of cardinality $\max(|A|, |\omega|)$. 
+Let $\alg A \in \close{\var{W}}$ and $Y$ a set of cardinality $\max(|A|, |\omega|)$. 
 Choose a surjection $h_0\colon Y \to A$. By Theorem~\ref{thm:4.21}, $h_0$ extends to 
-a (surjective) homomorphism $h \colon \alg{T}(Y) \to \alg{A}$. Furthermore, since 
+a (surjective) homomorphism $h \colon \alg{T}(Y) \to \alg A$. Furthermore, since 
 $\alg{F}_{\var{W}}(Y) = \alg{T}(Y)/\Theta_{\var{W}}$, there is a surjective homomorphism
 $g \colon \alg{T}(Y) \to \alg{F}_{\var{W}}$.
 
 We claim that $\ker g \subseteq \ker h$. 
 If the claim is true then by Lemma~\ref{ex:1.26.8} there is a map 
-$f\colon \alg{F}_{\var{W}}(Y) \to \alg{A}$ such that $f \compose g = h$. 
+$f\colon \alg{F}_{\var{W}}(Y) \to \alg A$ such that $f \compose g = h$. 
 Since $h$ is surjective, so is $f$. Hence 
-$\alg{A} \in \sansH(\alg{F}_{\var{W}}(Y)) \subseteq \var{W}$ completing the proof.
+$\alg A \in \sansH(\alg{F}_{\var{W}}(Y)) \subseteq \var{W}$ completing the proof.
 
 Let $u,v \in T(Y)$ and assume that $g(u) = g(v)$. 
 Since $\alg{T}(Y)$ is generated by $Y$, by Theorem~\ref{thm:4.21}, 
@@ -1551,11 +1475,11 @@ Applying the homomorphism $g$,
  \]
  Then by Corollary~\ref{cor:4.39}, $\var{W} \models p \approx q$, hence 
  $(p \approx q) \in \Sigma$. 
- Since $\alg{A} \in \close{\var{W}} = \Mod{\Sigma}$,
- we get $\alg{A} \models p \approx q$. Therefore, 
+ Since $\alg A \in \close{\var{W}} = \Mod{\Sigma}$,
+ we get $\alg A \models p \approx q$. Therefore, 
  \[
-  h(u) = p^{\alg{A}}(h_0(y_1), \dots, h_0(y_n))
-  = q^{\alg{A}}(h_0(y_1), \dots, h_0(y_n)) = h(v),
+  h(u) = p^{\alg A}(h_0(y_1), \dots, h_0(y_n))
+  = q^{\alg A}(h_0(y_1), \dots, h_0(y_n)) = h(v),
   \]
  as desired.
 \end{proof}
@@ -1567,12 +1491,6 @@ but also to exhibit Lean code that formalizes the important definitions and theo
 We anticipate that readers will end up with both a deeper understanding of
 the theory and enough knowledge about Lean to support future exploration of these
 mathematical subjects.
-
-
-\fi
-% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-% | | | | | | | | | | | | | | |  OMIT ABOVE | | | | | | | | | | | | | | | | | | | | | | 
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
@@ -1617,9 +1535,28 @@ with, and possibly some aversion to, computer programming.
 As a compromise I introduced Lean in the classroom via team homework
 assignments. As it turns out, their Lean proofs were among their best proofs!  They became quite skilled at constructing formal proofs in Lean, and their confidence and understanding of the analogous paper-and-pencil proofs seemed much stronger after having worked with the proof assistant.
 
+
+
+
+
+
+\fi
+% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% | | | | | | | | | | | | | | |  OMIT ABOVE | | | | | | | | | | | | | | | | | | | | | | 
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\pagebreak
 
 \section{Summary of project stages}
 In the introduction, we set out the goals of the project in broad strokes. 
@@ -1944,40 +1881,23 @@ and take from them whatever they can offer our mission of advancing pure mathema
 \section{complementary projects}
 
 \subsection{Lean Forward}
-The Netherlands Organization for Scientific Research recently awarded 
-a five-year grant 
-to {\bf Jasmin Blanchette} for his \emph{Lean Forward} project, which is 
-similar but complementary to ours. 
-Dr.~Blanchette and his team are coming from computer science with support from mathematicians,
-whereas we are coming from mathematics with support from computer scientists.  
-Moreover, Blanchette works primarily with number theorists, whereas we are focused on 
-universal algebra and lattice theory. We have had fruitful contact with Jasmin already 
-and will attend his inaugural meeting in January 2019 in Amsterdamn.  
-We look forward to productive future collaborations with the Lean Forward scientists.
+The Netherlands Organization for Scientific Research recently awarded a five-year grant to Jasmin Blanchette for his \emph{Lean Forward} project, which is similar but complementary to ours. Dr.~Blanchette and his team are coming from computer science with support from mathematicians, whereas we are coming from mathematics with support from computer scientists.  
+Moreover, Blanchette works primarily with number theorists, whereas we are focused on universal algebra. We have had fruitful contact with Jasmin at the \emph{Big Proof} workshop last summer at Cambridge University's Isaac Newton Institute, and will attend Jasmin's inaugural meeting in January 2019 in Amsterdamn. We look forward to productive future collaborations with the Lean Forward scientists.
 
 
 \subsection{Existing libraries for universal algebra and lattice theory}
 There has been prior work (mostly by computer scientists) on formalizing certain
-parts of universal algebra. The first significant example of this was initiated in 
-Venanzio Capretta's phd thesis (see~\cite{capretta:1999})
+parts of universal algebra. The first significant example of this was initiated in Venanzio Capretta's phd thesis (see~\cite{capretta:1999})
 presenting the fundamentals of universal algebra using intuitionistic logic
 so that the resulting theorems have computational meaning (via the propositions-as-types/proofs-as-programs
 correspondence explained earlier).  Capretta's formalizations were done in Coq.
 
-Another more recent development is 
-the {\tt mathclasses} Coq library, initiated by Bas Spitters and 
-Eelis van der Weegen~\cite{MR2678760}. 
-
-
+Another more recent development in Coq is the {\tt mathclasses} library, initiated by Bas Spitters and Eelis van der Weegen~\cite{MR2678760}. 
 
 
 \subsection{Formal proof archives}
-The \href{https://www.isa-afp.org/}{Archive of Formal Proofs} is a collection of proof libraries,
-examples, and larger scientific developments, mechanically checked in the theorem prover Isabelle.
-It is organized in the way of a scientific journal, is indexed by dblp and has an ISSN: 2150-914x.
-Submissions are refereed.. We encourage companion AFP submissions to conference and journal publications. 
-
-A development version of the archive is available as well.
+The \href{https://www.isa-afp.org/}{Archive of Formal Proofs} is a collection of proof libraries, examples, and larger scientific developments, mechanically checked in the theorem prover Isabelle. It is organized in the way of a scientific journal, is indexed by dblp and has an ISSN: 2150-914x.
+Submissions are refereed and companion AFP submissions to conference and journal publications are encouraged. A development version of the archive is available as well.
 
 
 
@@ -1990,9 +1910,7 @@ A development version of the archive is available as well.
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{More about Lean}
-
-\subsection{Examples Demonstrating Lean's Ramified Hierarchy of Sorts and Types}
+\section{Examples: Lean's Ramified Hierarchy of Sorts and Types}
 \label{sec:sorts-and-types}
 ~
 \begin{lstlisting}
