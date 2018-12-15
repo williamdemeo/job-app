@@ -10,7 +10,7 @@
 %% [13] J. C. Blanchette, M. Haslbeck, D. Matichuk, and T. Nipkow. Mining the Archive of Formal
 %% Proofs. In M. Kerber, editor, Conference on Intelligent Computer Mathematics (CICM
 %% 2015), volume 9150 of LNCS, pages 1–15. Springer, 2015.
-\documentclass[12pt]{amsart}  %[11pt]
+\documentclass[11pt]{amsart}  %[11pt]
 \usepackage[utf8x]{inputenc}
 
 \usepackage{xcolor}
@@ -122,16 +122,36 @@
 
 \maketitle
 
-\clearpage
-
-
+% \null
 
 \null
 
 
-\vskip5cm
+\vskip2cm
 
-{\small 
+
+
+\begin{abstract}  
+This document describes a research program, the primary goal of which 
+is to develop and implement new theory and software libraries to support 
+computer-aided mathematical proof in universal algebra and related fields.
+A distinguishing feature of this effort is the high priority placed on 
+\emph{usability} of the formal libraries produced.
+We aim to codify the core definitions and theorems of our area
+of expertise in a language that feels natural to working mathematicians 
+with no special training in computer science. 
+Thus our goal is a formal mathematical library that has the look and feel of the 
+informal language in which most mathematicians are accustomed to working.
+
+This research is part of a broader effort currently underway in a number of countries, carried out by disparate research groups with a common goal---to develop the next generation of \textbf{practical formal foundations for informal mathematics}, and to codify these foundations in a formal language that feels natural to mathematicians. In short, our goal is to present \emph{mathematics as it should be}.
+\end{abstract}
+
+\null
+\vskip2cm
+
+
+
+{\footnotesize
 \begin{quote}
   % ``There are certain dangers inherent in the formalization of mathematics.
   ``Systems of axioms acquire a certain sanctity with age, and in the 
@@ -149,60 +169,51 @@
 % which is not ugly. 
 Even when the mathematical context and formal
 language are clear, we should not perpetuate old proofs but instead look
-for new and more perspicuous ones.''\\
-~ \phantom{x} \hfill
+for new and more perspicuous ones.''\\\\
 % --Paul Taylor~\cite[p.~45]{MR1694820}
---Paul Taylor~\cite{MR1694820}
+~ \phantom{x} \hfill {\it --Paul Taylor}\\
+~ \phantom{x} \hfill in {\it Practical Foundations of Mathematics}\\
+% ~\cite{MR1694820}
 \end{quote}
+\vskip2cm
 }
-
 
 \clearpage
 
-
-
-
-\begin{abstract}  
-This document describes a research program, the primary goal of which 
-is to develop and implement new theory and software libraries to support 
-computer-aided mathematical proof in universal algebra, lattice theory, and 
-category theory. 
-A distinguishing feature of this effort is the high priority placed on 
-\emph{usability} of the formal mathematical libraries that we produce.
-We aim to codify the core definitions and theorems of our area
-of expertise in a language that feels natural to working mathematicians 
-with no special training in computer science. 
-Thus our goal is a formal mathematical library that has the look and feel of the 
-informal language in which most mathematicians are accustomed to working.
-
-This research is part of a broader effort currently underway in a number of countries, carried out by disparate research groups with a common goal---to develop the next generation of \textbf{practical formal foundations for informal mathematics}, and to codify these foundations in a formal language that feels natural to mathematicians. In short, our goal is to present \emph{mathematics as it should be}.
-\end{abstract}
-
 \section{Introduction and Motivation}
-A significant portion of the professional mathematician's time is typically occupied by tasks other than \textit{Deep Research}, by which we mean such activities as discovering truly non-trivial, publishable results, inventing novel proof techniques, or conceiving of compelling new research areas or programs. Indeed, consider how much time we spend looking for and fixing minor flaws in an argument, handling straightforward special cases of a long proof, or performing clever little derivations which, if we're honest, reduce to mere exercises that a capable graduate student could probably solve.  Add to this the time spent checking proofs when collaborating with others or reviewing journal submissions and it's safe to say that the time most of spend on Deep Research is fairly limited.
+A significant portion of the professional mathematician's time is typically occupied by tasks other than \textit{Deep Research}. By Deep Research we mean such activities as discovering truly non-trivial, publishable results, inventing novel proof techniques, or conceiving new research areas or programs. Indeed, consider how much time we spend looking for and fixing minor flaws in an argument, handling straightforward special cases of a long proof, or performing clever little derivations which, if we're honest, reduce to mere exercises that a capable graduate student could probably solve.  Add to this the time spent checking proofs when collaborating with others or reviewing journal submissions and it's safe to say that the time most of spend on Deep Research is fairly limited.
 
 It may come as a surprise, then, that computer-aided theorem proving technology,
-which is capable of managing much of the straight-forward and less interesting aspects of our work, has not found its way into mainstream mathematics. In fact, the reasons for this are simple to state, but difficult to resolve. For most mathematicians, the potential benefit of the currently available tools is outweighed by the time and patience required to learn how to put them to effective use.  The high upfront cost is due to the fact that most researchers carry out their work in a very efficient \emph{informal} dialect of mathematics---a common dialect that we share with our collaborators, and without which the effective proving and communicating of new mathematical results would be difficult, if not impossible.
+which is capable of managing much of the straight-forward and less interesting aspects of our work, has not found its way into mainstream mathematics. The reasons for this are simple to state, but difficult to resolve. For most mathematicians, the potential benefit of the currently available tools is outweighed by the time and patience required to learn how to put them to effective use.  The high upfront cost is due to the fact that most researchers carry out their work in a very \emph{efficient informal dialect} of mathematics---a common dialect that we share with our collaborators, and without which proving and communicating new mathematical results is difficult, if not impossible.
 
-One hopes that published mathematical results \emph{could} be translated into  the rigorous language of some system of logic and formally verified. Nonetheless, few would relish spending the substantial time and energy that such an exercise would require. A mathematician's job is to discover new theorems and to present them in a language that is rigorous enough to convince colleagues, yet informal enough to be efficient for developing new mathematics and for communicating these developments painlessly. Such a language is what we refer to as the \emph{Informal Language} of mathematics research. A relatively recent trend is challenging this status quo, however, and the number of mathematicians engaging in computer-aided mathematics research is on the rise. 
+One hopes that published mathematical results \emph{could} be translated into  the rigorous language of some system of logic and formally verified. Nonetheless, few would relish spending the substantial time and energy that such an exercise would require. A mathematician's job is to discover new theorems and to present them in a language that is rigorous enough to convince colleagues, yet informal enough to be efficient for developing and communicating new mathematics. Such a language is what we refer to as the \emph{Informal Language} of mathematics research. A relatively recent trend is challenging this status quo, however, and the number of mathematicians engaging in computer-aided mathematics research is on the rise. 
 
-To verify mathematical arguments by computer, the arguments must be be written so that machines can interpret and check them. We refer to the practice of writing such proofs as \emph{interactive theorem proving}, and to the programming language and software system that checks such proofs as a \emph{proof assistant} or an \emph{interactive theorem prover}.  Such systems are increasingly used in academia and industry to verify the correctness of hardware, software, and protocols. \emph{Constructive type theory} and \emph{higher-order logics}, on which most modern proof assistants are based, have played significant roles in formalizing and mechanically confirming the solutions to important problems, such as~the \emph{Four-Color Theorem}~\cite{MR2463991} 
+To verify mathematical arguments by computer, the arguments must be be written in a language that allows machines to interpret and check them. We refer to the practice of writing such proofs as \emph{interactive theorem proving}, and to the programming language and software system that checks such proofs as a \emph{proof assistant} or an \emph{interactive theorem prover}.  Such systems are increasingly used in academia and industry to verify the correctness of hardware, software, and protocols. \emph{Constructive type theory} and \emph{higher-order logics}, on which most modern proof assistants are based, have played significant roles in formalizing and mechanically confirming the solutions to important problems, such as~the \emph{Four-Color Theorem}~\cite{MR2463991} 
 and the \emph{Feit-Thompson Odd Order Theorem}~\cite{gonthier:2013b}, as well as settling major open problems, such as the \emph{Kepler Conjecture}~\cite{MR3659768}.
 
-Another justification for proof assistants is their potential for improving the referee and validation process.  The main issues here are human fallibility and the high opportunity cost of human talent. Indeed, a substantial amount of time and effort of talented individuals is expended on refereeing journal submissions. Despite this the typical review process concludes without supplying any guarantee of validity of the resulting publications (see, e.g.,~\cite{fasel:2017}).
-Moreover, the emergence of large computational proofs (like Thomas Hales' proof of the Kepler Conjecture) lead to referee assignments that are impossible burdens on individual reviewers~\cite{heule:2017}. Worse than that, even when such work survives peer review, there remain disputes over correctness, completeness, whether nontrivial gaps exist, etc. Some recent examples include % Atiyah's claim to have proved the \emph{Riemann Hypothesis}, 
+Another justification for proof assistants is their potential for improving the referee and validation process.  The main issues here are human fallibility and the high opportunity cost of human talent. Indeed, a substantial amount of time and effort of talented individuals is expended on refereeing journal submissions. Despite this the typical review process concludes without supplying any guarantee of validity of the resulting publications~\cite{fasel:2017}.
+Moreover, the emergence of large computational proofs (e.g., Hales' proof of the Kepler Conjecture) lead to referee assignments that are impossible burdens on individual reviewers~\cite{heule:2017}. Worse than that, even when such work survives peer review, there remain disputes over correctness, completeness, and whether nontrivial gaps exist. Some recent examples include % Atiyah's claim to have proved the \emph{Riemann Hypothesis}, 
 Zhuk's proof of the \emph{\csp dichotomy conjecture} of Feder and 
 Vardi~\cite{zhuk:2017}, and Fasel's proposed solution to 
-  \emph{Murthy's conjecture}~\cite{fasel:2017}.\footnote{Fasel's solution survived peer review 
+  \emph{Murthy's conjecture}.\footnote{Fasel's solution survived peer review 
   and was published in the \emph{Annals of Mathematics} before it emerged that a lemma was flawed and the entire proof collapsed~\cite{fasel:2017}.} 
 By relying to a greater extent on computers to develop and check proofs, researchers can raise reviewing standards, even for computational proofs, thereby increasing confidence in the validity of new results. 
 
-\begin{quote}
-  ``The mathematical community today invests a good deal of time and resources in the refereeing process... surely any computational tools that can help in that regard should be valued.''\\[4pt]
-  ~ \phantom{x} \hfill  --Jeremy Avigad
-\end{quote}
+% \begin{quote}
+%   ``The mathematical community today invests a good deal of time and resources in the refereeing process... surely any computational tools that can help in that regard should be valued.''\\[4pt]
+%   ~ \phantom{x} \hfill  --Jeremy Avigad
+% \end{quote}
 
-As further justification for enlisting the help of computers for discovering and checking new mathematics, consider the space of all proofs comprehensible by the unassisted human mind, and then observe that this is but a small fraction of the collection of all potential mathematical proofs in the universe. The real consequences of this fact are becoming more apparent as mathematical discoveries reach the limits of our ability to confirm and publish them in a timely and cost effective way. Thus, it seems inevitable that proof assistants will have an increasingly important role to play in future mathematics research.
+As further justification for enlisting the help of computers for discovering and checking new mathematics, consider the space of all proofs comprehensible by the unassisted human mind, and then observe that this is but a small fraction of the collection of all potential mathematical proofs in the universe. The real consequences of this fact are becoming more apparent as mathematical discoveries reach the limits of our ability to confirm and publish them in a timely and cost effective way. Thus, it seems inevitable that proof assistants will have an increasingly important role to play in future mathematics research~\cite{harris:2015}.
+
+% Tom Hales of the University of Pittsburgh, like Vladimir Voevodsky of Princeton’s Institute for Advanced Study (IAS), sees proof-checking by electronic mathematicians as a necessity in an age when some proofs have grown too complex to be certified reliable by human readers. While their immediate projects treat computers as an adjunct to human imagination, Hales and Voevodsky have both made it clear that they also expect the new technology to transform the way mathematics is done. Similarly, Sir Timothy Gowers, at Cambridge University, expects collaboration with a ``semi-intelligent database'' to ``take a great deal of the drudgery out of research.''
+
+% Gowers and his collaborators are seeking to design computer systems that reason synthetically, like human mathematicians, rather than relying on brute speed and storage capacity. Gowers has written that, although he ``does not feel particularly happy'' about the prospect, he anticipates a future of fully automated theorem-proving, with mathematicians reduced to running the machines and finding ``interesting applications'' for their theorems.
+
+
+
+
+
 
 %% that the programming language technology required to liberate us from
 %% these tedious tasks is now available.
@@ -242,13 +253,15 @@ As further justification for enlisting the help of computers for discovering and
 
 Beyond their importance as a means of establishing trust in mathematical results,
 formal proofs can also expose and clarify difficult steps in an argument.
-Even before one develops a formal proof, the mere act of expressing a theorem statement (including the foundational axioms, definitions, and hypotheses on which it depends) in a precise and (when possible) computable way almost always leads to a deeper understanding of the result. Moreover, by keeping track of changes across a collection of results (axioms, hypotheses, etc), proof assistants facilitate experiments with variations and generalizations. When changing a definition, a mathematician equipped with a proof assistant is alerted to the inferences that need repair, redundant definitions, unnecessary hypotheses, etc.
+Even before one develops a formal proof, the mere act of expressing a theorem statement (including the foundational axioms, definitions, and hypotheses on which it depends) in a precise and (when possible) computable way almost always leads to a deeper understanding of the result. Moreover, by keeping track of changes across a collection of results (axioms, hypotheses, etc), proof assistants facilitate experiments with variations and generalizations. When changing a definition, a mathematician equipped with a proof assistant is alerted to the inferences that need repair, redundant definitions, unnecessary hypotheses, etc.~\cite{blanchette:2018}.
 
 Finally, modern proof assistants support automated proof search and this can be
-used to discover long sequences of first-order deduction steps in a proof.  
+used to discover long sequences of first-order deduction steps.
 Consequently, mathematicians can spend less time carrying out the parts of an 
-argument that are more-or-less obvious (once discovered), and more time 
+argument that are more-or-less obvious, and more time 
 contemplating deeper questions.
+Indeed, Fields Medalist Sir Timothy Gowers expects collaboration with a ``semi-intelligent database'' to ``take a great deal of the drudgery out of research.''~\cite{gowers:2017}.
+
 % Automation is especially useful for highly computational proofs with hundreds or
 % thousands of cases.
 
@@ -256,32 +269,28 @@ contemplating deeper questions.
 \subsection{The usability gap}
 Despite the many advantages and the noteworthy success stories mentioned above, proof assistants remain relatively obscure. There are a number of obvious reasons for this.  First and foremost, proof assistant software tends to be tedious to use. Most mathematicians experience a significant slow down in progress when they must not only formalize every aspect of their arguments, but also express such formalizations in a language that the software is able to parse and comprehend.
 
-One question that leads to insight into what we call the ``usability gap'' that plagues most modern proof assistants is why \emph{computer algebra systems} do not suffer as much from the same problem. Simply put, computer algebra systems are more popular than interactive theorem provers. One reason is that the up-front cost to end users seems substantially higher for an interactive theorem prover than for a computer algebra system, and this is likely because the latter is typically conceived of by a mathematician whose primary aim is to build a system that presents things ``as they should be,'' that is, as a mathematically educated user would expect. To a mathematician, such systems are \emph{well-designed}. 
+One question that leads to insight into this ``usability gap'' that plagues most modern proof assistants is why \emph{computer algebra systems} do not suffer from the same problem. Simply put, computer algebra systems are more popular than interactive theorem provers. One reason is that the up-front cost to end users seems substantially higher for interactive theorem provers than for  computer algebra systems, and this is because the latter are typically conceived of by mathematicians whose primary aim is to build a system that presents things ``as they should be,'' that is, as a mathematically educated user would expect. 
+% To a mathematician, such systems are \emph{well-designed}. 
 
-In many theorem proving systems, things are often not presented as we would expect or like them to be. In~\cite{PolletKerber:2007}, Pollet and Kerber argue that this is not just a deficiency of the user interface. The problem with theorem provers goes much deeper; it goes to the core of these systems, namely to \emph{the formal representation of mathematical concepts and knowledge}. How easy or hard it is to codify theorems and translate informal mathematical arguments into formal proofs in a particular system depends crucially on the 
+In many theorem proving systems, the mathematics are often not presented as we would expect or like them to be. In~\cite{PolletKerber:2007}, Pollet and Kerber argue that this is not just a deficiency of the user interface. The problem with theorem provers goes much deeper; it goes to the core of these systems, namely to \emph{the formal representation of mathematical concepts and knowledge}. How easy or hard it is to codify theorems and translate informal mathematical arguments into formal proofs in a particular system depends crucially on the 
 formal foundations of that system, and the way in which these foundations are represented in the system.
 
-\subsection{Closing the usibility gap}
-Our research program addresses a few of the major roadblocks to wide-spread adoption of proof assistants; specifically,
+\subsection{Closing the usability gap}
+Our research program addresses the major roadblocks to wide-spread adoption of proof assistants.  We describe some of these in the following list.
 
 \begin{itemize}
 \item \emph{Incomplete mathematical libraries.} Formal libraries---consisting of  definitions, lemmas, and proofs---are a prerequisite for most formal developments. Before users can apply proof assistants to their own research, they need to formalize a lot of undergraduate- and graduate-level mathematics. Even the largest formal libraries currently available cover only a small fraction of mathematics.
 
-\item \emph{Weak automation of mathematics.} Proof assistants typically combine general-purpose logical automation and procedures for arithmetic. But without \textsl{domain-specific automation} (\dsa), a single sentence in a proof in the Informal Language can correspond to dozens or hundreds of lines in a formal language.
+\item \emph{Weak automation of mathematics.} Proof assistants typically combine general-purpose logical automation and procedures for arithmetic. However, without \textsl{domain-specific automation} (\dsa), a single sentence in a proof in the Informal Language can correspond to dozens or hundreds of lines in the formal language.
 
-\item \emph{Poor interoperability with computer algebra systems.} Notwithstanding the
-  existence of a few prototypes~\cite{MR1730396,MR1656868}, interoperability between
-  computer algebra systems and proof assistants is an open problem. A trustworthy
-  integration of algebra systems in proof assistants requires the validation of
-  certificates produced by the algebra systems. However, most procedures do not generate
-  certificates; for some algorithms, it is not even clear what certificates would look
+\item \emph{Poor interoperability with computer algebra systems.} Notwithstanding the existence of a few prototypes~\cite{MR1730396,MR1656868}, interoperability between computer algebra systems and proof assistants is an open problem. A trustworthy integration of algebra systems in proof assistants requires the validation of results produced by the algebra systems. However, most procedures do not generate proof certificates; for some algorithms, it is not even clear what certificates would look
   like [24]. 
   % Conversely, users of algebra systems could exploit the proof assistants'
   % support for expressing and finding proofs.
 
 \item \emph{Steep automation learning curve.}  Extending a proof
   assistant to support \textsl{domain-specific automation} requires a high level
-  of expertise. The programmatic interfaces of the main proof assistants have
+  of expertise. The programmatic interfaces of most proof assistants have
   evolved over several decades and are difficult to learn. For example,
   to extend Coq, one must learn both the Ltac tactic language and the
   low-level OCaml interfaces, in addition to the Gallina specification language.
@@ -290,22 +299,18 @@ Our research program addresses a few of the major roadblocks to wide-spread adop
   Despite the many obstacles, there is a strong
   feeling in various parts of the research community that mathematics deserves to
   be formalized. Fields medalist Vladimir Voevodsky was one of
-  the strongest advocates of this view. His research area was plagued by flawed theorems,
-  to the point where he stopped believing paper-and-pencil proofs~\cite{rehmeyer:2013}.
+  the strongest advocates of this view. His research area was plagued by flawed theorems, and eventually he stopped believing paper-and-pencil proofs~\cite{rehmeyer:2013}.
 
 
 The overriding goal of our project is to re-examine and formalize the foundations of 
-mathematics---with a particular focus on our primary areas of expertise, universal algebra---to do so in a \emph{practical} and \emph{computable} way, and to codify these foundations and advance the state-of-the-art in computer-aided theorem proving technology. The goal will be achieved when the software becomes a natural, if not necessary, part of the working mathematician's toolbox.  We envision a future in which we can hardly imagine proving new theorems, completing referee assignments, or communicating and disseminating new mathematics without the support of a proof assistant.
+mathematics, with a particular focus on our primary areas of expertise, universal algebra, to do so in a \emph{practical} and \emph{computable} way, and to codify these foundations and advance the state-of-the-art in computer-aided theorem proving technology. The goal will be achieved when the software becomes a natural, if not necessary, part of the working mathematician's toolbox.  We envision a future in which we can hardly imagine proving new theorems, completing referee assignments, or communicating and disseminating new mathematics without the support of a proof assistant.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Universal Algebra and its Role in the Project}
-\emph{Universal} (or \emph{general}) \emph{algebra} has been invigorated in recent years by a small but growing community of researchers exploring the connections between algebra and computer science. Some of these connections were discovered only recently and were quite unexpected. Indeed, algebraic theories developed over the last 30 years have found a number of important applications in both of the two main branches of theoretical computer science---\emph{Theory~A}, comprising \emph{algorithms} and \emph{computational complexity}, and \emph{Theory~B}, comprising
-\emph{domain theory}, \emph{semantics}, and \emph{type theory} (the theory of programming 
-languages).\footnote{In the sequel, we use the fairly standard acronym \tcs for \emph{theoretical                          computer  science}, broadly construed.
-                    The Theory~A--Theory~B dichotomy was established by ``The Handbook of Theoretical Computer Science''~\cite{vanLeeuwen:1991A,vanLeeuwen:1991B}, Volume~A of which includes chapters on algorithms and complexity theory; Volume~B covers domain theory, semantics, and type theory.}
+\emph{Universal} (or \emph{general}) \emph{algebra} has been invigorated in recent years by a small but growing community of researchers exploring the connections between algebra and computer science. Some of these connections were discovered only recently and were quite unexpected. Indeed, algebraic theories developed over the last 30 years have found a number of important applications in both of the two main branches of theoretical computer science---\emph{Theory~A}, comprising \emph{algorithms} and \emph{computational complexity}, and \emph{Theory~B}, comprising \emph{domain theory}, \emph{semantics}, and \emph{type theory} (the theory of programming languages).\footnote{The Theory~A--Theory~B dichotomy was established by ``The Handbook of Theoretical Computer Science''~\cite{vanLeeuwen:1991A,vanLeeuwen:1991B}, Volume~A of which includes chapters on algorithms and complexity theory; Volume~B covers domain theory, semantics, and type theory.}
 The present proposal falls within the scope of Theory B.
 
 \subsection{Foundations of mathematics and computing science}
@@ -314,20 +319,17 @@ just as physics and physical intuition motivated so many mathematical discoverie
 
 % The mathematical foundations of theoretical computer science are essentially the same as the mathematical foundations of mathematics. Indeed, much of the pure mathematics literature can be classified as \tcs research; similarly, many \tcs papers could easily fall under mathematics or logic research. (For examples, see~\cite{MR3662915,MR3725758,MR2765040,MR2855321,MR3233442,MR2525959, MR1344959,MR1321662, MR1249550}.)
 
-The availability and accessibility of \emph{functional} programming languages supporting \emph{dependent types} has given rise to new opportunities to apply abstract concepts from universal algebra and category theory to the practice of programming, to yield code that is more modular, reusable, and safer, and also to express programming constructs that would be incomprehensible or inconceivable in an \emph{imperative} or \emph{procedural} programming language. 
-(For examples, see~\cite{baueroplss:2018},~\cite[Chs. 5 \& 10]{chiusano:2014}.) These are exciting developments for the design and implementation of computer programs, and this has some relevance to our work.  However, our focus is on the development and codification of the foundations of general algebra for research in pure mathematics.
+\emph{Functional programming languages} that support \emph{dependent} and \emph{(co)inductive types} have brought about new opportunities to apply abstract concepts from universal algebra and category theory to the practice of programming, to yield code that is more modular, reusable, and safer, and to express ideas that would be difficult or impossible to express in \emph{imperative} or \emph{procedural programming languages}. (For examples, see~\cite{baueroplss:2018},~\cite[Chs. 5 \& 10]{chiusano:2014}.) These are exciting developments for the design and implementation of computer programs, and this has some relevance to our work.  However, our main focus is on the development and codification of practical foundations for research in pure mathematics.
  
-In the remainder of this project description, we give some background on interactive theorem proving technology, introduce dependent type theory, and describe the \emph{Lean} proof assistant. We will demonstrate how and why these technologies are well suited to research in universal algebra. Thereafter we present the concrete goals of our research program and explain how we intend to accomplish them. Along the way, we will see some examples of the achievements we have already made in pursuit of these goals.
-
-Before proceeding, however, let us summarize in broad terms and using nontechnical language the main objectives of this research project.
-\begin{enumerate}[{\bf 1.}]
-  \item To present the core of universal algebra using \emph{practical} logical foundations, which means that, when possible, definitions, theorems and proofs should be constructive and have computational meaning.
+In the remainder of this project description, we give some background on interactive theorem proving technology, introduce dependent and inductive types, and describe the \emph{Lean Programming Language}~\cite{lean} that will be the main vehicle for this project. We will explain how these technologies can be used to advance pure mathematics in general, and universal algebra in particular. We then present the concrete goals of the project, with some discussion of how we intend to accomplish them, and some examples of the achievements we have already made in pursuit of these goals. Before proceeding, let us summarize in broad terms, using nontechnical language, the main objectives of the project. We intend to
+\begin{enumerate}
+  \item present the core of universal algebra using \emph{practical logical foundations}; in particular, definitions, theorems and proofs shall be constructive and have computational meaning, whenever possible;
   
-  \item To develop software that extends the \emph{Lean Mathematics Library}~\cite{lean-mathlib:2018} to include the output of task (1), \emph{implementing} the core results of our field as \emph{types} and their proofs as \emph{programs} (or \emph{proof objects}) in Lean's \emph{dependent type theory}.
+  \item develop software that extends the \emph{Lean Mathematical Components Library}~\cite{lean-mathlib:2018} to include the output of (1), implementing the core results of our field as \emph{types} and their proofs as \emph{programs} (or \emph{proof objects}) in the \emph{Lean Programming Language}~\cite{lean,lean-ualib}.
         
-  \item To develop \emph{domain-specific automation (\dsa)} tools that help working mathematicians harness the power of modern proof assistant technology.
+  \item develop \emph{domain-specific automation (\dsa)} tools that make it easier for working mathematicians harness the power of modern proof assistant technology;
         
-  \item To teach mathematicians how to use the assets developed in items (1)--(3)
+  \item teach mathematicians how to use the assets developed in items (1)--(3)
         to do the following:
   \begin{enumerate}[{\bf a.}]
     \item translate existing or proposed Informal Language proofs (typeset in \LaTeX, say) into Lean so they can be formally verified and tagged with a certificate of correctness;
@@ -350,174 +352,23 @@ Before proceeding, however, let us summarize in broad terms and using nontechnic
 
 
 \section{The Lean Theorem Prover and its Role in the Project}
-Given our motivation, the choice of language and proof system to use was easy; we chose the \emph{Lean proof assistant} because it is designed and developed by logicians and computer scientists working together to create a language and syntax that presents things \emph{as they should be}, so that the working in the language feels almost as natural as working in the Informal Language and is easily adopted by mathematicians who lack special training in computer science. 
+Given our motivation, the choice of programming language/proof assistant was easy; we chose the \emph{Lean Programming Language}~\cite{lean} because it is designed and developed by logicians and computer scientists working together to create a language and syntax that presents things \emph{as they should be}, so that the working in the language feels almost as natural as working in the Informal Language and is easily adopted by mathematicians who lack special training in computer science. 
 
-\emph{Lean} is a relatively new programming language and proof assistant developed at Microsoft Research and Carnegie Mellon University. Lean draws on decades of experience in interactive and automatic theorem provers (e.g., Coq, Isabelle/HOL, and Z3). Its logic is very expressive, and emphasis is placed on \emph{powerful proof automation}. The system is easy to extend via \emph{metaprograms} developed in the same logical language as is used to express specifications and proofs in Lean. In this way, Lean aims to \emph{bridge the gap between interactive and automated theorem proving}.
+Lean is a new open source system developed by Leonardo de Moura (Microsoft Research), Jeremy Avigad (Carnegie Mellon), and their colleagues. The system's design and engineering is unusually clean and efficient. Lean attempts to combine the best features from existing proof assistants (e.g., Coq, Isabelle/HOL, and Z3), drawing on decades of experience in interactive and automatic theorem provers. Its logic is very expressive, with emphasis placed on \emph{powerful proof automation}. The system is easy to extend via \emph{metaprogramming} which can be carried out in the Lean language itself---that is, metaprograms are written in the same language as is used to express ordinary theorems and proofs (or, types and programs). In this way, Lean aims to \emph{bridge the gap between interactive and automated theorem proving}.
 
-There are many other reasons Lean is an ideal platform for this project.
-For instance, it is unique among computer-based theorem proving tools in that its
-\emph{proofs tend to be easy to read and understood} without special training. 
-In fact, working in Lean usually leads to formal proofs that are cleaner, more concise, 
-and shorter than the corresponding proofs in the Informal Language.
+Other considerations that make Lean ideally suited to this project are the following:
 
-To support the formalization of theorems, we will develop libraries that contain formal statements and proofs of all of the core definitions and results universal algebra, and we will explore how to automate proof search specifically in these foundational areas.  We will also formalize theorems emerging from our own mathematics research. We are currently engaged in three other research projects, two in universal algebra and one in lattice theory.  A proof assistant equipped with special libraries of definitions and results from algebra and lattice theory, as well as specialized tactics to automate the standard \emph{proof idioms} of our field, would be extremely useful for our other research projects. One of our goals is to demonstrate (to ourselves and to our colleagues around the globe) the utility of such libraries and tactics for proving ``real world'' theorems.
-
-We will develop techniques and tools that help mathematicians perform accurate computations and deductive reasoning using proof assistants, integrating procedures from computer algebra systems in a verified way. Finally, we will contribute to Lean's development with ideas and features designed to benefit all users, notably an \emph{efficient built-in procedure for first-order reasoning and an integration with automatic theorem provers}. 
-
-Lean is a very young language, and its domain-specific libraries for special disciplines are small but growing. \emph{It is vital for mathematicians to get involved at this early stage and play a leading  role in its development.}  If we leave all of this to our colleagues in computer science, they will base the development on their perception of our needs, history will likely repeat itself, and 
-it is unlikely that the libraries and tools that come out of the effort will meet the needs and expectations of most working mathematicians.
-
-\subsection{Lean's Hierarchy of Sorts and Types}
-\label{sec:leans-hierarchy-of-sorts-and-types}
-Like its more mature cousins Agda and Coq, Lean takes for its logical foundations \emph{dependent type theory} with \emph{inductive types} and \emph{universes}. However, unlike Agda and Coq, Lean's universes are \emph{not cumulative}.\footnote{Although we are trying hard to avoid overly technical discussions here, we will point out that lack of cumulative universes in Lean does not reduce Lean's expressiveness; instances in which universe cumulativity would be exploited in Coq can be handled in Lean using \emph{universe polymorphism} and the \lstinline{lift} map.}
-At the bottom of the hierarchy is \lstinline{Type 0}, which is usually denoted by \lstinline{Type}.
-Think of  \lstinline{Type} as the universe of ``small'' or ``ordinary'' types.  At the next level is \lstinline{Type 1}, which is a larger universe of types that contains \lstinline{Type} as an \emph{element}. \lstinline{Type 2} is  larger still and contains  \lstinline{Type 1} as an element, and so on. 
-
-The upshot of this \emph{ramified system} is that all of the types described in the last paragraph are \emph{predicative}, which means that their definitions are not self-referential, so certain set-theoretic paradoxes (e.g. Russel's) are avoided. However, certain situations call for a self-referential type, so Lean supplies one. It is the \emph{impredicative} type \lstinline{Prop}.
-A synonym for \lstinline{Prop} is \lstinline{Sort}, which is shorthand for \lstinline{Sort 0}. The type of \lstinline{Prop} (and \lstinline{Sort} and  \lstinline{Sort 0}) is \lstinline{Type 0}; that is, \lstinline{Prop : Type 0}. In general, for all \lstinline{n ≧ 0}, 
-% we have \lstinline{Sort n : Type n} and More generally, for each natural number \lstinline{n}, 
-we have 
-\lstinline{Sort n+1 = Type n}, whose type is \lstinline{Type n+1}. 
-To summarize, we have the following type identities and relations:
-\begin{lstlisting}
-            Sort 0 = Prop               Prop : Type 0
-            Sort 1 = Type 0           Type 0 : Type 1
-            Sort 2 = Type 1           Type 1 : Type 2
-                   ⋮                         ⋮
-          Sort n+1 = Type n           Type n : Type n+1
-\end{lstlisting}
-See Section~\ref{sec:sorts-and-types} of the appendix for some examples 
-demonstrating Lean's ramified hierarchy of sorts and types.
-
-We also want some operations to be polymorphic over type universes. For example,  \lstinline{list α} should make sense for any type  \lstinline{α}, no matter which universe  \lstinline{α} lives in. Thus \lstinline{list : Type u_1 → Type u_1}, where \lstinline{u_1} is a variable ranging type levels. 
-
-One aspect that makes the Lean kernel trustworthy is its size; at its core, it implements a very small set of components, namely,
 \begin{itemize}
-  \item \emph{dependent lambda calculus};
-  \item \emph{universe polymorphism} in a hierarchy of $\omega$-many universe levels;
-  \item \emph{inductive types} and \emph{inductive families of types}, generating only the recursor for an inductive type;
-  \item \emph{pattern matching}.
+  \item Lean is unique among computer-based theorem proving tools in that its \emph{proofs tend to be easy to read and understood}, without any special training.  In fact, working in Lean often leads to formal proofs that are cleaner, more concise, and shorter than the corresponding proofs in the Informal Language. (We provide examples in Section~\ref{sec:proof-of-concept} below.) 
+  \item Lean's logical foundation is a variant of Coq's calculus of inductive constructions (\cic)~\cite{MR935892}, a dependent type theory. Lean distinguishes itself with its small inference kernel and strong automation. Independent proof checkers provide additional guarantees. Lean's support for dependent types is smoother than Coq's, thanks to flexible pattern matching and a generalized congruence closure algorithm~\cite{MR3536762}. A mechanism for introducing quotient types and a transfer tool facilitate reasoning up to isomorphism without resorting to setoids~\cite{MR1985376} or homotopy type theory~\cite{MR2962717}.
+  \item For the design of basic algebraic libraries, Lean's developers turned to Isabelle/HOL for inspiration. The libraries rely on type classes, a mechanism to categorize types and their operations (e.g., ``$\langle \mathbb Z, 0, -, +\rangle$ forms a group''). Type classes interact well with Lean's dependent types. By contrast, in Isabelle/HOL, there is no way to use type classes to reason about the integers modulo $n$ as a ring, as observed by Avigad et al. in~\cite[Section 3.1]{MR3718212}. 
 \end{itemize}
 
-% Lean's core kernel does \emph{not} implement the following:
-% \begin{itemize}
-% \item a termination checker;
-% \item fixpoint operators.
-% \end{itemize}
-% Lean supports \emph{inductive families} and \emph{mutually defined inductive types},
-% but not \emph{induction-induction} or \emph{induction-recursion}.
-
-Lean is easy to extend via \emph{metaprogramming}. Briefly, a \emph{metaprogram} is
-a program whose purpose is to modify the behavior of other programs. \emph{Proof tactics} form an important class of metaprograms. These are automated procedures for constructing and manipulating proof terms. A distinguishing feature of Lean is that \emph{metaprograms can be written in the Lean language}, rather that in the lower level language (C/C++) that was used to create Lean. Thus the metaprogramming language is the same logical language that we use to express specifications, propositions, and proofs.
 
 
 
-% As mentioned in the introduction, a \emph{proof assistant}
-% is an interactive tool that makes it possible to develop machine-checked formal 
-% proofs of theorems, and to automate the construction of proofs.
-% Two early systems were Nicholas de Bruijn's \emph{Automath}~\cite{nederpelt:1994} and
-% Andrzej Trybulec's \emph{Mizar}~\cite{MR3806496}.
-% Both of these defined a formal language for writing mathematical definitions and proofs, 
-% and for expressing complete mathematical theories in such a way that an automated proof checker 
-% could mechanically verify their correctness.
-% Mizar also includes a library of formalized mathematics that can be used to prove new
-% theorems.\footnote{As of 2009, the \emph{Mizar Mathematical Library} was 
-% the largest coherent body of strictly formalized mathematics in existence.~\cite{Wiedijk:2009}}
-% Some recent incarnations of such systems are Agda~\cite{Norell:2009}, 
-% Coq~\cite{CoqManual:2017}, Lean~\cite{nuprl:1979}.  Some famous examples of
-% formalizations acheived with these systems include the formal proofs of the \emph{Kepler Conjecture} by Tom Hales, et al.~\cite{MR3659768},
-% and the \emph{Feit-Thompson Odd-order Theorem} by Georges Gonthier, et 
-% al~\cite{gonthier:2013b}.\footnote{Remarkably, Hales's first attempt at publishing his 
-% highly complex proof of the Kepler conjecture failed after many years and countless 
-% man-hours were spent by referees attempting (unsuccessfully) to verify the informal proof.
-% It was after this experience that Hales formalized and verified his result with a proof assistant.}
-%% After this failure to have his result accepted, a defiant Hales
-%% responded by formalizing his entire proof.
-
-% Each of the systems mentioned above are based on different logical foundations.
-% For those based on type theory, the particular interpretation of type theory 
-% differs from one system to the next.
-% While many are based off Per Martin-L\"of's ideas, most have added features, more axioms,
-% or a different philosophical viewpoint.
-% For instance, the \nuprl system is based on \emph{computational type theory}, while Coq and Lean are 
-% based on the \emph{calculus of (co)inductive constructions} (\cic).
-% 
-% \subsection{Martin-L\"of type theories}
-% Per Martin-L\"of constructed several type theories that were published at various times, some of them much
-% later than the preprints with their description became accessible to the specialists.
-% All of the theories had \emph{dependent products}, \emph{dependent sums}, \emph{disjoint unions},
-% \emph{finite types} and \emph{natural numbers}.
-% All the theories had the same reduction rules that did not include η-reduction
-% either for dependent products or for dependent sums (except for the language MLTT79
-% where the η-reduction for dependent products was added).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Dependent Types}
-Lean is a functional programming language that supports \emph{dependent types}.
-Here we explain what dependent types are.  Later, when we present some 
-examples of constructions in universal algebra, we will see exactly how dependent types support precise representations of many of the basic objects of interest in universal algebra.
-Besides being more precise and elegant that other representations, dependent types are constructive, and (provided we work in a language that supports them) we can compute them.
-
-What makes dependent types \emph{dependent}? % and why dependent types are useful. 
-The short explanation is that types can depend on \emph{parameters}. For example,the type \lstinline{list α} depends on the argument \lstinline{α}, and this dependence is what distinguishes \lstinline{list ℕ} from \lstinline{list bool}. Thus, dependent types are \emph{polymorphic}.  However, dependent types differ from so-called \emph{generic types} (which depend on \emph{type parameters}).  Let us demonstrate with another example.  
-Consider the type \lstinline{vec α n}, that is, the type of vectors of length 
-\lstinline{n} whose entries inhabit the type \lstinline{α}. The type \lstinline{vec α n} depends on one type parameter, \lstinline{α : Type}, and one \emph{value parameter}, \lstinline{n : ℕ}.  Thus, dependent types are generic types that can depend, not only on type parameters, but also on value parameters.
-
-Suppose we wish to write a function \lstinline{cons} that inserts a new element at the head of a list. What type should \lstinline{cons} have? Such a function is polymorphic: we expect the \lstinline{cons} function for \lstinline{ℕ}, \lstinline{bool}, or an arbitrary type \lstinline{α} to behave the same way. Thus, it makes sense to take this type to be the first argument to \lstinline{cons}, so that for any type \lstinline{α}, \lstinline{cons α} is the function that takes an element \lstinline{a : α} and a list 
-\lstinline{ℓ : list α} and returns \lstinline{cons α a ℓ = a :: ℓ} 
-(that is, \lstinline{ℓ} with \lstinline{a} prepended).
-
-While it's clear that \lstinline{cons α} should have type \lstinline{α → list α → list α}, less clear is what type \lstinline{cons} should have; perhaps \lstinline{Type → α → list α → list α}. But this is nonsense since the type parameter \lstinline{α} does not refer to anything, whereas it should refer to whatever is passed in for the argument of type \lstinline{Type}. In other words, \emph{assuming} \lstinline{α : Type} is the first argument to \lstinline{cons}, then the type of the next two arguments will be \lstinline{α} and \lstinline{list α}, which are types that depend on the first input argument. 
-
-This example is an instance of a \emph{dependent function type}, also known as a \lstinline{Pi} type. Given \lstinline{α : Type} and \lstinline{β : α → Type},
-view \lstinline{β} as an indexed family of types over the index set \lstinline{α}; for each \lstinline{a : α} we have a type \lstinline{β a}.  The type \lstinline{Π(x : α), β x} denotes the type of functions \lstinline{f} with the property that, for each \lstinline{a : α, f a} is an element of \lstinline{β a}, so the type of the value returned by \lstinline{f} \emph{depends} on the input argument. In case \lstinline{β} is a constant function, the type \lstinline{Π(x : α), β x} is no different from the (non-dependent) function type \lstinline{α → β}. Indeed, in dependent type theory, and in Lean, the \lstinline{Pi} construction is fundamental, and \lstinline{α → β} is just notation for \lstinline{Π(x : α), β x} in the special case in which \lstinline{β} is constant.
-
-% \subsection{Curry-Howard Correspondence}
-% % Propositions-as-types, proofs-as-programs}
-% % \textsl{Types are propositions.}
-% The rule for \emph{function application} corresponds, under the 
-% ``Curry-Howard'' or ``propositions-as-types'' correspondence, to the \emph{implication elimination} rule of 
-% natural deduction (sometimes called \emph{modus ponens}).  It is the following:
-% \begin{prooftree}
-%   \AxiomC{$f \colon A \to B$}
-%   \AxiomC{$a \colon A$}
-%  \RightLabel{$_{\mathsf{app}}$}
-%   \BinaryInfC{$f \, a \colon B$}
-% \end{prooftree}
-% This simply codifies our intuitive notion of function application, viz.~applying the 
-% function $f$ to an inhabitant $a$ of the domain $A$, we obtain an inhabitant $f \, a$
-% of the codomain $B$.  If we interpret $A$ and $B$ as propositions,
-% $f$ as a proof of the implication $A \to B$, and  
-% $a$ as a proof of $A$, then the rule $\mathsf{app}$ becomes the implication elimination rule (\emph{modus ponens}).
-% % 
-% % \textsl{Programs are proofs.}
-
-
-
-
-\subsection{Lean's Elaboration Engine}
-
-On top of the Lean kernel there is a powerful \emph{elaboration engine} that can
-\begin{enumerate}
-\item infer implicit universe variables,
-\item infer implicit arguments, using higher order unification,
-\item support overloaded notation or declarations,
-\item insert coercions,
-\item infer implicit arguments using type classes,
-\item convert readable proofs to proof terms,
-\item construct terms using tactics.
-\end{enumerate}
-Lean does most of these things simultaneously. For instance, the term constructed by
-type classes can be used to find out implicit arguments for functions.
-A nice list of examples demonstrating of each of these key features of Lean can be found in the blog post by Floris van Doorn available at
-\url{https://homotopytypetheory.org/2015/12/02/the-proof-assistant-lean/}
-
-
-
+To support the formalization of theorems, we will develop libraries that contain formal statements and proofs of all of the core definitions and theorems of universal algebra. We will explore how to automate proof search specifically in universal algebra, and develop tools to help find and formalize theorems emerging from our own mathematics research. We are currently involved in four research projects in universal algebra~\cite{Bergman-DeMeo:2016,fin-lat-rep,DFV:2018,fg-free-lat}, and an invaluable tool for our work would be a proof assistant with rich libraries for general algebra, equipped with \emph{domain-specific proof tactics for automatically invoking the standard mathematical idioms from our field}. The latter is called \emph{domain-specific automation} (\dsa),and one of our primary goals is to demonstrate the utility of \dsa for proving new theorems.
+As Lean is a very young language, its domain-specific libraries are relatively small, but they are growing rapidly. \emph{It is vital for mathematicians to get involved at this early stage and play a leading role in the development.}  If we leave this entirely to our colleagues in computer science, they will base the development on their perception of our needs, history will likely repeat itself, and the resulting libraries and tools may fail meet the needs and expectations of working mathematicians.
 
 
 
@@ -527,17 +378,6 @@ A nice list of examples demonstrating of each of these key features of Lean can 
 
 
 
-\subsection{Domain Specific Automation}
-One of the primary objectives of Lean is to bridge the gap between automatic and interactive theorem proving. A cornerstone for this vision is \emph{white-box automation:} the key techniques underlying SMT solvers, such as the \emph{congruence closure} for reasoning about equality~\cite{MR3536762} and the quantifier instantiation heuristics~\cite{MR2458080}, are available to users via the metaprogramming framework. Despite this, several reasoning components, as well as some important metaprogramming ``tape and glue,'' are missing. For all its potential, Lean is not as automated as Isabelle/HOL.
-
-We will design a cohesive set of reasoning components. As a young system, Lean is an ideal test-bed for new ideas. A strong reconstruction tactic based on a procedure for first- or even higher-order logic is critical to automation. The existing super tactic [30] is unfortunately orders of magnitude too slow to be useful. Developing a monadic prover with efficient data structures and finding solutions to speed up the execution of all metaprograms will require innovative ideas.
-
-We also want to contribute to the Lean simplifier’s support for arithmetic and the envisioned algebraic normalizer, based on our experience working towards the first two objectives. The main difficulty is to balance raw deductive power, extensibility, and predictability. Furthermore, we will design a relevance filter that selects lemmas from background libraries, for use with tactics. One
-of the challenges is to perform the heuristic selection in a robust way, so that filtering can be used both for proof search and for rechecking the proof. Existing filters, whether they rely on machine learning [12] or not, suffer from a lack of ``diversity:'' they tend to select many equivalent lemmas
-while ignoring some key lemmas. Ideas from research in search engines will likely apply.
-
-% Finally, it will be useful to integrate external automatic theorem provers in Lean. A new generation of higher-order provers is emerging—including Leo-III, Satallax, and higher-order versions of CVC4, E, Vampire, and veriT. My ERC project Matryoshka 3 funds work on E and veriT. Integrating these provers will be a high-impact deliverable that will dramatically increase automation.
-% The challenge is to design a sound, complete, and yet efficient encoding of Lean’s rich type system, based on my work on polymorphic type encodings [11]—and to reconstruct proofs in Lean.
 
 
 
@@ -548,6 +388,7 @@ while ignoring some key lemmas. Ideas from research in search engines will likel
 
 
 \section{Proof of Concept: Lean Universal Algebra}
+\label{sec:proof-of-concept}
 % This section outlines a few aspects of our plan to examine the core foundations of our main area of expertise, universal algebra, and represent these foundations in a way that is not only easy to codify in Lean, but also remains accessible to working mathematicians. The resulting libraries will aim to make it easier to use Lean to find new proofs, verify existing proofs, and test conjectures.
 
 % Specifically, we 
@@ -1556,34 +1397,19 @@ assignments. As it turns out, their Lean proofs were among their best proofs!  T
 
 
 
-\pagebreak
 
 \section{Summary of project stages}
 In the introduction, we set out the goals of the project in broad strokes. 
 Here we describe four stages of concrete activities that map out a plan for 
 achieving our goals.
-
-
-
-We briefly summarize the high-level goals of the project
-in the following list of four key stages. The presentation here is brief, and the language
-over-simplified, but further details about each of these stages are presented in later sections.
-
 \begin{enumerate}
-\item[Stage 1.] {\bf lean-ualib.} Implement in Lean (the proof assistant described below) \textsl{formal
- statements and proofs} of the definitions and theorems that constitute
-  the \textsl{core} of our field (universal algebra and lattice theory).
-  (We call this the \textsl{Lean Universal Algebra Library}, or {\tt lean-ualib} for short.)\footnote{Work on the {\tt lean-ualib} has already begun; the permanent residence of 
-  our open source repository is \url{https://github.com/UniversalAlgebra/lean-ualib}.}
-\item[Stage 2.] {\bf domain-specific automation.} Develop \textsl{proof tactics} in Lean that carry out, in a highly automated way, the most common arguments and proof techniques of universal algebra; that is, make the \textsl{proof idioms} of our field available in Lean.
-
-\item[Stage 3.] {\bf Algebras, Categories and Types: with computer-aided proofs.} Publish a \textsl{textbook} that presents (a) the theory that is formalized
-  in {\tt lean-ualib}, (b) 
-  a comprehensive \textsl{reference manual} for the library, and (c) \emph{examples and
-  instructions for working mathematicians}.
-\item[Stage 4.] {\bf lean-uaailib.}  \textsl{Develop search and artificial intelligence tools that
-  will accelerate growth of the library either by guided user input or by allowing the
+\item[Stage 1.] {\bf lean-ualib.} Implement in Lean \textsl{formal statements and proofs} of the definitions and theorems that constitute the \textsl{core} of our field, universal algebra.
+  We call this the \textsl{Lean Universal Algebra Library}, abbreviated {\tt lean-ualib}.\footnote{Work on the {\tt lean-ualib} has already begun; the permanent residence of 
+  our open source repository is at \href{https://github.com/UniversalAlgebra/lean-ualib}{https://github.com/UniversalAlgebra/lean-ualib}.}
+\item[Stage 2.] {\bf domain-specific automation.} Develop \textsl{proof tactics} in Lean that carry out, in a highly automated way, the most common arguments and proof techniques of universal algebra; that is, make the \textsl{proof idioms} of our field readily available in Lean.
+\item[Stage 3.] {\bf lean-uaailib.}  \textsl{Develop search and artificial intelligence tools to accelerate growth of the library either by guided user input or by allowing the
   library to grow itself.}
+\item[Stage 4.] {\bf Algebras, Categories and Types: with computer-aided proofs.} Create a textbook that presents (a) the theory that is formalized in {\tt lean-ualib}, (b) a comprehensive \textsl{reference manual} for the library, and (c) \emph{examples and instructions for working mathematicians}.
 \end{enumerate}  
  
 Although Stage 1 alone may seem like a massive undertaking, we will start with the
@@ -1591,45 +1417,25 @@ basic results of the theory and formalize the lemmas and theorems that are most 
 used in our field to prove deeper results.
 In the process, we will
 \begin{enumerate}
-  \item figure out how to \emph{automate proof search} in
-    the specific domain of universal algebra;
-    \item create libraries for \emph{clones} of operations and terms,
-free algebras, homomorphisms and congruences, and design reasoning procedures for these;
-\item explore how to best exploit Lean's \emph{metaprogramming framework} and develop
-techniques and tools that help mathematicians perform accurate deductions and computations
-using the proof assistant;
-\item integrate procedures from other computer algebra systems (in particular, the UACalc)
-  in a formally verified way.
-  \item contribute to Lean's development with ideas and features designed
-    to benefit all users, notably an efficient built-in procedure for
-    first-order reasoning and an integration with automatic theorem provers.
+  \item figure out how to \emph{automate proof search} in the specific domain of universal algebra;
+  \item create libraries for operation clones, free algebras, homomorphisms, and congruences, and design reasoning procedures for these;
+  \item explore how to best exploit Lean's \emph{metaprogramming framework} and develop techniques and tools that help mathematicians perform accurate deductions and computations using the proof assistant;
+  \item integrate procedures from other computer algebra systems (e.g., the \href{http://uacalc.org}{UACalc}) in a formally verified way.
+  \item contribute to Lean's development with ideas and features designed to benefit all users, notably an efficient built-in procedure for first-order reasoning and an integration with automatic theorem provers.
 \end{enumerate}
 
-Then we will go after the deeper results, prioritizing definitions, lemmas, and theorems
-according to how widely they are used in our field.
-With these foundations established, we will soon have a small mathematical arsenal 
-at our disposal that we can exploit when formalizing proofs of deeper theorems.
-Thus, the library will expand until we have formalized the core of our subject.
+Then we will formalize deeper results, prioritizing definitions, lemmas, and theorems
+according to how widely they are used in our field. Having already formalized the \emph{free algebra in an arbitrary signature} and implemented a formal proof that it is \emph{absolutely free},\footnote{{\it ibid.}~\href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/free.lean}{lean-ualib/tree/master/src/free.lean}.} our next target is \emph{Birkhoff's HSP Theorem}. With these and other foundational results established, we will have a small mathematical arsenal 
+at our disposal that we can exploit when formalizing proofs of deeper theorems. Thus, the library will expand until we have formalized the core of our subject.
 
-With this strategy, we expect the library development will begin at a moderate pace
-but will quickly accelerate.  To ensure that we don't get off to a slow start,
-we will develop novel automation strategies, and ``proof tactics'' that are specifically
-tailored to the type of arguments that are most commonly used---the ``proof idioms'' of our field
-Furthermore, we will build upon already existing Lean math libraries, such as the Lean 
-Mathlib~\cite{lean-mathlib:2018}, so we will not have to formalize all of the basic 
-theorems from scratch. These strategies will combine to substantially reduce and limit the amount of work required
-to complete the first stage.
+With this strategy, we expect the library development will begin at a moderate pace but will quickly accelerate.  To ensure that we don't get off to a slow start or risk ``reinventing the wheel,'' besides developing domain-specific automation tools, we will we will also build upon existing Lean libraries, such as the \emph{Lean Mathematical Components Library}~\cite{lean-mathlib:2018}, so we don't have to formalize everything from scratch. These strategies will combine to substantially reduce and limit the amount of work required to complete the first stage.
 %% If I don't spend the majority of my research time and energy
 %% on nontrivial aspects of a problem, if I'm often occupied checking, correcting, and re-checking
 %% my own work, or refereeing others' work, then I am a fool. (Worse than a fool, I'm 
 %% an \emph{over-educated} fool.)
 
-The ultimate goal is to advance the state of Lean and its mathematical libraries
-to the point at which it becomes
-\emph{a proof assistant that helps working mathematicians}, by making them both
+The ultimate goal is to advance the state of Lean and its mathematical libraries to the point at which it becomes \emph{a proof assistant that helps working mathematicians}, by making them both
 more productive and more confident in their results.
-
-
 
 %% \section{Background: proof assistants}
 %% Proof assistants (also called interactive theorem provers) are increasingly used in academia and
@@ -1660,35 +1466,24 @@ more productive and more confident in their results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\subsection{Challenges and objectives}
+\section{Challenges and objectives}
 Interactive theorem proving is steadily gaining ground. In some areas
-of computer science, it is common for research papers to be accompanied by formal proofs. Proof assistants are even deployed in the classroom [51, 57], replacing paper-and-pencil arguments. These circumstances point to a future where these tools will be routinely used, resulting in more reliable science.
-But to have a substantial impact on mathematical practice, we must narrow the usability gap.
+of computer science, it is common for research papers to be accompanied by formal proofs. We have first hand experience deploying Lean in the classroom to help teach discrete math to first- and second-year math and computer science majors. (See our Teaching Statement~\cite{demeo:2018-teaching}.  Others have also reported success with proof assistants in a classroom setting~\cite{nipkow:2012,pierce:2009}. These circumstances point to a future where computer-aided theorem proving ese tools will be routinely used, resulting in more reliable science.
+However, to have a substantial impact on mathematical practice, we must narrow the usability gap.
 
-\begin{quote}
-Our overall aim is to make proof assistants usable by mathematicians, by initially focusing on number theory and related areas, developing the proof automation, tool integrations, and formal libraries guided by actual users' needs.
-\end{quote}
+The difficulties are as much social as technical. Proof assistants are developed primarily by computer scientists. Much of the formalized mathematics is motivated by hardware or software verification
+~\cite{boldo:2013,harrison:2003,hurd:2003,russinoff:1999}. Mathematicians largely dismiss proof assistants as impractical, so the technology improves only slowly. We want to resolve this problem by working closely with computer scientists. We aim to bring a proof assistant, its automation, and its libraries further, guided by our own research needs, as well as those of our fellow mathematicians who understand the value of proof assistants. Specifically, we will collaborate with Jasmin Blanchette and his team at the VU Amsterdam to formalize our latest research results in universal algebra and lattice theory and recent results in related areas, addressing usability issues as they arise.
 
-The difficulties are as much social as technical. Proof assistants are developed primarily by computer scientists. Much of the formalized mathematics is motivated by hardware or software verification [17, 37, 40, 42, 61]. Mathematicians largely dismiss proof assistants as impractical, so the technology improves only slowly. Sadly, even routine operations such as factorization of polynomials can become small challenges when moving to a formal-logic environment [46, 66]. We want to break the vicious circle by working closely with mathematicians. We aim to bring a proof assistant, its automation, and its libraries further, guided by the needs of mathematicians who understand the value of proof assistants. Specifically, we will collaborate with Sander Dahmen and his team at the VU Amsterdam to formalize parts of the team's research in number theory and recent results in related areas, addressing usability issues as they arise.
-
-Our vehicle will be the Lean proof assistant [27]. Lean is a new open source system developed by Leonardo de Moura (Microsoft Research, \usa), Jeremy Avigad (Carnegie Mellon, \usa), and their colleagues. The system's design and engineering is unusually clean and efficient. Lean attempts to combine the best from two leading proof assistants.
-
-\begin{itemize}
-\item Lean's logical foundation is a variant of Coq's calculus of inductive constructions (\cic)~\cite{MR935892}, a dependent type theory. Lean distinguishes itself with its small inference kernel and strong automation. Independent proof checkers provide additional guarantees. Lean's support for dependent types is smoother than Coq's, thanks to flexible pattern matching and a generalized congruence closure algorithm~\cite{MR3536762}. A mechanism for introducing quotient types and a transfer tool facilitate reasoning up to isomorphism without resorting to setoids [6] or homotopy type theory [5].
-\item For the design of basic algebraic libraries, Lean's developers turned to Isabelle/HOL for inspiration. The libraries rely on type classes, a mechanism to categorize types and their operations (e.g., ``$\langle \mathbb Z, 0, -, +\rangle$ forms a group''). Type classes interact well with Lean's dependent types. By contrast, in Isabelle/HOL, there is no way to use type classes to reason about the integers modulo $n$ as a ring, as observed by Avigad et al. [3, Section 3.1]. I encountered similar difficulties with
-tensors and multidimensional measures [8, Section 5].
-\end{itemize}
 
 Our overall aim will be met by pursuing four scientific objectives, presented below. Our starting point is that there is tremendous value in simultaneously using and developing a proof assistant. Part of the project's innovative character is that it combines these two activities, which are normally carried out by different people working in different teams. Especially for a young s
 ystem, close cooperation between developers and users is essential. Although formalization and implementation work can be satisfying in their own right, we will do everything possible to avoid sterile exercises in formalization and development of a large but useless library. Our first objective is to formally prove theorems about research mathematics.
 
-From the mathematician's point of view, formalization can increase the trustworthiness of their results and the lucidity of their proofs, while raising awareness of formal verification in the mathematics community. From a computer science perspective, formalization will guide the development of proof assistant technology.
+Formalization can increase the trustworthiness of our results and the lucidity of our proofs, while raising awareness of formal verification in the mathematics community. From a computer science perspective, formalization will guide the development of proof assistant technology.
 
-We will formalize theorems emerging from our research in universal algebra and lattice theory. The PI is involved in three different research projects, two in universal algebra and one that involves both algebra and lattice theory.  These projects are briefly described in the appendix below. A proof assistant equipped with special libraries and tactics for formalizing universal algebra could be extremely useful for these research problems. One of our goals is to demonstrate
-the utility of such libraries and tactic for proving these ``real-world'' theorems.
+We will formalize theorems emerging from our research in universal algebra and lattice theory. The PI is involved in three different research projects, two in universal algebra and one that involves both algebra and lattice theory.  These projects are briefly described in the appendix below. A proof assistant equipped with special libraries and tactics for formalizing universal algebra would be an invaluable tool for these research problems. 
 
 Furthermore, a number of results and ideas on which our work depends appear in journals and conference proceedings with many important details missing.  Using Lean allows us to not only verify the correctness of theorems and proofs, but
-also determine the precise foundational assumptions required to confirm the validity of the result. Thus, when doing mathematics with the help of modern proof technology,  we are presented with the possibility of automated process for generalizing results.
+also determine the precise foundational assumptions required to confirm the validity of the result. Thus, when doing mathematics with the help of modern proof assustant technology,  we are presented with the possibility of automating the process of generalizing results.
 
 The idea is that implementing theorems as types
 and proofs as ``proof objects'' would produce the following:
@@ -1698,7 +1493,7 @@ and proofs as ``proof objects'' would produce the following:
 \item new and/or improved theorems and algorithms
 \end{enumerate}
 
-There is substantial evidence that Lean is the best platform for formalizing universal algebra.  The type theory on which Lean is based provides a foundation for computation that is more powerful than first-order logic and seems well suited to the specification of the basic objects and most common proof strategies found in of our field.
+There is substantial evidence that Lean is the best platform for formalizing universal algebra.  The type theory on which Lean is based provides a foundation for computation that is more powerful than first-order logic and is ideally suited to the specification of the basic objects and most common proof strategies found in of our field.
 
 In first-order logic, higher-level (meta) arguments are second class citizens:
 they are interpreted as informal procedures that should be expanded to primitive
@@ -1710,11 +1505,11 @@ Indeed, algebraic structures are most naturally specified using typed predicate 
 In order to support this feature, programming constructs should be able to return set or type values, hence \emph{dependent types}. This accommodates a stronger form of function definition than is available in most programming languages; specifically, it allows the type of a result of a function application to depend on a formal parameter, the value (not merely the
 type) of the input.
 
-For formalizing long complex mathematical arguments Lean relies on \emph{computational reflection}. Dependent types make it possible for data, functions, and \emph{potential} computations to appear inside types. Standard mathematical practice is to interpret and expand these objects, replacing a constant by its definition, instantiating formal parameters, etc. while Lean supports this through typing rules that lets such computation happen transparently. 
+For formalizing long complex mathematical arguments Lean relies on \emph{computational reflection}. Dependent types make it possible for data, functions, and \emph{potential} computations to appear inside types. Standard mathematical practice is to interpret and expand these objects, replacing a constant by its definition, instantiating formal parameters, etc. In contrast, Lean supports this through typing rules that lets such computation happen transparently. 
 
-\[\frac{t : A \quad A \equiv_{\beta \iota \delta \zeta} B}{t : B}\]
-This rule states that the $\beta \iota \delta \zeta$-computation rules
-of \cic yield equivalent types. It is a subsumption rule: there is no record of its use in the proof term $t$.
+% \[\frac{t : A \quad A \equiv_{\beta \iota \delta \zeta} B}{t : B}\]
+% This rule states that the $\beta \iota \delta \zeta$-computation rules
+% of \cic yield equivalent types. It is a subsumption rule: there is no record of its use in the proof term $t$.
 
 Arbitrarily long computations can thus be elided from a proof, as \cic has an $\iota$-rule for recursion. This yields an entirely new way of proving
 results about specific calculations. With these tools at our disposal, we can quickly and efficiently formalize many of our results. Beyond merely certifying the correctness of our proofs, we expect that the proposed deliverables of this project will accelerate the pace of mathematical discoveries in our field.
@@ -1726,11 +1521,11 @@ results about specific calculations. With these tools at our disposal, we can qu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Research methods} 
-The most noteworthy methodological aspects of our project are listed below.
+Methodological aspects of our project are listed below.
 \begin{itemize}
-\item \textsl{Collaborations:} Besides collaborating with our fellow mathematicians, we will also cooperate with computer scientists with expertise in Lean, including Jeremy Avigad (co-founder of Lean) and Jasmin Blanchette (PI of the ``Lean Forward'' project). Not only will they guide us through their field and help us carry out the formalization, they will provide frank feedback on the technology we develop and eventually integrate into the Lean Mathlib library~\cite{} 
+\item \textsl{Collaborations:} Besides collaborating with our fellow mathematicians, we will also cooperate with computer scientists with expertise in Lean, including Jeremy Avigad (co-founder of Lean) and Jasmin Blanchette (PI of the ``Lean Forward'' project). Not only will they guide us through their field and help us carry out the formalization, they will provide frank feedback on the technology we develop and eventually integrate into the Lean Mathlib library~\cite{lean-mathlib:2018}. 
 \item \textsl{Robust engineering:} The software and libraries will be developed with maintainability in mind, so that they can serve in future research. To ensure their longevity, we will initiate a repository of third-party Lean formalizations and tools, inspired by the Archive of Formal Proofs [13].
-\item \textsl{Flexiformality:} Russell quipped that ``the method of 'postulating' what we want has many advantages; they are the same as the advantages of theft over honest toil'' [60]. However, for most mathematicians, this fundamentalism is unappealing and unrealistic. Modern research on Diophantine equations often depends on the modularity of elliptic curves [18], which constitutes the final step in the proof of Fermat’s last theorem [69] and relies on an overwhelming amount of theory. Full formalization being completely unrealistic for the project, we must embrace flexible levels of formality [44].
+% \item \textsl{Flexiformality:} Russell quipped that ``the method of 'postulating' what we want has many advantages; they are the same as the advantages of theft over honest toil'' [60]. However, for most mathematicians, this fundamentalism is unappealing and unrealistic. Modern research on Diophantine equations often depends on the modularity of elliptic curves [18], which constitutes the final step in the proof of Fermat’s last theorem [69] and relies on an overwhelming amount of theory. Full formalization being completely unrealistic for the project, we must embrace flexible levels of formality [44].
 \end{itemize}
 
 
@@ -1745,21 +1540,9 @@ logical foundations of our subject, since this determines how smoothly
 we can implement the core mathematical theory in the formal language of the proof assistant,
 and this will in turn influence how accessible are the resulting libraries.
 
-We are building tools that will make make the common, informal \emph{mathematical idioms}
-available in Lean, which will make this software more accessible and make it 
-easier to discover new theorems, verifying existing theorems,
-and test conjectures, all using a language that is relatively close to the informal 
-language that is commonly used by those of us working in universal algebra and lattice theory.
+We are building tools that will make make the common, informal \emph{mathematical idioms} available in Lean, which will make this software more accessible and make it easier to discover new theorems, verify existing theorems, and test conjectures, all using a language that is relatively close to the informal language that is commonly used by those of us working in universal algebra and related fields.
 
-Our goal is to formally prove theorems and do research mathematics while at the same time 
-addressing the main usability roadblocks that stand in the way of widespread 
-adoption of proof assistant technology.  The theorems we decide to formalize and implement in the software
-are selected, together with our collaborators, to guide the development of 
-theorem libraries and verified tools and methods (or \emph{proof tactics}) for doing 
-modern research in mathematics.  The main objective of this project 
-(and others like it~\cite{lean-mathlib:2018,blanchette:2018}) is to develop and codify 
-the \textbf{practical formal foundations of informal mathematics} 
-in which most modern research is carried out.
+Our goal is to formally prove theorems and do research mathematics while at the same time address the main usability roadblocks that stand in the way of widespread adoption of proof assistant technology.  The theorems we decide to formalize and implement in the software are selected, together with our collaborators, to guide the development of theorem libraries and verified tools and methods (or \emph{proof tactics}) for doing modern research in mathematics.  The main objective of this project (and others like it~\cite{lean-mathlib:2018,blanchette:2018}) is to develop and codify the \textbf{practical formal foundations of informal mathematics} in which most modern research is carried out.
 
 To support the formalization of theorems, we will develop formal libraries of fundamental universal algebra
 and lattice theory and explore how to automate proof search in these areas. We will
@@ -1885,6 +1668,22 @@ The Netherlands Organization for Scientific Research recently awarded a five-yea
 Moreover, Blanchette works primarily with number theorists, whereas we are focused on universal algebra. We have had fruitful contact with Jasmin at the \emph{Big Proof} workshop last summer at Cambridge University's Isaac Newton Institute, and will attend Jasmin's inaugural meeting in January 2019 in Amsterdamn. We look forward to productive future collaborations with the Lean Forward scientists.
 
 
+
+\subsubsection{Lean Forward Domain Specific Automation}
+One of the primary objectives of Lean is to bridge the gap between automatic and interactive theorem proving. A cornerstone for this vision is \emph{white-box automation:} the key techniques underlying SMT solvers, such as the \emph{congruence closure} for reasoning about equality~\cite{MR3536762} and the quantifier instantiation heuristics~\cite{MR2458080}, are available to users via the metaprogramming framework. Despite this, several reasoning components, as well as some important metaprogramming ``tape and glue,'' are missing. For all its potential, Lean is not as automated as Isabelle/HOL.
+
+We will design a cohesive set of reasoning components. As a young system, Lean is an ideal test-bed for new ideas. A strong reconstruction tactic based on a procedure for first- or even higher-order logic is critical to automation. The existing super tactic [30] is unfortunately orders of magnitude too slow to be useful. Developing a monadic prover with efficient data structures and finding solutions to speed up the execution of all metaprograms will require innovative ideas.
+
+We also want to contribute to the Lean simplifier’s support for arithmetic and the envisioned algebraic normalizer, based on our experience working towards the first two objectives. The main difficulty is to balance raw deductive power, extensibility, and predictability. Furthermore, we will design a relevance filter that selects lemmas from background libraries, for use with tactics. One
+of the challenges is to perform the heuristic selection in a robust way, so that filtering can be used both for proof search and for rechecking the proof. Existing filters, whether they rely on machine learning [12] or not, suffer from a lack of ``diversity:'' they tend to select many equivalent lemmas
+while ignoring some key lemmas. Ideas from research in search engines will likely apply.
+
+% Finally, it will be useful to integrate external automatic theorem provers in Lean. A new generation of higher-order provers is emerging—including Leo-III, Satallax, and higher-order versions of CVC4, E, Vampire, and veriT. My ERC project Matryoshka 3 funds work on E and veriT. Integrating these provers will be a high-impact deliverable that will dramatically increase automation.
+% The challenge is to design a sound, complete, and yet efficient encoding of Lean’s rich type system, based on my work on polymorphic type encodings [11]—and to reconstruct proofs in Lean.
+
+
+
+
 \subsection{Existing libraries for universal algebra and lattice theory}
 There has been prior work (mostly by computer scientists) on formalizing certain
 parts of universal algebra. The first significant example of this was initiated in Venanzio Capretta's phd thesis (see~\cite{capretta:1999})
@@ -1909,8 +1708,165 @@ Submissions are refereed and companion AFP submissions to conference and journal
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{More about Lean}
 
-\section{Examples: Lean's Ramified Hierarchy of Sorts and Types}
+\subsection{Lean's Hierarchy of Sorts and Types}
+\label{sec:leans-hierarchy-of-sorts-and-types}
+Like its more mature cousins Agda and Coq, Lean takes for its logical foundations \emph{dependent type theory} with \emph{inductive types} and \emph{universes}. However, unlike Agda and Coq, Lean's universes are \emph{not cumulative}.\footnote{Although we are trying hard to avoid overly technical discussions here, we will point out that lack of cumulative universes in Lean does not reduce Lean's expressiveness; instances in which universe cumulativity would be exploited in Coq can be handled in Lean using \emph{universe polymorphism} and the \lstinline{lift} map.}
+At the bottom of the hierarchy is \lstinline{Type 0}, which is usually denoted by \lstinline{Type}.
+Think of  \lstinline{Type} as the universe of ``small'' or ``ordinary'' types.  At the next level is \lstinline{Type 1}, which is a larger universe of types that contains \lstinline{Type} as an \emph{element}. \lstinline{Type 2} is  larger still and contains  \lstinline{Type 1} as an element, and so on. 
+
+The upshot of this \emph{ramified system} is that all of the types described in the last paragraph are \emph{predicative}, which means that their definitions are not self-referential, so certain set-theoretic paradoxes (e.g. Russel's) are avoided. However, certain situations call for a self-referential type, so Lean supplies one. It is the \emph{impredicative} type \lstinline{Prop}.
+A synonym for \lstinline{Prop} is \lstinline{Sort}, which is shorthand for \lstinline{Sort 0}. The type of \lstinline{Prop} (and \lstinline{Sort} and  \lstinline{Sort 0}) is \lstinline{Type 0}; that is, \lstinline{Prop : Type 0}. In general, for all \lstinline{n ≧ 0}, 
+% we have \lstinline{Sort n : Type n} and More generally, for each natural number \lstinline{n}, 
+we have 
+\lstinline{Sort n+1 = Type n}, whose type is \lstinline{Type n+1}. 
+To summarize, we have the following type identities and relations:
+\begin{lstlisting}
+            Sort 0 = Prop               Prop : Type 0
+            Sort 1 = Type 0           Type 0 : Type 1
+            Sort 2 = Type 1           Type 1 : Type 2
+                   ⋮                         ⋮
+          Sort n+1 = Type n           Type n : Type n+1
+\end{lstlisting}
+See Section~\ref{sec:sorts-and-types} of the appendix for some examples 
+demonstrating Lean's ramified hierarchy of sorts and types.
+
+We also want some operations to be polymorphic over type universes. For example,  \lstinline{list α} should make sense for any type  \lstinline{α}, no matter which universe  \lstinline{α} lives in. Thus \lstinline{list : Type u_1 → Type u_1}, where \lstinline{u_1} is a variable ranging type levels. 
+
+One aspect that makes the Lean kernel trustworthy is its size; at its core, it implements a very small set of components, namely,
+\begin{itemize}
+  \item \emph{dependent lambda calculus};
+  \item \emph{universe polymorphism} in a hierarchy of $\omega$-many universe levels;
+  \item \emph{inductive types} and \emph{inductive families of types}, generating only the recursor for an inductive type;
+  \item \emph{pattern matching}.
+\end{itemize}
+
+% Lean's core kernel does \emph{not} implement the following:
+% \begin{itemize}
+% \item a termination checker;
+% \item fixpoint operators.
+% \end{itemize}
+% Lean supports \emph{inductive families} and \emph{mutually defined inductive types},
+% but not \emph{induction-induction} or \emph{induction-recursion}.
+
+Lean is easy to extend via \emph{metaprogramming}. Briefly, a \emph{metaprogram} is
+a program whose purpose is to modify the behavior of other programs. \emph{Proof tactics} form an important class of metaprograms. These are automated procedures for constructing and manipulating proof terms. A distinguishing feature of Lean is that \emph{metaprograms can be written in the Lean language}, rather that in the lower level language (C/C++) that was used to create Lean. Thus the metaprogramming language is the same logical language that we use to express specifications, propositions, and proofs.
+
+
+
+% As mentioned in the introduction, a \emph{proof assistant}
+% is an interactive tool that makes it possible to develop machine-checked formal 
+% proofs of theorems, and to automate the construction of proofs.
+% Two early systems were Nicholas de Bruijn's \emph{Automath}~\cite{nederpelt:1994} and
+% Andrzej Trybulec's \emph{Mizar}~\cite{MR3806496}.
+% Both of these defined a formal language for writing mathematical definitions and proofs, 
+% and for expressing complete mathematical theories in such a way that an automated proof checker 
+% could mechanically verify their correctness.
+% Mizar also includes a library of formalized mathematics that can be used to prove new
+% theorems.\footnote{As of 2009, the \emph{Mizar Mathematical Library} was 
+% the largest coherent body of strictly formalized mathematics in existence.~\cite{Wiedijk:2009}}
+% Some recent incarnations of such systems are Agda~\cite{Norell:2009}, 
+% Coq~\cite{CoqManual:2017}, Lean~\cite{nuprl:1979}.  Some famous examples of
+% formalizations acheived with these systems include the formal proofs of the \emph{Kepler Conjecture} by Tom Hales, et al.~\cite{MR3659768},
+% and the \emph{Feit-Thompson Odd-order Theorem} by Georges Gonthier, et 
+% al~\cite{gonthier:2013b}.\footnote{Remarkably, Hales's first attempt at publishing his 
+% highly complex proof of the Kepler conjecture failed after many years and countless 
+% man-hours were spent by referees attempting (unsuccessfully) to verify the informal proof.
+% It was after this experience that Hales formalized and verified his result with a proof assistant.}
+%% After this failure to have his result accepted, a defiant Hales
+%% responded by formalizing his entire proof.
+
+% Each of the systems mentioned above are based on different logical foundations.
+% For those based on type theory, the particular interpretation of type theory 
+% differs from one system to the next.
+% While many are based off Per Martin-L\"of's ideas, most have added features, more axioms,
+% or a different philosophical viewpoint.
+% For instance, the \nuprl system is based on \emph{computational type theory}, while Coq and Lean are 
+% based on the \emph{calculus of (co)inductive constructions} (\cic).
+% 
+% \subsection{Martin-L\"of type theories}
+% Per Martin-L\"of constructed several type theories that were published at various times, some of them much
+% later than the preprints with their description became accessible to the specialists.
+% All of the theories had \emph{dependent products}, \emph{dependent sums}, \emph{disjoint unions},
+% \emph{finite types} and \emph{natural numbers}.
+% All the theories had the same reduction rules that did not include η-reduction
+% either for dependent products or for dependent sums (except for the language MLTT79
+% where the η-reduction for dependent products was added).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Dependent Types}
+Lean is a functional programming language that supports \emph{dependent types}.
+Here we explain what dependent types are.  Later, when we present some 
+examples of constructions in universal algebra, we will see exactly how dependent types support precise representations of many of the basic objects of interest in universal algebra.
+Besides being more precise and elegant that other representations, dependent types are constructive, and (provided we work in a language that supports them) we can compute them.
+
+What makes dependent types \emph{dependent}? % and why dependent types are useful. 
+The short explanation is that types can depend on \emph{parameters}. For example,the type \lstinline{list α} depends on the argument \lstinline{α}, and this dependence is what distinguishes \lstinline{list ℕ} from \lstinline{list bool}. Thus, dependent types are \emph{polymorphic}.  However, dependent types differ from so-called \emph{generic types} (which depend on \emph{type parameters}).  Let us demonstrate with another example.  
+Consider the type \lstinline{vec α n}, that is, the type of vectors of length 
+\lstinline{n} whose entries inhabit the type \lstinline{α}. The type \lstinline{vec α n} depends on one type parameter, \lstinline{α : Type}, and one \emph{value parameter}, \lstinline{n : ℕ}.  Thus, dependent types are generic types that can depend, not only on type parameters, but also on value parameters.
+
+Suppose we wish to write a function \lstinline{cons} that inserts a new element at the head of a list. What type should \lstinline{cons} have? Such a function is polymorphic: we expect the \lstinline{cons} function for \lstinline{ℕ}, \lstinline{bool}, or an arbitrary type \lstinline{α} to behave the same way. Thus, it makes sense to take this type to be the first argument to \lstinline{cons}, so that for any type \lstinline{α}, \lstinline{cons α} is the function that takes an element \lstinline{a : α} and a list 
+\lstinline{ℓ : list α} and returns \lstinline{cons α a ℓ = a :: ℓ} 
+(that is, \lstinline{ℓ} with \lstinline{a} prepended).
+
+While it's clear that \lstinline{cons α} should have type \lstinline{α → list α → list α}, less clear is what type \lstinline{cons} should have; perhaps \lstinline{Type → α → list α → list α}. But this is nonsense since the type parameter \lstinline{α} does not refer to anything, whereas it should refer to whatever is passed in for the argument of type \lstinline{Type}. In other words, \emph{assuming} \lstinline{α : Type} is the first argument to \lstinline{cons}, then the type of the next two arguments will be \lstinline{α} and \lstinline{list α}, which are types that depend on the first input argument. 
+
+This example is an instance of a \emph{dependent function type}, also known as a \lstinline{Pi} type. Given \lstinline{α : Type} and \lstinline{β : α → Type},
+view \lstinline{β} as an indexed family of types over the index set \lstinline{α}; for each \lstinline{a : α} we have a type \lstinline{β a}.  The type \lstinline{Π(x : α), β x} denotes the type of functions \lstinline{f} with the property that, for each \lstinline{a : α, f a} is an element of \lstinline{β a}, so the type of the value returned by \lstinline{f} \emph{depends} on the input argument. In case \lstinline{β} is a constant function, the type \lstinline{Π(x : α), β x} is no different from the (non-dependent) function type \lstinline{α → β}. Indeed, in dependent type theory, and in Lean, the \lstinline{Pi} construction is fundamental, and \lstinline{α → β} is just notation for \lstinline{Π(x : α), β x} in the special case in which \lstinline{β} is constant.
+
+% \subsection{Curry-Howard Correspondence}
+% % Propositions-as-types, proofs-as-programs}
+% % \textsl{Types are propositions.}
+% The rule for \emph{function application} corresponds, under the 
+% ``Curry-Howard'' or ``propositions-as-types'' correspondence, to the \emph{implication elimination} rule of 
+% natural deduction (sometimes called \emph{modus ponens}).  It is the following:
+% \begin{prooftree}
+%   \AxiomC{$f \colon A \to B$}
+%   \AxiomC{$a \colon A$}
+%  \RightLabel{$_{\mathsf{app}}$}
+%   \BinaryInfC{$f \, a \colon B$}
+% \end{prooftree}
+% This simply codifies our intuitive notion of function application, viz.~applying the 
+% function $f$ to an inhabitant $a$ of the domain $A$, we obtain an inhabitant $f \, a$
+% of the codomain $B$.  If we interpret $A$ and $B$ as propositions,
+% $f$ as a proof of the implication $A \to B$, and  
+% $a$ as a proof of $A$, then the rule $\mathsf{app}$ becomes the implication elimination rule (\emph{modus ponens}).
+% % 
+% % \textsl{Programs are proofs.}
+
+
+
+
+\subsection{Lean's Elaboration Engine}
+
+On top of the Lean kernel there is a powerful \emph{elaboration engine} that can
+\begin{enumerate}
+\item infer implicit universe variables,
+\item infer implicit arguments, using higher order unification,
+\item support overloaded notation or declarations,
+\item insert coercions,
+\item infer implicit arguments using type classes,
+\item convert readable proofs to proof terms,
+\item construct terms using tactics.
+\end{enumerate}
+Lean does most of these things simultaneously. For instance, the term constructed by
+type classes can be used to find out implicit arguments for functions.
+A nice list of examples demonstrating of each of these key features of Lean can be found in the blog post by Floris van Doorn available at
+\url{https://homotopytypetheory.org/2015/12/02/the-proof-assistant-lean/}
+
+
+
+
+
+
+
+
+\subsection{Examples: Lean's Ramified Hierarchy of Sorts and Types}
 \label{sec:sorts-and-types}
 ~
 \begin{lstlisting}
