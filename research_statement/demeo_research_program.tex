@@ -72,7 +72,7 @@
   hshift=8cm,
   opacity=1,
   scale=1,
-  contents={\textcolor{gray!80}{WORK IN PROGRESS.  DO NOT DISTRIBUTE. (compiled on \today\ at \currenttime)}}
+  contents={\textcolor{gray!80}{WORK IN PROGRESS (compiled on \today\ at \currenttime)}}
 }
 %%%%%%  (end wjd addition of packages)
 
@@ -185,7 +185,8 @@ A significant portion of the professional mathematician's time is typically occu
 
 It may come as a surprise, then, that computer-aided theorem proving technology, which is capable of managing much of the straight-forward and less interesting aspects of our work, has not found its way into mainstream mathematics. The reasons for this are simple to state, but difficult to resolve. For most mathematicians, the potential benefit of the currently available tools is outweighed by the time and patience required to learn how to put them to effective use.  The high upfront cost is due to the fact that most researchers carry out their work in a very \emph{efficient informal dialect} of mathematics---a common dialect that we share with our collaborators, and without which proving and communicating new mathematical results is difficult, if not impossible.
 
-One hopes that published mathematical results \emph{could} be translated into  the rigorous language of some system of logic and formally verified. Nonetheless, few would relish spending the substantial time and energy that such an exercise would require. A mathematician's job is to discover new theorems and to present them in a language that is rigorous enough to convince colleagues, yet informal enough to be efficient for developing and communicating new mathematics. Such a language is what we refer to as the \emph{Informal Language} of mathematics research. A relatively recent trend is challenging this status quo, however, and the number of mathematicians engaging in computer-aided mathematics research is on the rise~\cite{gowers:2017,harris:2015,pierce:2009}. 
+One hopes that published mathematical results \emph{could} be translated into  the rigorous language of some system of logic and formally verified. Nonetheless, few would relish spending the substantial time and energy that such an exercise would require. A mathematician's job is to discover new theorems and to present them in a language that is rigorous enough to convince colleagues, yet informal enough to be efficient for developing and communicating new mathematics. Such a language is what we refer to as the \emph{Informal Language} of mathematics research. A relatively recent trend is challenging this status quo, however, and the number of mathematicians engaging in computer-aided mathematics research is on the rise~\cite{gowers:2017,harris:2015,pierce:2009}. Indeed, at the \emph{Computer-aided Mathematical Proof} workshop of the \emph{Big Proof Programme}, held in 2017 at the Isaac Newton Institute of Cambridge University, 
+we witnessed the serious interest that leading mathematicians (including two Fields Medalists) showed in computer-aided theorem proving technology~\cite{bigproof:2017}.
 
 To verify mathematical arguments by computer, the arguments must be be written in a language that allows machines to interpret and check them. We refer to the practice of writing such proofs as \emph{interactive theorem proving}, and to the programming languages and software systems that check such proofs as \emph{proof assistants} or \emph{interactive theorem provers}.  Such systems are increasingly used in academia and industry to verify the correctness of hardware, software, and protocols. In fact, \emph{constructive type theory} and \emph{higher-order logics}, on which most modern proof assistants are based, have played significant roles in formalizing and mechanically confirming the solutions to important problems, such as~the \emph{Four-Color Theorem}~\cite{MR2463991} 
 and the \emph{Feit-Thompson Odd Order Theorem}~\cite{gonthier:2013b}, as well as settling major open problems, such as the \emph{Kepler Conjecture}~\cite{MR3659768}.
@@ -1540,26 +1541,13 @@ logical foundations of our subject, since this determines how smoothly
 we can implement the core mathematical theory in the formal language of the proof assistant,
 and this will in turn influence how accessible are the resulting libraries.
 
-We are building tools that will make make the common, informal \emph{mathematical idioms} available in Lean, which will make this software more accessible and make it easier to discover new theorems, verify existing theorems, and test conjectures, all using a language that is relatively close to the informal language that is commonly used by those of us working in universal algebra and related fields.
+We are building tools that will make the common, informal \emph{mathematical idioms} available in Lean, which will make this software more accessible and make it easier to discover new theorems, verify existing theorems, and test conjectures, all using a language that is relatively close to the informal language that is commonly used by those of us working in universal algebra and related fields.
 
 Our goal is to formally prove theorems and do research mathematics while at the same time address the main usability roadblocks that stand in the way of widespread adoption of proof assistant technology.  The theorems we decide to formalize and implement in the software are selected, together with our collaborators, to guide the development of theorem libraries and verified tools and methods (or \emph{proof tactics}) for doing modern research in mathematics.  The main objective of this project (and others like it~\cite{lean-mathlib:2018,blanchette:2018}) is to develop and codify the \textbf{practical formal foundations of informal mathematics} in which most modern research is carried out.
 
-To support the formalization of theorems, we will develop formal libraries of fundamental universal algebra
-and lattice theory and explore how to automate proof search in these areas. We will
-create libraries for algebraic structures, free algebras, clones of polynomials and term operations, 
-and varieties (equational classes), and design and implement reasoning procedures for these.
-We will explore how best to exploit Lean's \emph{metaprogramming} framework. Moreover, we will develop 
-techniques and tools that help mathematicians carry out correct natural deduction and induction 
-proofs using Lean, integrating procedures from existing computer algebra systems (e.g., UACalc) in a foundational, 
-verified fashion. Finally, we will contribute to Lean's development with ideas and features designed
-to benefit all users, notably an efficient built-in procedure for first-order reasoning and an integration 
-with automatic theorem provers. The ultimate aim is to develop a proof assistant that actually helps 
-mathematicians, by making them more productive and more confident in their results.
+To support the formalization of theorems, we will develop formal libraries of fundamental universal algebra and lattice theory and explore how to automate proof search in these areas. We will create libraries for algebraic structures, free algebras, clones of polynomials and term operations, and varieties (equational classes), and design and implement reasoning procedures for these. We will explore how best to exploit Lean's \emph{metaprogramming} framework. Moreover, we will develop techniques and tools that help mathematicians carry out correct natural deduction and induction proofs using Lean, integrating procedures from existing computer algebra systems (e.g., UACalc) in a fully verified way. Finally, we will contribute to Lean's development with ideas and features designed to benefit all users, notably an efficient built-in procedure for first-order reasoning and an integration with automatic theorem provers. The ultimate aim is to develop a proof assistant that actually helps mathematicians, by making them more productive and more confident in their results.
 
-As scientists, we should take seriously any theory that 
-may exposes weaknesses in our assumptions or our research habits.  We should
-not be threatened by these disruptive forces; we must embrace them, deconstruct them,
-and take from them whatever they can offer our mission of advancing pure mathematics.
+As scientists, we should take seriously any theory that may exposes weaknesses in our assumptions or our research habits.  We should not be threatened by these disruptive forces; we must embrace them, deconstruct them, and take from them whatever they can offer our mission of advancing pure mathematics.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
@@ -1699,12 +1687,11 @@ Submissions are refereed and companion AFP submissions to conference and journal
 
 \section{Dependent Types}
 Lean is a functional programming language that supports \emph{dependent types}.
-Here we explain what dependent types are.  Later, when we present some 
-examples of constructions in universal algebra, we will see exactly how dependent types support precise representations of many of the basic objects of interest in universal algebra.
-Besides being more precise and elegant that other representations, dependent types are constructive, and (provided we work in a language that supports them) we can compute them.
+Here we give just enough background on dependent types so that the unfamiliar reader can understand the role they play in the examples in Section~\ref{sec:proof-of-concept} (where we implement some core concepts from universal algebra in Lean).
+Besides being more precise and elegant that other representations, dependent types are constructive, and (provided we work in a language like Lean that supports dependent types) we can compute them.
 
 What makes dependent types \emph{dependent}? % and why dependent types are useful. 
-The short explanation is that types can depend on \emph{parameters}. For example,the type \lstinline{list α} depends on the argument \lstinline{α}, and this dependence is what distinguishes \lstinline{list ℕ} from \lstinline{list bool}. Thus, dependent types are \emph{polymorphic}.  However, dependent types differ from so-called \emph{generic types} (which depend on \emph{type parameters}).  Let us demonstrate with another example.  
+The short explanation is that types can depend on \emph{parameters}. For example,the type \lstinline{list α} depends on the argument \lstinline{α}, and this dependence is what distinguishes \lstinline{list ℕ} from \lstinline{list bool}. Thus, dependent types are \emph{polymorphic}.  However, dependent types differ from so-called \emph{generic types} (which also depend on \emph{type parameters}).  Let us demonstrate with another example.  
 Consider the type \lstinline{vec α n}, that is, the type of vectors of length 
 \lstinline{n} whose entries inhabit the type \lstinline{α}. The type \lstinline{vec α n} depends on one type parameter, \lstinline{α : Type}, and one \emph{value parameter}, \lstinline{n : ℕ}.  Thus, dependent types are generic types that can depend, not only on type parameters, but also on value parameters.
 
@@ -1784,7 +1771,7 @@ view \lstinline{β} as an indexed family of types over the index set \lstinline{
 
 
 
-\subsection{Lean's hierarchy of sorts and types}
+\subsection{Lean's type hierarchy}
 \label{sec:leans-hierarchy-of-sorts-and-types}
 Like its more mature cousins Agda and Coq, Lean takes for its logical foundations \emph{dependent type theory} with \emph{inductive types} and \emph{universes}. However, unlike Agda and Coq, Lean's universes are \emph{not cumulative}.\footnote{Although we are trying hard to avoid overly technical discussions here, we will point out that lack of cumulative universes in Lean does not reduce Lean's expressiveness; instances in which universe cumulativity would be exploited in Coq can be handled in Lean using \emph{universe polymorphism} and the \lstinline{lift} map.}
 At the bottom of the hierarchy is \lstinline{Type 0}, which is usually denoted by \lstinline{Type}.
@@ -1803,8 +1790,8 @@ To summarize, we have the following type identities and relations:
                    ⋮                         ⋮
           Sort n+1 = Type n           Type n : Type n+1
 \end{lstlisting}
-See Section~\ref{sec:sorts-and-types} of the appendix for some examples 
-demonstrating Lean's ramified hierarchy of sorts and types.
+% See Section~\ref{sec:sorts-and-types} of the appendix for some examples 
+% demonstrating Lean's ramified hierarchy of sorts and types.
 
 We also want some operations to be polymorphic over type universes. For example,  \lstinline{list α} should make sense for any type  \lstinline{α}, no matter which universe  \lstinline{α} lives in. Thus \lstinline{list : Type u_1 → Type u_1}, where \lstinline{u_1} is a variable ranging type levels. 
 
@@ -1828,49 +1815,49 @@ Lean is easy to extend via \emph{metaprogramming}. Briefly, a \emph{metaprogram}
 a program whose purpose is to modify the behavior of other programs. \emph{Proof tactics} form an important class of metaprograms. These are automated procedures for constructing and manipulating proof terms. A distinguishing feature of Lean is that \emph{metaprograms can be written in the Lean language}, rather that in the lower level language (C/C++) that was used to create Lean. Thus the metaprogramming language is the same logical language that we use to express specifications, propositions, and proofs.
 
 
-\subsection{Examples demonstrating Lean's ramified hierarchy of sorts and types}
-\label{sec:sorts-and-types}
-~
-\begin{lstlisting}
-  universes u v
-  variables A B : Prop
-  variable α : Type u
-  variable β : Type v
-  variable γ : Type (u+1)
+% \subsection{Examples demonstrating Lean's ramified hierarchy of sorts and types}
+% \label{sec:sorts-and-types}
+% ~
+% \begin{lstlisting}
+%   universes u v
+%   variables A B : Prop
+%   variable α : Type u
+%   variable β : Type v
+%   variable γ : Type (u+1)
 
-  #check A → B            -- Prop
-  #check A → Prop         -- Type
+%   #check A → B            -- Prop
+%   #check A → Prop         -- Type
 
-  #check A → α            -- Type u
-  #check α → α            -- Type u
-  #check α → β            -- Type (max u v)
-  #check α → γ            -- Type (u+1) 
-  #check (α → β) → γ     -- Type (max (max u v) (u+1))
+%   #check A → α            -- Type u
+%   #check α → α            -- Type u
+%   #check α → β            -- Type (max u v)
+%   #check α → γ            -- Type (u+1) 
+%   #check (α → β) → γ     -- Type (max (max u v) (u+1))
 
-  #check α → Prop         -- Type u
-  #check α → Type u       -- Type (u+1)
-  #check α → Type v       -- Type (max u (v+1))
+%   #check α → Prop         -- Type u
+%   #check α → Type u       -- Type (u+1)
+%   #check α → Type v       -- Type (max u (v+1))
 
-  #check Sort u → Sort u  -- Type u
-  #check Type u → Type u  -- Type (u+1)
-  #check Sort u → Sort v  -- Type (max u v)
-  #check Type u → Type v  -- Type (max (u+1) (v+1))
+%   #check Sort u → Sort u  -- Type u
+%   #check Type u → Type u  -- Type (u+1)
+%   #check Sort u → Sort v  -- Type (max u v)
+%   #check Type u → Type v  -- Type (max (u+1) (v+1))
 
-  #check Prop              -- Type 
-  #check Prop → Prop      -- Type 
-  #check Sort              -- Type 
-  #check Sort → Sort      -- Type 
+%   #check Prop              -- Type 
+%   #check Prop → Prop      -- Type 
+%   #check Sort              -- Type 
+%   #check Sort → Sort      -- Type 
 
-  #check Type              -- Type 1
-  #check Type → Type      -- Type 1
-  #check Sort 1            -- Type 1
-  #check Prop → Type      -- Type 1
-  #check Sort 0 → Sort 1  -- Type 1
+%   #check Type              -- Type 1
+%   #check Type → Type      -- Type 1
+%   #check Sort 1            -- Type 1
+%   #check Prop → Type      -- Type 1
+%   #check Sort 0 → Sort 1  -- Type 1
 
-  #check Type 1            -- Type 2
-  #check Type 1 → Prop    -- Type 2
-  #check Type 1 → Sort 2  -- Type 2
-\end{lstlisting}
+%   #check Type 1            -- Type 2
+%   #check Type 1 → Prop    -- Type 2
+%   #check Type 1 → Sort 2  -- Type 2
+% \end{lstlisting}
 
 
 \subsection{Lean's Elaboration Engine}
