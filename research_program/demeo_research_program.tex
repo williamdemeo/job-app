@@ -63,17 +63,17 @@
 %%   bindingoffset=\OPTbindingoffset]{geometry}
 \usepackage[margin=1.25in]{geometry}
 \usepackage[yyyymmdd,hhmmss]{datetime}
-\usepackage{background}
-\backgroundsetup{
-  position=current page.east,
-  angle=-90,
-  nodeanchor=east,
-  vshift=-1cm,
-  hshift=8cm,
-  opacity=1,
-  scale=1,
-  contents={\textcolor{gray!80}{WORK IN PROGRESS (compiled on \today\ at \currenttime)}}
-}
+% \usepackage{background}
+% \backgroundsetup{
+%   position=current page.east,
+%   angle=-90,
+%   nodeanchor=east,
+%   vshift=-1cm,
+%   hshift=8cm,
+%   opacity=1,
+%   scale=1,
+%   contents={\textcolor{gray!80}{WORK IN PROGRESS (compiled on \today\ at \currenttime)}}
+% }
 %%%%%%  (end wjd addition of packages)
 
 \usepackage{amsmath,amssymb,url,mathrsfs,enumerate,ifthen,xspace}
@@ -306,6 +306,36 @@ Our research program addresses the major roadblocks to wide-spread adoption of p
 The overriding goal of our project is to re-examine and formalize the foundations of 
 mathematics, with a particular focus on our primary areas of expertise, universal algebra, to do so in a \emph{practical} and \emph{computable} way, and to codify these foundations and advance the state-of-the-art in computer-aided theorem proving technology. The goal will be achieved when the software becomes a natural, if not necessary, part of the working mathematician's toolbox.  We envision a future in which we can hardly imagine proving new theorems, completing referee assignments, or communicating and disseminating new mathematics without the support of a proof assistant.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{The Lean Theorem Prover and its Role in the Project}
+Given our motivation, the choice of proof assistant was easy; we chose the \emph{Lean Programming Language}~\cite{lean}---developed by Leonardo de Moura (Microsoft Research), Jeremy Avigad (Carnegie Mellon), and their colleagues---for a number of reasons.
+First, Lean is designed and developed by logicians and computer scientists working together to create a language and syntax that presents things \emph{as they should be}, so that the working in the language feels almost as natural as working in the Informal Language. Thus it is reasonable to expect mathematicians, even those lacking special training in computer science, to adopt the system and use the libraries we develop.    
+
+Other considerations that make Lean ideally suited to this project are the following:
+\begin{itemize}
+  \item {\bf Clean and efficient design.} Lean's design and engineering is unusually clean and efficient, as the Lean developers have combined the best features from existing proof assistants (e.g., Coq, Isabelle/HOL, and Z3), drawing on decades of experience in interactive and automatic theorem provers. 
+  \item {\bf Powerful and extensible proof automation support.}  Lean's logic is very expressive, with emphasis placed on \emph{powerful proof automation}. In fact, the proof automation system is easy to extend via \emph{metaprograms that one can implement right in the Lean language itself!} In this way, Lean aims to \emph{bridge the gap between interactive and automated theorem proving}.
+  \item {\bf Easy-to-read proofs.} Lean is unique among computer-based theorem proving tools in that its \emph{proofs tend to be easy to read and understood}, without any special training.  In fact, working in Lean often leads to formal proofs that are cleaner, more concise, and shorter than the corresponding proofs in the Informal Language. (We provide examples in Section~\ref{sec:proof-of-concept} below.) This is a crucial feature if we expect the system to be adopted by mathematicians.  
+  \item {\bf A rich type system supporting type classes.} For the design of basic algebraic libraries, Lean's developers turned to Isabelle/HOL for inspiration. The libraries rely on \emph{type classes}, a mechanism to categorize types and their operations (e.g., ``$\langle \mathbb Z, 0, -, +\rangle$ forms a group''). Type classes interact well with Lean's dependent types. By contrast, in Isabelle/HOL, there is no way to use type classes to reason about the integers modulo $n$ as a ring, as observed in~\cite[Section 3.1]{MR3718212}. 
+  \item {\bf A rich type system supporting dependent types and quotient types.} Lean's logical foundation is a variant of Coq's---a dependent type theory called the \emph{Calculus of Inductive Constructions} (\cic)~\cite{MR935892}. However, Lean has a small inference kernel and strong automation; independent proof checkers provide additional guarantees. Lean's support for dependent types is smoother than Coq's, thanks to flexible pattern matching and a generalized congruence closure algorithm~\cite{MR3536762}. Finally, Lean supports \emph{quotient types} and a \emph{transfer tool} to facilitate reasoning up to isomorphism without resorting to setoids~\cite{MR1985376} or homotopy type theory~\cite{MR2962717}.
+  \end{itemize}
+
+
+
+\subsection{Domain specific automation}
+To support the formalization of theorems, we will develop libraries that contain formal statements and proofs of all of the core definitions and theorems of universal algebra. We will automate proof search in the specific domain of universal algebra, and develop tools to help find and formalize theorems emerging from our own mathematics research. 
+We are currently involved in four research projects in universal algebra~\cite{Bergman-DeMeo:2016,fin-lat-rep,DFV:2018,fg-free-lat}, and an invaluable tool for our work would be a proof assistant with rich libraries for general algebra, equipped with \emph{domain-specific proof tactics for automatically invoking the standard mathematical idioms from our field}. The latter is called \emph{domain-specific automation} (\dsa), and one of our primary goals is to demonstrate the utility of \dsa for proving new theorems.
+
+As Lean is a very young language, its domain-specific libraries are relatively small, but they are growing rapidly. \emph{It is vital for mathematicians to get involved at this early stage and play a leading role in the development.}  If we leave this entirely to our colleagues in computer science, they will base the development on their perception of our needs, history will likely repeat itself, and the resulting libraries and tools may fail meet the needs and expectations of working mathematicians.
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -315,14 +345,15 @@ mathematics, with a particular focus on our primary areas of expertise, universa
 The present proposal falls within the scope of Theory B.
 
 \subsection{Foundations of mathematics and computing science}
-Universal algebra, lattice theory, and category theory have had a deep and lasting impact on the development of theoretical computer science,  particularly the subfields of domain theory, denotational semantics, and programming languages research~\cite{MR1249550}. Dually, progress in theoretical computer science has informed and inspired a substantial amount of pure mathematics in the last half-century~\cite{MR3662915,MR3725758,MR2765040,MR3233442,MR1321662, MR1249550}, %MR2855321,MR1344959,MR2525959, 
-just as physics and physical intuition motivated so many mathematical discoveries of the last two centuries.
+Universal algebra, lattice theory, and category theory have had deep and lasting impacts on theoretical computer science, particularly in the subfields of domain theory, denotational semantics, and programming languages research~\cite{MR1249550}. Dually, progress in theoretical computer science has informed and inspired a substantial amount of pure mathematics in the last half-century~\cite{MR3662915,MR3725758,MR2765040,MR3233442,MR1321662, MR1249550}, %MR2855321,MR1344959,MR2525959, 
+just as physics and physical intuition motivated so many of the mathematical discoveries of the last two centuries.
 
 % The mathematical foundations of theoretical computer science are essentially the same as the mathematical foundations of mathematics. Indeed, much of the pure mathematics literature can be classified as \tcs research; similarly, many \tcs papers could easily fall under mathematics or logic research. (For examples, see~\cite{MR3662915,MR3725758,MR2765040,MR2855321,MR3233442,MR2525959, MR1344959,MR1321662, MR1249550}.)
 
-\emph{Functional programming languages} that support \emph{dependent} and \emph{(co)inductive types} have brought about new opportunities to apply abstract concepts from universal algebra and category theory to the practice of programming, to yield code that is more modular, reusable, and safer, and to express ideas that would be difficult or impossible to express in \emph{imperative} or \emph{procedural programming languages}~\cite[Chs. 5 \& 10]{baueroplss:2018,hughes:1989,chiusano:2014}. Exciting advances like these have some relevance to our work.  However, our main focus is on the development and codification of practical foundations for research in pure mathematics.
- 
-In the remainder of this project description, we give some background on interactive theorem proving technology, introduce dependent and inductive types, and describe the \emph{Lean Programming Language}~\cite{lean} that will be the main vehicle for this project. We will explain how these technologies can be used to advance pure mathematics in general, and universal algebra in particular. We then present the concrete goals of the project, with some discussion of how we intend to accomplish them, and some examples of the achievements we have already made in pursuit of these goals. Before proceeding, let us summarize in broad terms, using nontechnical language, the main objectives of the project. We intend to
+\emph{Functional programming languages} that support \emph{dependent} and \emph{(co)inductive types} have brought about new opportunities to apply abstract concepts from universal algebra and category theory to the practice of programming, to yield code that is more modular, reusable, and safer, and to express ideas that would be difficult or impossible to express in \emph{imperative} or \emph{procedural programming languages}~\cite[Chs. 5 \& 10]{baueroplss:2018,hughes:1989,chiusano:2014}. 
+The \emph{Lean Programming Language}~\cite{lean} is one example of a functional language that supports dependent and (co)inductive types, and it is the language in which we will carry out our practical foundations program.
+
+In the remainder of this project description, we give some background on interactive theorem proving technology, introduce dependent and inductive types, and describe the Lean language, which will be the main vehicle for this project. We will explain how these technologies can be used to advance pure mathematics in general, and universal algebra in particular. We then present the concrete goals of the project, with some discussion of how we intend to accomplish them, and some examples of the achievements we have already made in pursuit of these goals. Before proceeding, let us summarize in broad terms, using nontechnical language, the main objectives of the project. We intend to
 \begin{enumerate}
   \item present the core of universal algebra using \emph{practical logical foundations}; in particular, definitions, theorems and proofs shall be constructive and have computational meaning, whenever possible;
   
@@ -349,34 +380,6 @@ In the remainder of this project description, we give some background on interac
 
 %% [49] R. Nederpelt, H. Geuvers, and R. de Vrijer, editors. Selected Papers on Automath, volume
 %% 133 of Studies in Logic and the Foundations of Mathematics. Elsevier Science, 1994.
-
-
-
-\section{The Lean Theorem Prover and its Role in the Project}
-Given our motivation, the choice of programming language/proof assistant was easy; we chose the \emph{Lean Programming Language}~\cite{lean} because it is designed and developed by logicians and computer scientists working together to create a language and syntax that presents things \emph{as they should be}, so that the working in the language feels almost as natural as working in the Informal Language and is easily adopted by mathematicians who lack special training in computer science. 
-
-Lean is a new open source system developed by Leonardo de Moura (Microsoft Research), Jeremy Avigad (Carnegie Mellon), and their colleagues. The system's design and engineering is unusually clean and efficient. Lean attempts to combine the best features from existing proof assistants (e.g., Coq, Isabelle/HOL, and Z3), drawing on decades of experience in interactive and automatic theorem provers. Its logic is very expressive, with emphasis placed on \emph{powerful proof automation}. The system is easy to extend via \emph{metaprogramming} which can be carried out in the Lean language itself---that is, metaprograms are written in the same language as is used to express ordinary theorems and proofs (or, types and programs). In this way, Lean aims to \emph{bridge the gap between interactive and automated theorem proving}.
-
-Other considerations that make Lean ideally suited to this project are the following:
-
-\begin{itemize}
-  \item Lean is unique among computer-based theorem proving tools in that its \emph{proofs tend to be easy to read and understood}, without any special training.  In fact, working in Lean often leads to formal proofs that are cleaner, more concise, and shorter than the corresponding proofs in the Informal Language. (We provide examples in Section~\ref{sec:proof-of-concept} below.) 
-  \item Lean's logical foundation is a variant of Coq's calculus of inductive constructions (\cic)~\cite{MR935892}, a dependent type theory. Lean distinguishes itself with its small inference kernel and strong automation. Independent proof checkers provide additional guarantees. Lean's support for dependent types is smoother than Coq's, thanks to flexible pattern matching and a generalized congruence closure algorithm~\cite{MR3536762}. A mechanism for introducing quotient types and a transfer tool facilitate reasoning up to isomorphism without resorting to setoids~\cite{MR1985376} or homotopy type theory~\cite{MR2962717}.
-  \item For the design of basic algebraic libraries, Lean's developers turned to Isabelle/HOL for inspiration. The libraries rely on type classes, a mechanism to categorize types and their operations (e.g., ``$\langle \mathbb Z, 0, -, +\rangle$ forms a group''). Type classes interact well with Lean's dependent types. By contrast, in Isabelle/HOL, there is no way to use type classes to reason about the integers modulo $n$ as a ring, as observed by Avigad et al. in~\cite[Section 3.1]{MR3718212}. 
-\end{itemize}
-
-
-
-
-To support the formalization of theorems, we will develop libraries that contain formal statements and proofs of all of the core definitions and theorems of universal algebra. We will explore how to automate proof search specifically in universal algebra, and develop tools to help find and formalize theorems emerging from our own mathematics research. We are currently involved in four research projects in universal algebra~\cite{Bergman-DeMeo:2016,fin-lat-rep,DFV:2018,fg-free-lat}, and an invaluable tool for our work would be a proof assistant with rich libraries for general algebra, equipped with \emph{domain-specific proof tactics for automatically invoking the standard mathematical idioms from our field}. The latter is called \emph{domain-specific automation} (\dsa),and one of our primary goals is to demonstrate the utility of \dsa for proving new theorems.
-As Lean is a very young language, its domain-specific libraries are relatively small, but they are growing rapidly. \emph{It is vital for mathematicians to get involved at this early stage and play a leading role in the development.}  If we leave this entirely to our colleagues in computer science, they will base the development on their perception of our needs, history will likely repeat itself, and the resulting libraries and tools may fail meet the needs and expectations of working mathematicians.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 
 
@@ -1399,7 +1402,7 @@ assignments. As it turns out, their Lean proofs were among their best proofs!  T
 
 
 
-\section{Summary of project stages}
+\section{Summary of Project Stages}
 In the introduction, we set out the goals of the project in broad strokes. 
 Here we describe four stages of concrete activities that map out a plan for 
 achieving our goals.
@@ -1469,7 +1472,9 @@ more productive and more confident in their results.
 
 \section{Challenges and objectives}
 Interactive theorem proving is steadily gaining ground. In some areas
-of computer science, it is common for research papers to be accompanied by formal proofs. We have first hand experience deploying Lean in the classroom to help teach discrete math to first- and second-year math and computer science majors. (See our Teaching Statement~\cite{demeo:2018-teaching}.  Others have also reported success with proof assistants in a classroom setting~\cite{nipkow:2012,pierce:2009}. These circumstances point to a future where computer-aided theorem proving ese tools will be routinely used, resulting in more reliable science.
+of computer science, it is common for research papers to be accompanied by formal proofs. We have first hand experience deploying Lean in the classroom to help teach discrete math to first- and second-year math and computer science majors. (See our Teaching Statement~\cite{demeo:2018-teaching}.)  Others have also reported success with proof assistants in a classroom setting~\cite{nipkow:2012,pierce:2009}. 
+Kevin Buzzard at Imperial College London has a the ambitious goal of formalizing the entire undergraduate mathematics curriculum in Lean~\cite{buzzard}.
+These circumstances point to a future where computer-aided theorem proving ese tools will be routinely used, resulting in more reliable science.
 However, to have a substantial impact on mathematical practice, we must narrow the usability gap.
 
 The difficulties are as much social as technical. Proof assistants are developed primarily by computer scientists. Much of the formalized mathematics is motivated by hardware or software verification
