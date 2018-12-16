@@ -181,17 +181,18 @@ for new and more perspicuous ones.''\\\\
 \clearpage
 
 \section{Introduction and Motivation}
-A significant portion of the professional mathematician's time is typically occupied by tasks other than \textit{Deep Research}. By Deep Research we mean such activities as discovering truly non-trivial, publishable results, inventing novel proof techniques, or conceiving new research areas or programs. Indeed, consider how much time we spend looking for and fixing minor flaws in an argument, handling straightforward special cases of a long proof, or performing clever little derivations which, if we're honest, reduce to mere exercises that a capable graduate student could probably solve.  Add to this the time spent checking proofs when collaborating with others or reviewing journal submissions and it's safe to say that the time most of spend on Deep Research is fairly limited.
+A significant portion of the professional mathematician's time is typically occupied by tasks other than \textit{Deep Research}. By Deep Research we mean such activities as discovering truly non-trivial, publishable results, inventing novel proof techniques, or conceiving new research areas or programs. Indeed, consider how much time we spend looking for and fixing minor flaws in an argument, handling straightforward special cases of a long proof, or performing clever little derivations which, if we're honest, reduce to mere exercises that a capable graduate student could probably solve.  Add to this the time spent checking proofs when collaborating with others or reviewing journal submissions and it's safe to say that the time most of us spend on Deep Research is fairly limited.
 
-It may come as a surprise, then, that computer-aided theorem proving technology,
-which is capable of managing much of the straight-forward and less interesting aspects of our work, has not found its way into mainstream mathematics. The reasons for this are simple to state, but difficult to resolve. For most mathematicians, the potential benefit of the currently available tools is outweighed by the time and patience required to learn how to put them to effective use.  The high upfront cost is due to the fact that most researchers carry out their work in a very \emph{efficient informal dialect} of mathematics---a common dialect that we share with our collaborators, and without which proving and communicating new mathematical results is difficult, if not impossible.
+It may come as a surprise, then, that computer-aided theorem proving technology, which is capable of managing much of the straight-forward and less interesting aspects of our work, has not found its way into mainstream mathematics. The reasons for this are simple to state, but difficult to resolve. For most mathematicians, the potential benefit of the currently available tools is outweighed by the time and patience required to learn how to put them to effective use.  The high upfront cost is due to the fact that most researchers carry out their work in a very \emph{efficient informal dialect} of mathematics---a common dialect that we share with our collaborators, and without which proving and communicating new mathematical results is difficult, if not impossible.
 
-One hopes that published mathematical results \emph{could} be translated into  the rigorous language of some system of logic and formally verified. Nonetheless, few would relish spending the substantial time and energy that such an exercise would require. A mathematician's job is to discover new theorems and to present them in a language that is rigorous enough to convince colleagues, yet informal enough to be efficient for developing and communicating new mathematics. Such a language is what we refer to as the \emph{Informal Language} of mathematics research. A relatively recent trend is challenging this status quo, however, and the number of mathematicians engaging in computer-aided mathematics research is on the rise. 
+One hopes that published mathematical results \emph{could} be translated into  the rigorous language of some system of logic and formally verified. Nonetheless, few would relish spending the substantial time and energy that such an exercise would require. A mathematician's job is to discover new theorems and to present them in a language that is rigorous enough to convince colleagues, yet informal enough to be efficient for developing and communicating new mathematics. Such a language is what we refer to as the \emph{Informal Language} of mathematics research. A relatively recent trend is challenging this status quo, however, and the number of mathematicians engaging in computer-aided mathematics research is on the rise~\cite{gowers:2017,harris:2015,pierce:2009}. 
 
-To verify mathematical arguments by computer, the arguments must be be written in a language that allows machines to interpret and check them. We refer to the practice of writing such proofs as \emph{interactive theorem proving}, and to the programming language and software system that checks such proofs as a \emph{proof assistant} or an \emph{interactive theorem prover}.  Such systems are increasingly used in academia and industry to verify the correctness of hardware, software, and protocols. \emph{Constructive type theory} and \emph{higher-order logics}, on which most modern proof assistants are based, have played significant roles in formalizing and mechanically confirming the solutions to important problems, such as~the \emph{Four-Color Theorem}~\cite{MR2463991} 
+To verify mathematical arguments by computer, the arguments must be be written in a language that allows machines to interpret and check them. We refer to the practice of writing such proofs as \emph{interactive theorem proving}, and to the programming languages and software systems that check such proofs as \emph{proof assistants} or \emph{interactive theorem provers}.  Such systems are increasingly used in academia and industry to verify the correctness of hardware, software, and protocols. In fact, \emph{constructive type theory} and \emph{higher-order logics}, on which most modern proof assistants are based, have played significant roles in formalizing and mechanically confirming the solutions to important problems, such as~the \emph{Four-Color Theorem}~\cite{MR2463991} 
 and the \emph{Feit-Thompson Odd Order Theorem}~\cite{gonthier:2013b}, as well as settling major open problems, such as the \emph{Kepler Conjecture}~\cite{MR3659768}.
 
-Another justification for proof assistants is their potential for improving the referee and validation process.  The main issues here are human fallibility and the high opportunity cost of human talent. Indeed, a substantial amount of time and effort of talented individuals is expended on refereeing journal submissions. Despite this the typical review process concludes without supplying any guarantee of validity of the resulting publications~\cite{fasel:2017}.
+Another kind of computer-based theorem proving tool is called an \emph{automated theorem prover}, which is quite different from a proof assistant in that the former is designed to independently search for a proof of a given statement with little or no help from the user. (Contrast this with the \emph{interactive} nature of a proof assistant.) Unfortunately, when a proof is found by an automated theorem prover, it tends to be very difficult to read and understand, and it often seems impossible to translate an automatically generated proof into an Informal Language proof.
+
+Further justification for the use of proof assistants is their potential for improving the referee and validation process.  The main issues here are human fallibility and the high opportunity cost of human talent. Indeed, a substantial amount of time and effort of talented individuals is expended on refereeing journal submissions. Despite this the typical review process concludes without supplying any guarantee of validity of the resulting publications~\cite{fasel:2017}.
 Moreover, the emergence of large computational proofs (e.g., Hales' proof of the Kepler Conjecture) lead to referee assignments that are impossible burdens on individual reviewers~\cite{heule:2017}. Worse than that, even when such work survives peer review, there remain disputes over correctness, completeness, and whether nontrivial gaps exist. Some recent examples include % Atiyah's claim to have proved the \emph{Riemann Hypothesis}, 
 Zhuk's proof of the \emph{\csp dichotomy conjecture} of Feder and 
 Vardi~\cite{zhuk:2017}, and Fasel's proposed solution to 
@@ -272,14 +273,14 @@ Despite the many advantages and the noteworthy success stories mentioned above, 
 One question that leads to insight into this ``usability gap'' that plagues most modern proof assistants is why \emph{computer algebra systems} do not suffer from the same problem. Simply put, computer algebra systems are more popular than interactive theorem provers. One reason is that the up-front cost to end users seems substantially higher for interactive theorem provers than for  computer algebra systems, and this is because the latter are typically conceived of by mathematicians whose primary aim is to build a system that presents things ``as they should be,'' that is, as a mathematically educated user would expect. 
 % To a mathematician, such systems are \emph{well-designed}. 
 
-In many theorem proving systems, the mathematics are often not presented as we would expect or like them to be. In~\cite{PolletKerber:2007}, Pollet and Kerber argue that this is not just a deficiency of the user interface. The problem with theorem provers goes much deeper; it goes to the core of these systems, namely to \emph{the formal representation of mathematical concepts and knowledge}. How easy or hard it is to codify theorems and translate informal mathematical arguments into formal proofs in a particular system depends crucially on the 
+In many proof assistants and automated theorem provers, the mathematics are often not presented as we would expect or like them to be. In~\cite{PolletKerber:2007}, Pollet and Kerber argue that this is not just a deficiency of the user interface. The problem with theorem provers goes much deeper; it goes to the core of these systems, namely to \emph{the formal representation of mathematical concepts and knowledge}. How easy or hard it is to codify theorems and translate informal mathematical arguments into formal proofs in a particular system depends crucially on the 
 formal foundations of that system, and the way in which these foundations are represented in the system.
 
 \subsection{Closing the usability gap}
 Our research program addresses the major roadblocks to wide-spread adoption of proof assistants.  We describe some of these in the following list.
 
 \begin{itemize}
-\item \emph{Incomplete mathematical libraries.} Formal libraries---consisting of  definitions, lemmas, and proofs---are a prerequisite for most formal developments. Before users can apply proof assistants to their own research, they need to formalize a lot of undergraduate- and graduate-level mathematics. Even the largest formal libraries currently available cover only a small fraction of mathematics.
+\item \emph{Incomplete mathematical libraries.} Formal libraries---consisting of  definitions, lemmas, and proofs---are a prerequisite for most formal developments. Before users can apply proof assistants to their own research, they need to formalize a lot of undergraduate- and graduate-level mathematics. Even the largest formal libraries currently available (e.g., Mizar~\cite{mizar:2005,gonthier:2017}) cover only a small fraction of mathematics.
 
 \item \emph{Weak automation of mathematics.} Proof assistants typically combine general-purpose logical automation and procedures for arithmetic. However, without \textsl{domain-specific automation} (\dsa), a single sentence in a proof in the Informal Language can correspond to dozens or hundreds of lines in the formal language.
 
@@ -292,8 +293,7 @@ Our research program addresses the major roadblocks to wide-spread adoption of p
   assistant to support \textsl{domain-specific automation} requires a high level
   of expertise. The programmatic interfaces of most proof assistants have
   evolved over several decades and are difficult to learn. For example,
-  to extend Coq, one must learn both the Ltac tactic language and the
-  low-level OCaml interfaces, in addition to the Gallina specification language.
+  to extend the Coq proof assistant~\cite{CoqManual:2017}, one must learn both the Ltac tactic language and the low-level OCaml interfaces, in addition to the Gallina specification language.
 \end{itemize}
 
   Despite the many obstacles, there is a strong
@@ -319,7 +319,7 @@ just as physics and physical intuition motivated so many mathematical discoverie
 
 % The mathematical foundations of theoretical computer science are essentially the same as the mathematical foundations of mathematics. Indeed, much of the pure mathematics literature can be classified as \tcs research; similarly, many \tcs papers could easily fall under mathematics or logic research. (For examples, see~\cite{MR3662915,MR3725758,MR2765040,MR2855321,MR3233442,MR2525959, MR1344959,MR1321662, MR1249550}.)
 
-\emph{Functional programming languages} that support \emph{dependent} and \emph{(co)inductive types} have brought about new opportunities to apply abstract concepts from universal algebra and category theory to the practice of programming, to yield code that is more modular, reusable, and safer, and to express ideas that would be difficult or impossible to express in \emph{imperative} or \emph{procedural programming languages}. (For examples, see~\cite{baueroplss:2018},~\cite[Chs. 5 \& 10]{chiusano:2014}.) These are exciting developments for the design and implementation of computer programs, and this has some relevance to our work.  However, our main focus is on the development and codification of practical foundations for research in pure mathematics.
+\emph{Functional programming languages} that support \emph{dependent} and \emph{(co)inductive types} have brought about new opportunities to apply abstract concepts from universal algebra and category theory to the practice of programming, to yield code that is more modular, reusable, and safer, and to express ideas that would be difficult or impossible to express in \emph{imperative} or \emph{procedural programming languages}~\cite[Chs. 5 \& 10]{baueroplss:2018,hughes:1989,chiusano:2014}. Exciting advances like these have some relevance to our work.  However, our main focus is on the development and codification of practical foundations for research in pure mathematics.
  
 In the remainder of this project description, we give some background on interactive theorem proving technology, introduce dependent and inductive types, and describe the \emph{Lean Programming Language}~\cite{lean} that will be the main vehicle for this project. We will explain how these technologies can be used to advance pure mathematics in general, and universal algebra in particular. We then present the concrete goals of the project, with some discussion of how we intend to accomplish them, and some examples of the achievements we have already made in pursuit of these goals. Before proceeding, let us summarize in broad terms, using nontechnical language, the main objectives of the project. We intend to
 \begin{enumerate}
@@ -1664,35 +1664,23 @@ and take from them whatever they can offer our mission of advancing pure mathema
 \section{complementary projects}
 
 \subsection{Lean Forward}
-The Netherlands Organization for Scientific Research recently awarded a five-year grant to Jasmin Blanchette for his \emph{Lean Forward} project, which is similar but complementary to ours. Dr.~Blanchette and his team are coming from computer science with support from mathematicians, whereas we are coming from mathematics with support from computer scientists.  
-Moreover, Blanchette works primarily with number theorists, whereas we are focused on universal algebra. We have had fruitful contact with Jasmin at the \emph{Big Proof} workshop last summer at Cambridge University's Isaac Newton Institute, and will attend Jasmin's inaugural meeting in January 2019 in Amsterdamn. We look forward to productive future collaborations with the Lean Forward scientists.
+The Netherlands Organization for Scientific Research recently awarded a five-year grant to Jasmin Blanchette for his \emph{Lean Forward} project, which is similar but complementary to our project. First, Dr.~Blanchette is a computer scientist enlisting the support of mathematicians, whereas we are mathematicians enslisting support of computer scientists.  
+Moreover, Jasmin works primarily with number theorists, whereas we are focused on universal algebra. We have had fruitful contact with Jasmin at the \emph{Big Proof} workshop last summer at Cambridge University's Isaac Newton Institute, and will attend the inaugural meeting of the Lean Forward project in January 2019 in Amsterdamn. We look forward to productive future collaborations with the Lean Forward scientists.
 
+% \subsubsection{Lean Forward Domain Specific Automation}
+% One of the primary objectives of Lean is to bridge the gap between automatic and interactive theorem proving. A cornerstone for this vision is \emph{white-box automation}---the key techniques underlying SMT solvers for reasoning about equality, such as \emph{congruence closure}~\cite{MR3536762}, and the quantifier instantiation heuristics~\cite{MR2458080}, are available to users via the metaprogramming framework. Despite this, several reasoning components, as well as some important metaprogramming ``tape and glue,'' are missing. For all its potential, Lean is not as automated as Isabelle/HOL.
 
+% One goal of the \emph{Lean Forward} project is to design a cohesive set of reasoning components. As a young system, Lean is an ideal test-bed for new ideas. A strong reconstruction tactic based on a procedure for first-order (or even higher-order) logic is critical to automation.  Unfortunately, the existing super-tactic~\cite{demoura:2017} is orders of magnitude too slow to be useful. Developing a monadic prover with efficient data structures and finding solutions to speed up the execution of all metaprograms will require innovative ideas.
 
-\subsubsection{Lean Forward Domain Specific Automation}
-One of the primary objectives of Lean is to bridge the gap between automatic and interactive theorem proving. A cornerstone for this vision is \emph{white-box automation:} the key techniques underlying SMT solvers, such as the \emph{congruence closure} for reasoning about equality~\cite{MR3536762} and the quantifier instantiation heuristics~\cite{MR2458080}, are available to users via the metaprogramming framework. Despite this, several reasoning components, as well as some important metaprogramming ``tape and glue,'' are missing. For all its potential, Lean is not as automated as Isabelle/HOL.
-
-We will design a cohesive set of reasoning components. As a young system, Lean is an ideal test-bed for new ideas. A strong reconstruction tactic based on a procedure for first- or even higher-order logic is critical to automation. The existing super tactic [30] is unfortunately orders of magnitude too slow to be useful. Developing a monadic prover with efficient data structures and finding solutions to speed up the execution of all metaprograms will require innovative ideas.
-
-We also want to contribute to the Lean simplifier’s support for arithmetic and the envisioned algebraic normalizer, based on our experience working towards the first two objectives. The main difficulty is to balance raw deductive power, extensibility, and predictability. Furthermore, we will design a relevance filter that selects lemmas from background libraries, for use with tactics. One
-of the challenges is to perform the heuristic selection in a robust way, so that filtering can be used both for proof search and for rechecking the proof. Existing filters, whether they rely on machine learning [12] or not, suffer from a lack of ``diversity:'' they tend to select many equivalent lemmas
-while ignoring some key lemmas. Ideas from research in search engines will likely apply.
-
+% \emph{Lean Forward} also aims to extend the Lean simplifier's support for arithmetic and the envisioned algebraic normalizer, based on experience working towards the first two objectives. The main difficulty is to balance raw deductive power, extensibility, and predictability. Furthermore, the \emph{Lean Forward} group will design a relevance filter that selects lemmas from background libraries, for use with tactics. Existing filters, whether they rely on machine learning~\cite{MR3543235} or not, suffer from a lack of ``diversity''---they tend to select many equivalent lemmas while ignoring appropriate alternative lemmas. Ideas from research in search engines will likely apply.
+ 
 % Finally, it will be useful to integrate external automatic theorem provers in Lean. A new generation of higher-order provers is emerging—including Leo-III, Satallax, and higher-order versions of CVC4, E, Vampire, and veriT. My ERC project Matryoshka 3 funds work on E and veriT. Integrating these provers will be a high-impact deliverable that will dramatically increase automation.
 % The challenge is to design a sound, complete, and yet efficient encoding of Lean’s rich type system, based on my work on polymorphic type encodings [11]—and to reconstruct proofs in Lean.
 
-
-
-
 \subsection{Existing libraries for universal algebra and lattice theory}
-There has been prior work (mostly by computer scientists) on formalizing certain
-parts of universal algebra. The first significant example of this was initiated in Venanzio Capretta's phd thesis (see~\cite{capretta:1999})
-presenting the fundamentals of universal algebra using intuitionistic logic
-so that the resulting theorems have computational meaning (via the propositions-as-types/proofs-as-programs
-correspondence explained earlier).  Capretta's formalizations were done in Coq.
+There has been prior work (mostly by computer scientists) on formalizing certain parts of universal algebra. The first significant example of this was initiated in Venanzio Capretta's phd thesis (see~\cite{capretta:1999}) presenting the fundamentals of universal algebra using intuitionistic logic so that the resulting theorems have computational meaning (via the propositions-as-types/proofs-as-programs correspondence explained earlier).  Capretta's formalizations were done in Coq.
 
 Another more recent development in Coq is the {\tt mathclasses} library, initiated by Bas Spitters and Eelis van der Weegen~\cite{MR2678760}. 
-
 
 \subsection{Formal proof archives}
 The \href{https://www.isa-afp.org/}{Archive of Formal Proofs} is a collection of proof libraries, examples, and larger scientific developments, mechanically checked in the theorem prover Isabelle. It is organized in the way of a scientific journal, is indexed by dblp and has an ISSN: 2150-914x.
@@ -1705,53 +1693,53 @@ Submissions are refereed and companion AFP submissions to conference and journal
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Dependent Types}
+Lean is a functional programming language that supports \emph{dependent types}.
+Here we explain what dependent types are.  Later, when we present some 
+examples of constructions in universal algebra, we will see exactly how dependent types support precise representations of many of the basic objects of interest in universal algebra.
+Besides being more precise and elegant that other representations, dependent types are constructive, and (provided we work in a language that supports them) we can compute them.
+
+What makes dependent types \emph{dependent}? % and why dependent types are useful. 
+The short explanation is that types can depend on \emph{parameters}. For example,the type \lstinline{list α} depends on the argument \lstinline{α}, and this dependence is what distinguishes \lstinline{list ℕ} from \lstinline{list bool}. Thus, dependent types are \emph{polymorphic}.  However, dependent types differ from so-called \emph{generic types} (which depend on \emph{type parameters}).  Let us demonstrate with another example.  
+Consider the type \lstinline{vec α n}, that is, the type of vectors of length 
+\lstinline{n} whose entries inhabit the type \lstinline{α}. The type \lstinline{vec α n} depends on one type parameter, \lstinline{α : Type}, and one \emph{value parameter}, \lstinline{n : ℕ}.  Thus, dependent types are generic types that can depend, not only on type parameters, but also on value parameters.
+
+Suppose we wish to write a function \lstinline{cons} that inserts a new element at the head of a list. What type should \lstinline{cons} have? Such a function is polymorphic: we expect the \lstinline{cons} function for \lstinline{ℕ}, \lstinline{bool}, or an arbitrary type \lstinline{α} to behave the same way. Thus, it makes sense to take this type to be the first argument to \lstinline{cons}, so that for any type \lstinline{α}, \lstinline{cons α} is the function that takes an element \lstinline{a : α} and a list 
+\lstinline{ℓ : list α} and returns \lstinline{cons α a ℓ = a :: ℓ} 
+(that is, \lstinline{ℓ} with \lstinline{a} prepended).
+
+While it's clear that \lstinline{cons α} should have type \lstinline{α → list α → list α}, less clear is what type \lstinline{cons} should have; perhaps \lstinline{Type → α → list α → list α}. But this is nonsense since the type parameter \lstinline{α} does not refer to anything, whereas it should refer to whatever is passed in for the argument of type \lstinline{Type}. In other words, \emph{assuming} \lstinline{α : Type} is the first argument to \lstinline{cons}, then the type of the next two arguments will be \lstinline{α} and \lstinline{list α}, which are types that depend on the first input argument. 
+
+This example is an instance of a \emph{dependent function type}, also known as a \lstinline{Pi} type. Given \lstinline{α : Type} and \lstinline{β : α → Type},
+view \lstinline{β} as an indexed family of types over the index set \lstinline{α}; for each \lstinline{a : α} we have a type \lstinline{β a}.  The type \lstinline{Π(x : α), β x} denotes the type of functions \lstinline{f} with the property that, for each \lstinline{a : α, f a} is an element of \lstinline{β a}, so the type of the value returned by \lstinline{f} \emph{depends} on the input argument. In case \lstinline{β} is a constant function, the type \lstinline{Π(x : α), β x} is no different from the (non-dependent) function type \lstinline{α → β}. Indeed, in dependent type theory, and in Lean, the \lstinline{Pi} construction is fundamental, and \lstinline{α → β} is just notation for \lstinline{Π(x : α), β x} in the special case in which \lstinline{β} is constant.
+
+% \subsection{Curry-Howard Correspondence}
+% % Propositions-as-types, proofs-as-programs}
+% % \textsl{Types are propositions.}
+% The rule for \emph{function application} corresponds, under the 
+% ``Curry-Howard'' or ``propositions-as-types'' correspondence, to the \emph{implication elimination} rule of 
+% natural deduction (sometimes called \emph{modus ponens}).  It is the following:
+% \begin{prooftree}
+%   \AxiomC{$f \colon A \to B$}
+%   \AxiomC{$a \colon A$}
+%  \RightLabel{$_{\mathsf{app}}$}
+%   \BinaryInfC{$f \, a \colon B$}
+% \end{prooftree}
+% This simply codifies our intuitive notion of function application, viz.~applying the 
+% function $f$ to an inhabitant $a$ of the domain $A$, we obtain an inhabitant $f \, a$
+% of the codomain $B$.  If we interpret $A$ and $B$ as propositions,
+% $f$ as a proof of the implication $A \to B$, and  
+% $a$ as a proof of $A$, then the rule $\mathsf{app}$ becomes the implication elimination rule (\emph{modus ponens}).
+% % 
+% % \textsl{Programs are proofs.}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{More about Lean}
-
-\subsection{Lean's Hierarchy of Sorts and Types}
-\label{sec:leans-hierarchy-of-sorts-and-types}
-Like its more mature cousins Agda and Coq, Lean takes for its logical foundations \emph{dependent type theory} with \emph{inductive types} and \emph{universes}. However, unlike Agda and Coq, Lean's universes are \emph{not cumulative}.\footnote{Although we are trying hard to avoid overly technical discussions here, we will point out that lack of cumulative universes in Lean does not reduce Lean's expressiveness; instances in which universe cumulativity would be exploited in Coq can be handled in Lean using \emph{universe polymorphism} and the \lstinline{lift} map.}
-At the bottom of the hierarchy is \lstinline{Type 0}, which is usually denoted by \lstinline{Type}.
-Think of  \lstinline{Type} as the universe of ``small'' or ``ordinary'' types.  At the next level is \lstinline{Type 1}, which is a larger universe of types that contains \lstinline{Type} as an \emph{element}. \lstinline{Type 2} is  larger still and contains  \lstinline{Type 1} as an element, and so on. 
-
-The upshot of this \emph{ramified system} is that all of the types described in the last paragraph are \emph{predicative}, which means that their definitions are not self-referential, so certain set-theoretic paradoxes (e.g. Russel's) are avoided. However, certain situations call for a self-referential type, so Lean supplies one. It is the \emph{impredicative} type \lstinline{Prop}.
-A synonym for \lstinline{Prop} is \lstinline{Sort}, which is shorthand for \lstinline{Sort 0}. The type of \lstinline{Prop} (and \lstinline{Sort} and  \lstinline{Sort 0}) is \lstinline{Type 0}; that is, \lstinline{Prop : Type 0}. In general, for all \lstinline{n ≧ 0}, 
-% we have \lstinline{Sort n : Type n} and More generally, for each natural number \lstinline{n}, 
-we have 
-\lstinline{Sort n+1 = Type n}, whose type is \lstinline{Type n+1}. 
-To summarize, we have the following type identities and relations:
-\begin{lstlisting}
-            Sort 0 = Prop               Prop : Type 0
-            Sort 1 = Type 0           Type 0 : Type 1
-            Sort 2 = Type 1           Type 1 : Type 2
-                   ⋮                         ⋮
-          Sort n+1 = Type n           Type n : Type n+1
-\end{lstlisting}
-See Section~\ref{sec:sorts-and-types} of the appendix for some examples 
-demonstrating Lean's ramified hierarchy of sorts and types.
-
-We also want some operations to be polymorphic over type universes. For example,  \lstinline{list α} should make sense for any type  \lstinline{α}, no matter which universe  \lstinline{α} lives in. Thus \lstinline{list : Type u_1 → Type u_1}, where \lstinline{u_1} is a variable ranging type levels. 
-
-One aspect that makes the Lean kernel trustworthy is its size; at its core, it implements a very small set of components, namely,
-\begin{itemize}
-  \item \emph{dependent lambda calculus};
-  \item \emph{universe polymorphism} in a hierarchy of $\omega$-many universe levels;
-  \item \emph{inductive types} and \emph{inductive families of types}, generating only the recursor for an inductive type;
-  \item \emph{pattern matching}.
-\end{itemize}
-
-% Lean's core kernel does \emph{not} implement the following:
-% \begin{itemize}
-% \item a termination checker;
-% \item fixpoint operators.
-% \end{itemize}
-% Lean supports \emph{inductive families} and \emph{mutually defined inductive types},
-% but not \emph{induction-induction} or \emph{induction-recursion}.
-
-Lean is easy to extend via \emph{metaprogramming}. Briefly, a \emph{metaprogram} is
-a program whose purpose is to modify the behavior of other programs. \emph{Proof tactics} form an important class of metaprograms. These are automated procedures for constructing and manipulating proof terms. A distinguishing feature of Lean is that \emph{metaprograms can be written in the Lean language}, rather that in the lower level language (C/C++) that was used to create Lean. Thus the metaprogramming language is the same logical language that we use to express specifications, propositions, and proofs.
+\section{More About Lean}
 
 
 
@@ -1795,78 +1783,52 @@ a program whose purpose is to modify the behavior of other programs. \emph{Proof
 % where the η-reduction for dependent products was added).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Dependent Types}
-Lean is a functional programming language that supports \emph{dependent types}.
-Here we explain what dependent types are.  Later, when we present some 
-examples of constructions in universal algebra, we will see exactly how dependent types support precise representations of many of the basic objects of interest in universal algebra.
-Besides being more precise and elegant that other representations, dependent types are constructive, and (provided we work in a language that supports them) we can compute them.
+\subsection{Lean's hierarchy of sorts and types}
+\label{sec:leans-hierarchy-of-sorts-and-types}
+Like its more mature cousins Agda and Coq, Lean takes for its logical foundations \emph{dependent type theory} with \emph{inductive types} and \emph{universes}. However, unlike Agda and Coq, Lean's universes are \emph{not cumulative}.\footnote{Although we are trying hard to avoid overly technical discussions here, we will point out that lack of cumulative universes in Lean does not reduce Lean's expressiveness; instances in which universe cumulativity would be exploited in Coq can be handled in Lean using \emph{universe polymorphism} and the \lstinline{lift} map.}
+At the bottom of the hierarchy is \lstinline{Type 0}, which is usually denoted by \lstinline{Type}.
+Think of  \lstinline{Type} as the universe of ``small'' or ``ordinary'' types.  At the next level is \lstinline{Type 1}, which is a larger universe of types that contains \lstinline{Type} as an \emph{element}. \lstinline{Type 2} is  larger still and contains  \lstinline{Type 1} as an element, and so on. 
 
-What makes dependent types \emph{dependent}? % and why dependent types are useful. 
-The short explanation is that types can depend on \emph{parameters}. For example,the type \lstinline{list α} depends on the argument \lstinline{α}, and this dependence is what distinguishes \lstinline{list ℕ} from \lstinline{list bool}. Thus, dependent types are \emph{polymorphic}.  However, dependent types differ from so-called \emph{generic types} (which depend on \emph{type parameters}).  Let us demonstrate with another example.  
-Consider the type \lstinline{vec α n}, that is, the type of vectors of length 
-\lstinline{n} whose entries inhabit the type \lstinline{α}. The type \lstinline{vec α n} depends on one type parameter, \lstinline{α : Type}, and one \emph{value parameter}, \lstinline{n : ℕ}.  Thus, dependent types are generic types that can depend, not only on type parameters, but also on value parameters.
+The upshot of this \emph{ramified system} is that all of the types described in the last paragraph are \emph{predicative}, which means that their definitions are not self-referential, so certain set-theoretic paradoxes (e.g. Russel's) are avoided. However, certain situations call for a self-referential type, so Lean supplies one. It is the \emph{impredicative} type \lstinline{Prop}.
+A synonym for \lstinline{Prop} is \lstinline{Sort}, which is shorthand for \lstinline{Sort 0}. The type of \lstinline{Prop} (and \lstinline{Sort} and  \lstinline{Sort 0}) is \lstinline{Type 0}; that is, \lstinline{Prop : Type 0}. In general, for all \lstinline{n ≧ 0}, 
+% we have \lstinline{Sort n : Type n} and More generally, for each natural number \lstinline{n}, 
+we have 
+\lstinline{Sort n+1 = Type n}, whose type is \lstinline{Type n+1}. 
+To summarize, we have the following type identities and relations:
+\begin{lstlisting}
+            Sort 0 = Prop               Prop : Type 0
+            Sort 1 = Type 0           Type 0 : Type 1
+            Sort 2 = Type 1           Type 1 : Type 2
+                   ⋮                         ⋮
+          Sort n+1 = Type n           Type n : Type n+1
+\end{lstlisting}
+See Section~\ref{sec:sorts-and-types} of the appendix for some examples 
+demonstrating Lean's ramified hierarchy of sorts and types.
 
-Suppose we wish to write a function \lstinline{cons} that inserts a new element at the head of a list. What type should \lstinline{cons} have? Such a function is polymorphic: we expect the \lstinline{cons} function for \lstinline{ℕ}, \lstinline{bool}, or an arbitrary type \lstinline{α} to behave the same way. Thus, it makes sense to take this type to be the first argument to \lstinline{cons}, so that for any type \lstinline{α}, \lstinline{cons α} is the function that takes an element \lstinline{a : α} and a list 
-\lstinline{ℓ : list α} and returns \lstinline{cons α a ℓ = a :: ℓ} 
-(that is, \lstinline{ℓ} with \lstinline{a} prepended).
+We also want some operations to be polymorphic over type universes. For example,  \lstinline{list α} should make sense for any type  \lstinline{α}, no matter which universe  \lstinline{α} lives in. Thus \lstinline{list : Type u_1 → Type u_1}, where \lstinline{u_1} is a variable ranging type levels. 
 
-While it's clear that \lstinline{cons α} should have type \lstinline{α → list α → list α}, less clear is what type \lstinline{cons} should have; perhaps \lstinline{Type → α → list α → list α}. But this is nonsense since the type parameter \lstinline{α} does not refer to anything, whereas it should refer to whatever is passed in for the argument of type \lstinline{Type}. In other words, \emph{assuming} \lstinline{α : Type} is the first argument to \lstinline{cons}, then the type of the next two arguments will be \lstinline{α} and \lstinline{list α}, which are types that depend on the first input argument. 
+One aspect that makes the Lean kernel trustworthy is its size; at its core, it implements a very small set of components, namely,
+\begin{itemize}
+  \item \emph{dependent lambda calculus};
+  \item \emph{universe polymorphism} in a hierarchy of $\omega$-many universe levels;
+  \item \emph{inductive types} and \emph{inductive families of types}, generating only the recursor for an inductive type;
+  \item \emph{pattern matching}.
+\end{itemize}
 
-This example is an instance of a \emph{dependent function type}, also known as a \lstinline{Pi} type. Given \lstinline{α : Type} and \lstinline{β : α → Type},
-view \lstinline{β} as an indexed family of types over the index set \lstinline{α}; for each \lstinline{a : α} we have a type \lstinline{β a}.  The type \lstinline{Π(x : α), β x} denotes the type of functions \lstinline{f} with the property that, for each \lstinline{a : α, f a} is an element of \lstinline{β a}, so the type of the value returned by \lstinline{f} \emph{depends} on the input argument. In case \lstinline{β} is a constant function, the type \lstinline{Π(x : α), β x} is no different from the (non-dependent) function type \lstinline{α → β}. Indeed, in dependent type theory, and in Lean, the \lstinline{Pi} construction is fundamental, and \lstinline{α → β} is just notation for \lstinline{Π(x : α), β x} in the special case in which \lstinline{β} is constant.
+% Lean's core kernel does \emph{not} implement the following:
+% \begin{itemize}
+% \item a termination checker;
+% \item fixpoint operators.
+% \end{itemize}
+% Lean supports \emph{inductive families} and \emph{mutually defined inductive types},
+% but not \emph{induction-induction} or \emph{induction-recursion}.
 
-% \subsection{Curry-Howard Correspondence}
-% % Propositions-as-types, proofs-as-programs}
-% % \textsl{Types are propositions.}
-% The rule for \emph{function application} corresponds, under the 
-% ``Curry-Howard'' or ``propositions-as-types'' correspondence, to the \emph{implication elimination} rule of 
-% natural deduction (sometimes called \emph{modus ponens}).  It is the following:
-% \begin{prooftree}
-%   \AxiomC{$f \colon A \to B$}
-%   \AxiomC{$a \colon A$}
-%  \RightLabel{$_{\mathsf{app}}$}
-%   \BinaryInfC{$f \, a \colon B$}
-% \end{prooftree}
-% This simply codifies our intuitive notion of function application, viz.~applying the 
-% function $f$ to an inhabitant $a$ of the domain $A$, we obtain an inhabitant $f \, a$
-% of the codomain $B$.  If we interpret $A$ and $B$ as propositions,
-% $f$ as a proof of the implication $A \to B$, and  
-% $a$ as a proof of $A$, then the rule $\mathsf{app}$ becomes the implication elimination rule (\emph{modus ponens}).
-% % 
-% % \textsl{Programs are proofs.}
-
-
+Lean is easy to extend via \emph{metaprogramming}. Briefly, a \emph{metaprogram} is
+a program whose purpose is to modify the behavior of other programs. \emph{Proof tactics} form an important class of metaprograms. These are automated procedures for constructing and manipulating proof terms. A distinguishing feature of Lean is that \emph{metaprograms can be written in the Lean language}, rather that in the lower level language (C/C++) that was used to create Lean. Thus the metaprogramming language is the same logical language that we use to express specifications, propositions, and proofs.
 
 
-\subsection{Lean's Elaboration Engine}
-
-On top of the Lean kernel there is a powerful \emph{elaboration engine} that can
-\begin{enumerate}
-\item infer implicit universe variables,
-\item infer implicit arguments, using higher order unification,
-\item support overloaded notation or declarations,
-\item insert coercions,
-\item infer implicit arguments using type classes,
-\item convert readable proofs to proof terms,
-\item construct terms using tactics.
-\end{enumerate}
-Lean does most of these things simultaneously. For instance, the term constructed by
-type classes can be used to find out implicit arguments for functions.
-A nice list of examples demonstrating of each of these key features of Lean can be found in the blog post by Floris van Doorn available at
-\url{https://homotopytypetheory.org/2015/12/02/the-proof-assistant-lean/}
-
-
-
-
-
-
-
-
-\subsection{Examples: Lean's Ramified Hierarchy of Sorts and Types}
+\subsection{Examples demonstrating Lean's ramified hierarchy of sorts and types}
 \label{sec:sorts-and-types}
 ~
 \begin{lstlisting}
@@ -1909,6 +1871,26 @@ A nice list of examples demonstrating of each of these key features of Lean can 
   #check Type 1 → Prop    -- Type 2
   #check Type 1 → Sort 2  -- Type 2
 \end{lstlisting}
+
+
+\subsection{Lean's Elaboration Engine}
+
+On top of the Lean kernel there is a powerful \emph{elaboration engine} that can
+\begin{enumerate}
+\item infer implicit universe variables,
+\item infer implicit arguments, using higher order unification,
+\item support overloaded notation or declarations,
+\item insert coercions,
+\item infer implicit arguments using type classes,
+\item convert readable proofs to proof terms,
+\item construct terms using tactics.
+\end{enumerate}
+Lean does most of these things simultaneously. For instance, the term constructed by
+type classes can be used to find out implicit arguments for functions.
+A nice list of examples demonstrating of each of these key features of Lean can be found in the blog post by Floris van Doorn available at
+\url{https://homotopytypetheory.org/2015/12/02/the-proof-assistant-lean/}
+
+
 
 %|||||||||||||||||||||||||||| OMIT BELOW |||||||||||||||||||||||||||||||||||||||
 %VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
@@ -2153,9 +2135,8 @@ side of the equality. In the last example it uses that different constructors of
 \end{lstlisting}
 
 The \lstinline{rewrite} tactic is useful for doing a lot of rewrite rules.
-It is modeled after the \lstinline{rewrite} tactic of SSReflect, the library that originated with
-the project to formalize the (very long) proofs of the Four Color and the Feit-Thompson
-Theorem. For example in the following proof of Eckmann-Hilton we rewrite the goal 4
+It is modeled after the \lstinline{rewrite} tactic of {\tt SSReflect}, the library that originated with the project to formalize the (very long) proofs of the Four Color and the Feit-Thompson
+Theorems. For example, in the following proof of Eckmann-Hilton we rewrite the goal 4
 times with theorems to solve the goal. The notation \lstinline{▸*} simplifies the goal
 similar to Coq's \lstinline{simpl}, and \lstinline{-H} means to rewrite using \lstinline{H⁻¹}.
 
