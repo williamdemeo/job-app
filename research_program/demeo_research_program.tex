@@ -1349,40 +1349,6 @@ mathematical subjects.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Lean in the Classroom}
-
-I was fortunate enough to be able to teach a graduate course in Model Theory
-in the Spring 2018 semester University of Colorado, Boulder.  This year I am teaching Abstract Algebra in the Fall of 2018, and Discrete Math (which serves as an ``intro to proofs'') in both the Fall and Spring semesters of the 2018/19 academic year.  My experience with these courses has convinced
-me that Lean has an important place in logic classroom, even at the undergraduate level.
-
-In the Fall 2018, I presented logic to my first- and second-year undergraduate students using Gentzen style natural deduction almost exclusively. (Of course, the students were also exposed to classical logic and truth tables, and I taught them the not-so-subtle differences between classical and constructive reasoning principles.)
-Because natural deduction involves only a very small set of concrete derivation rules, and essentially no axioms, it is ideal for getting the students up and proving with first-order logic. The students seem more confident and satisfied with their proofs than the students in previous courses, when the treatment was more traditional, based entirely on set theory, truth tables, and proof sequences.
-
-Another benefit of using Gentzen style natural deduction
-was that it enabled the students to better appreciate \emph{soundness} and \emph{completeness}.  
-It seems easier to explain these concepts to students who have some
-experience building proof derivation trees (that are purely syntactic) on the one hand, while on the other hand having some experience with truth values and what it means for a formula to be true in a particular model.
-
-Evidently, Paul Taylor has witnessed a similar phenomenon, as
-he descirbes in~\cite{MR1694820}, where he refers to ``proof boxes'' (essentially natural deduction diagrams).
-\begin{quote}
-``I have seen logic introduced to first year undergraduates
-both in the form of truth-assignments and using proof boxes, and firmly
-believe that the box method is preferable... % As this section has shown,
-it is a formal version of the way mathematicians
-actually reason, even if they claim to use Boolean algebra when asked.''
-\end{quote}
-% \phantom{x} \hfill --Paul Taylor~\cite[Remark 1-6-14]{MR1694820}.
-About half of the students in my undergraduate class were computer science majors, and most of them have had some prior programming experience.
-So, I decided to introduce Lean in the classroom in order to keep the students  more engaged and to further develop their logical agility and reinforce their understanding of the reciprocal roles played by the introduction and elimination rules of natural deduction.
-At the same time, I did not want to alienate any students who had no experience 
-with, and possibly some aversion to, computer programming.
-As a compromise I introduced Lean in the classroom via team homework
-assignments. As it turns out, their Lean proofs were among their best proofs!  They became quite skilled at constructing formal proofs in Lean, and their confidence and understanding of the analogous paper-and-pencil proofs seemed much stronger after having worked with the proof assistant.
-
-
-
-
 
 
 \fi
@@ -1473,7 +1439,7 @@ more productive and more confident in their results.
 \section{Challenges and objectives}
 Interactive theorem proving is steadily gaining ground. In some areas
 of computer science, it is common for research papers to be accompanied by formal proofs. We have first hand experience deploying Lean in the classroom to help teach discrete math to first- and second-year math and computer science majors. (See our Teaching Statement~\cite{demeo:2018-teaching}.)  Others have also reported success with proof assistants in a classroom setting~\cite{nipkow:2012,pierce:2009}. 
-Kevin Buzzard at Imperial College London has a the ambitious goal of formalizing the entire undergraduate mathematics curriculum in Lean~\cite{buzzard}.
+Kevin Buzzard at Imperial College London has the ambitious goal of formalizing the entire undergraduate mathematics curriculum in Lean~\cite{buzzard}.
 These circumstances point to a future where computer-aided theorem proving ese tools will be routinely used, resulting in more reliable science.
 However, to have a substantial impact on mathematical practice, we must narrow the usability gap.
 
