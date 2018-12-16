@@ -1,0 +1,427 @@
+\begin{filecontents*}{inputs/refs.bib}
+@book{Pierce:SF,
+  author = {Benjamin C. Pierce and Arthur Azevedo de Amorim 
+                  and Chris Casinghino and Marco Gaboardi and
+                  Michael Greenberg and C\v{a}t\v{a}lin Hri\c{t}cu
+                  and Vilhelm Sj\"{o}berg and Brent Yorgey},
+  title = {Software Foundations},
+  year = {2016},
+  publisher = {Electronic textbook},
+  plclub = {Yes},
+  bcp = {Yes},
+  keys = {poplmark,books},
+  note = {Version 4.0.  \url{http://www.cis.upenn.edu/~bcpierce/sf}},
+  ebook = {http://www.cis.upenn.edu/~bcpierce/sf},
+  japanese = {http://proofcafe.org/sf}
+}
+@Misc{Shanks,
+  title = 	 {Open Problems in Universal Algebra,
+    a Shanks workshop at Vanderbilt University},
+  month = 	 {May},
+  year = 	 {2015},
+  note = 	 {\url{http://www.math.vanderbilt.edu/~moorm10/shanks/}}
+}
+\end{filecontents*}
+
+%% \documentclass[12pt]{amsart}
+\documentclass[11pt]{amsart}
+\usepackage[margin=1.25in]{geometry}
+%% \documentclass{article}
+%% \usepackage[colorlinks=true,linkcolor=black,urlcolor=black]{hyperref}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+%% \usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amscd}
+\usepackage{amsfonts}
+\usepackage{graphicx}%
+\usepackage{fancyhdr}
+\usepackage{url}
+
+\theoremstyle{plain} \numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{finalremark}[theorem]{Final Remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{question}{Question} 
+
+\newcommand{\TA}{{\small T.A.}}
+\newcommand{\webwork}{{\small WeBWork}}
+\newcommand{\Xpt}{5pt}
+
+%% \pagestyle{fancy}\chead{Teaching Philosophy and Experience} \rhead{January 2017}
+%% \lhead{{\bf William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+\pagestyle{fancy}\chead{\scshape{Teaching Philosophy}} \rhead{January 2017}
+\lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+
+
+\begin{document}
+
+\begin{center}
+ {\large {\scshape Teaching Philosophy, Mentoring,}}\\ {\large {\scshape and Teaching Experience}}\\[5pt]
+  {\scshape William DeMeo}
+\end{center}
+\thispagestyle{empty}
+
+
+\section{Teaching Philosophy}
+\subsection{Introduction}
+After five years of teaching math and computer science in college classrooms, my motivation
+to teach continues to grow stronger. I have had the good fortune of working in math departments
+that place a heavy emphasis on teaching, and this experience has given me 
+a deeper appreciation and respect for our responsibility to pass on knowledge to
+future generations. It has also taught me many lessons about how to teach well.
+%% Not to mention the quality education I
+%% was lucky to receive in high school and college that enabled me to be
+%% where I am to give back.
+ 
+Since 2012 I have taught two math courses every semester, and have
+taken every opportunity available to attend teacher
+training sessions, read student evaluations, and solicit feedback from
+both students and peers.  This has given me many occasions on which to
+reflect on my beliefs about education in general and effective
+teaching in particular.  I have come to realize that my mission as a
+teacher revolves around three core principles, each of which has the
+main goal of engaging the student:
+%%% USE C-c C-e  [enter]
+\begin{enumerate}
+\item {\bf leadership,} to engage students by
+  demonstrating a deep appreciation and passion for the subject;
+\item {\bf communication,} to engage students by connecting with them
+  at an appropriate level;
+\item {\bf pedagogy,} to engage students by developing a set of best
+  practices that stimulate them mentally and facilitate
+  understanding.
+\end{enumerate}
+
+The sections that follow consider each of these core
+principles in more detail and describe how they have come to form the
+ core of my teaching philosophy.
+
+ \subsection{Core Principles}
+
+ \subsubsection{Leadership}
+My passion for the subject being taught must be
+apparent to the students from the first day of class. 
+This is essential for establishing credibility and, more importantly,
+for convincing the students that the subject is truly worthy of
+their attention.
+Such enthusiasm is contagious and helps motivate students to engage in
+active listening, participation, and learning.
+I have found that convincing students of my passion for
+whatever subject I teach is actually the easiest part of my
+job as an educator, and each semester my teaching evaluations reveal
+that my love of the subject is both obvious and contagious.
+
+\subsubsection{Communication}  I strive to have an open, two-way
+dialog of friendly yet respectful communication in the classroom.
+It is important that all students---regardless of background, race,
+nationality, or gender---feel welcomed and encouraged to participate in a safe environment.
+Furthermore, it is important to let students know my door is always
+open for them to come to me with any issues they might encounter in
+class, about math or their academic and professional lives.
+
+To accomplish these goals, I have developed a variety of strategies
+based on essential educational principles of active
+learning, diversity and sensitivity training, planning,
+presentation and assessment.
+Some of these techniques depend vitally on our awareness of
+student backgrounds, interests, and abilities, as we discuss in the
+next section.
+
+\subsubsection{Learner diversity}
+As we enjoy larger numbers of intelligent and eager learners from
+more and more diverse backgrounds, from minority groups, both domestic and 
+international, we must be cognizant of 
+both the learning style of individuals and the
+cultural diversity of the whole class. Using this as our guide,
+we can customize our instruction and assessment accordingly.
+Since a variety of learning styles are likely
+to be represented in any modern classroom,
+it is important to alternate frequently between instruction and
+assessment.
+Without frequent learner feedback and participation in every class,
+it is impossible to foster a comfortable atmosphere of 
+communication and mutual understanding, and without that, we cannot
+assess the level of student engagement and we cannot know the degree
+to which students have processed the material covered.
+
+
+\subsection{Pedagogy}
+
+\smallskip
+
+\subsubsection{Cycles and Iterations}
+One effective method of teaching is to cycle through
+various modes of interaction with the students:
+presentation, participation, feedback and assessment. 
+Each of these modes should itself vary throughout the class and the semester.
+Presentation mode, for example, can vary across a number of
+dimensions.
+First, the medium of presentation should
+alternate between speech/audible and written/graphical/visual to
+accommodate differences of learners.
+
+Second, the
+level of detail at which material is presented should proceed along a
+spectrum from general to specific.  This may depend on the subject matter,
+but I find it helpful to outline and motivate the entire course 
+in the first lecture.  Thereafter, roughly the first quarter of
+the course may be explained and motivated.  Finally, each subsection
+of the first quarter is described and motivated, still using
+fairly general terms. Finally each section may be covered in detail.
+
+Proceeding along such a path, from the general to the specific, reinforces material by reiterating the same idea at various levels of abstraction. While watching Bob Harper's lectures at CMU, I learned that this strategy has a name: ``iterative deepening.'' Besides the obvious reinforcement effect that repetition has, another positive outcome of iterative deepening is that learners leave the course with a better understanding of how each topic fits into the greater scheme of the course. It is this broad view of the course, rather than the details covered in a particular section, that is likely to remain with the students long after the course has ended.
+
+\subsubsection{The Learner's Role}
+Another effective way to teach a classroom of diverse learners, is to help the students stay engaged by ``making the subject their own.''  One can accomplish this by giving them some role in determining what they will learn and how they will learn it.  If students are given the chance to arrive at an understanding of some problem or topic by relying on their own ingenuity and deriving their own methods
+for solving the problem, then, even if the problem remains unsolved, the student's appreciation of the problem or topic is typically much deeper than if they had listened passively to a lecture. %% about the same topic.
+This sort of learning can be facilitated in the classroom by providing just the right amount of guidance so that learners can reach correct conclusions.  However, determining the appropriate level of guidance depends crucially on knowing the backgrounds and abilities of the learners.
+
+Over the past few years I have experimented with this approach to great effect.  When introducing a new topic, I often try to provide just an outline of the basic ideas, and a precise description of our objective and then ask students to think, to grow accustomed to seeking answers themselves, to not wait for more guidance or answers to come from someone else. Often I leave out basic terminology and help students develop what seems like the most natural definitions and notation that might help to reach the goal. We then embark upon a journey of discovering the theory together, by considering the class's collective contributions, and making the necessary adjustments. In some cases, the students do not need very much help to arrive at sensible and useful definitions. Before long our discussion can be honed into a more formal development of the important principles, theorems, and methods.
+
+%% \subsubsection{Annectdotal evidence}
+To give a simple example, I was recently impressed by a classroom of freshman and sophomore computer science majors who, with little guidance, had no trouble formulating set-theoretic definitions of the natural numbers, the integers, ordered pairs, and $n$-tuples, despite having had no prior exposure to set theory. The notions of equivalence relation and partial ordering also seemed quite natural to most of them. Thereafter, when the class participated in the lecture and as we solved example problems, employing the definitions that \emph{they} ``invented,'' the students seemed not only more energized that usual, but also  more comfortable with the material---not surprisingly, since they had a hand in its development. Again, the goal is for students to \emph{make the subject their own}.  
+
+%% I wasn't surprised when I learned that this is not an original
+%% approach to teaching, and that a more extreme version of it is called
+%% the Moore method.  Although I initial only learned about the method
+%% (or rather my own version of it) in a ``trial-by-fire'' fashion,
+%% I have since studied it and learned about other aspects of it that my
+%% experience confirms.  For example, I have noticed that, 
+%% without great care, this approach can significantly slow down the pace of
+%% a lecture, indeed, a whole course, and we must weigh the benefit of
+%% giving students a deeper appreciation of a few topics versus an
+%% overview of many topics. However, the success of this method has
+%% been evident in the exam scores of my students, especially in 
+%% classes such as Calculus to Linear Algebra, Discrete Structures, and Calculus
+%% courses.
+
+This experience has given me a new perspective on effective teaching, and I have learned that with only minor adjustments in presentation style, some topics can be treated in a manner that helps students gain a deeper understanding than if they passively listen to a lecture. Furthermore, with very careful planning and time management, this approach doesn't necessarily require significantly more class time.
+
+%% Perhaps it should not come as a surprise that, if 
+%% given the right guidance and encouragement, many students can invent
+%% their own useful methods for solving problems.
+Providing students with the main ideas and objectives and encouraging them to develop their own methods and come to their own conclusions is not always appropriate for every topic at every level.  However, there is strong evidence suggesting that, at least at the elementary school level, a hands-off approach can have quite miraculous outcomes.\footnote{See, for example, \url{http://www.wired.com/business/2013/10/free-thinkers/}} At the college and graduate levels there is a standard curriculum that must be covered in a limited amount of time, and an entirely hands-off approach is infeasible and inappropriate.  However, the benefits of class participation can be tremendous and must not be ignored at any level.
+
+
+\newpage
+
+%% \pagestyle{fancy}\chead{\scshape{Mentoring}} \rhead{\scshape January 2017}
+%% \lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+%% \pagestyle{fancy}\chead{} \rhead{\scshape January 2017}
+%% \lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+
+\section{Mentoring Experience}
+Among my most gratifying accomplishments has been getting students interested and involved in math and computer science research. The following subsections highlight some of these activities.
+
+\pagestyle{fancy}\chead{} \rhead{\scshape January 2017}
+\lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+
+\newcommand{\advisee}[1]{\textbf{#1}}
+
+\subsection{Research Experiences for Undergraduates (REU)}
+In the summer of 2016 at Iowa State, Cliff Bergman and I co-mentored a bright and precocious math major from University of Rochester named \advisee{Charlotte Aten}.  It was quickly apparent that Charlotte was not satisfied with anything less that most general and elegant solution to a given problem. It was this taste for generality that attracted her to universal algebra and led her to Ames. It turned out, however, that even universal algebra was not general enough for Charlotte, so I suggested we take up category theory.  This was a good fit and we spent much of the summer working through the basics of category theory up to the Yoneda Lemma. Consequently, Charlotte managed to accomplish one of her goals, which was to work out a generalized version of Cayley's Theorem for algebraic and relational structures.  
+
+\subsection{TypeFunc Research Group}
+\label{sec:typef-rese-group}
+At Iowa State I founded a research group called TypeFunc (\href{https://github.com/TypeFunc/}{github.com/TypeFunc}) which convened weekly during the academic year.  In its first year, the group consisted of four undergraduate students---\advisee{Paul Lubberstedt} (math major), \advisee{Hunter Praska} (cs major), \advisee{Hyeyoung Shin} (cs major), and \advisee{Joshua Thompson} (math major)---and the goal was to generate interest in some approachable open research problems in areas related to algebra, logic, complexity and theoretical computer science, and to guide the students' reading and research activities in these areas.
+
+%% The group was founded in fall of 2014, when I began meeting with
+%% Josh Thompson (the best student in my abstract algebra class).
+%% I suggested possible research directions in four
+%% different areas, including lattice theory, algebraic constraint
+%% satisfaction problems, constructive math, and abstract harmonic
+%% analysis. Josh decided he was most interested in constructive math and
+%% constraint satisfaction problems.  For the remainder of the fall
+%% semester, Josh and I met roughly once per week to work through some
+%% exercises in the Homotopy Type Theory book TODO: ADD CITATION.
+
+%% Beginning in January, the other three students joined the group
+%% which focused mainly on the foundations of logic (both
+%% classical and constructive), universal algebra, and computer science,
+%% in order to heighten the students' interest and prepare them for their
+%% proposed research projects.
+
+There were some student presentations in spring 2015. Thompson presented proofs of some known results; he showed that the Law of Excluded Middle (LEM) is not refutable in Intuitionistic Propositional Logic, and he proved Diaconescu's Theorem (Choice implies LEM). Lubberstedt gave a presentation on the meaning of ``judgment'' in intuitionistic logic. I gave demonstrations of the Coq proof assistant, which motivated two of the students (Praska and Shin) to learn Coq by working through ``Software Foundations'' by Pierce, et al~\cite{Pierce:SF}. Shin has since become an expert in Coq after working her way through most of the Software Foundations book, and then using the proof assistant to model a simple imperative programming language.
+
+%% One goal of the group is have the students make an original
+%% contribution by taking a classical mathematical theorem whose proof
+%% depends on some classical axiom of logic, like the Axiom of Choice or
+%% the LEM, and restate an appropriately modified version of the theorem
+%% in a constructive system like intuitionistic type theory.  Between the
+%% math majors working on the theory and the cs majors learning Coq, the
+%% group hopes to accomplish the goal by constructing the proof as a
+%% program and have it ``certified'' as correct by the type checking
+%% software.
+
+In late spring 2016 I taught the TypeFunc group about the Constraint Satisfaction Problem (csp) research I had been engaged in with Cliff Bergman. I explained the algebraic approach to the so called ``csp dichotomy conjecture.'' The students seemed fascinated by this topic and, by the end of the semester, were very eager to attend a related workshop at Vanderbilt called ``Open Problems in Universal Algebra''~\cite{Shanks}.
+
+%% Refs cited above:
+
+%% [1] http://homotopytypetheory.org/book/
+%% [2] https://github.com/TypeFunc
+%% [3] http://www.cis.upenn.edu/~bcpierce/sf/current/index.html
+%% [4] http://www.math.vanderbilt.edu/~moorm10/shanks/
+
+\subsection{Undergraduate Thesis Advising at Iowa State University}
+At Iowa State, I advised and collaborated with \advisee{Joshua Thompson}, one of our brightest math majors, and a student in the Honors College. Thompson worked with me on the project of determining which algebraic structures have ``absorbing subuniverses,'' and he (along with Praska and Shin, of the TypeFunc group) accompanied Cliff Bergman and me to the Shanks Workshop on ``Open Problems in Universal Algebra'' at Vanderbilt in 2015~\cite{Shanks}.  Thompson has said this was a ``life-changing experience.''
+
+Josh Thompson's senior thesis research was a great success and he solved the open problem that I had presented him with. Specifically, Thompson identified all proper absorbing subuniverses of the 4-element algebras that Bergman and I had been studying as part of our algebraic CSP project.
+
+\subsection{Undergraduate Thesis Advising at University of South Carolina}
+I advised and collaborated with \advisee{Matthew Corley}, a talented undergraduate student in the Honors College, who worked with me on a project involving nonabelian harmonic analysis of musical signals.
+Professor Reginald Bain (Director of the Experimental Music Studio in USC's Music Department) joined this project as a co-mentor. I guided Corley though the process of developing a formal project proposal,
+research schedule and budget, which we submitted through the university's grant office. The proposal earned Corley a prestigeous \emph{Magellan Scholarship Grant} to support his work on the project.
+I gave a preliminary report on this collaboration in a talk entitled ``What does a nonabelian group sound like?''~at the MAA session \emph{At the Intersection of Mathematics and the Arts}, which took place at the
+Joint Math Meetings in Baltimore, January, 2014.\footnote{An abstract for the MAA talk is available at:
+
+  \url{http://www.ams.org/amsmtgs/2160_abstracts/1096-c5-2578.pdf}
+
+The project web page resides at \url{http://soundmath.github.io/GroupSound}.}
+
+\subsection{Pi Mu Epsilon and High School Math Contests}
+For two years at University of South Carolina I served as a faculty mentor for Pi Mu Epsilon and the Gamecock Math Club, and served on the High School Math Contest Committee charged with creating the written portion of the South Carolina High School Math Contest exam (2013, 2014).   
+
+\pagestyle{fancy}\chead{\scshape{Mentoring Experience}} \rhead{\scshape January 2017}
+\lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+
+\subsection{Mentoring at the University of Hawaii}
+As a graduate student, I had the opportunity to serve as mathematics mentor to the undergraduates of the Bio-Math Program---a joint program with students from the Biology, Mathematics, and Zoology Departments.  These students worked on the project of cataloging sounds of marine life, and especially fish species, with
+the goal of creating a comprehensive library of audio samples that could be used by zoologists for their research.  Since I have a great deal of experience in digital signal processing and dsp software, my primary roles were teaching the students some signal processing theory and helping them get up to speed with the software tools required to achieve their goals. 
+
+
+\newpage
+%% \pagestyle{fancy}\chead{\scshape{Curriculum Development}} \rhead{\scshape January 2017}
+%% \lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+\pagestyle{fancy}\chead{} \rhead{\scshape January 2017}
+\lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+
+\section{Curriculum Development}
+
+\smallskip
+
+\subsection{Short Course on Mathematical Foundations of Computing (MFC)}~\\
+Most recently I started the ``Hawaii MFC Circle'' which is the Hawaii chapter of
+TypeFunc (see~Section~\ref{sec:typef-rese-group}). With  help from some colleagues---Dusko Pavlovic in Information and Computer Science and Bj{\o}rn Kjos-Hanssen in Math---I am developing a short course on the
+Mathematical Foundations of Computing Science that we expect will take place in April and May of 2017.
+Modeled on the successful European summer schools in theoretical computer science, the course will cover some small subset of the following topics: Lambda Calculus, Category Theory, Coalgebra, Type Theory,
+Functional Programming and Dependent Types, Automated Theorem Proving in Coq and/or Agda.
+
+The enthusiastic response to the initial proposal from graduate students in the Math and Computer Science Departments---and even one student at the Institute for Astronomy---has surpassed my expectations.
+Within the first 24 hours, over a dozen students expressed a desire to take the course, and some even said they had been waiting for this kind of offering since entering the phd program.
+
+This effort is just getting off the ground, but as the course evolves more details
+and related resources will be available from our Github team repository at
+\href{https://github.com/TypeFunc}{github.com/TypeFunc}.
+
+\bigskip
+
+\bigskip
+
+\bibliographystyle{alphaurl}
+\bibliography{inputs/refs}
+
+\newpage
+
+\appendix
+
+%% \pagestyle{fancy}\chead{\scshape{Teaching Experience}} \rhead{\scshape January 2017}
+%% \lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+\pagestyle{fancy}\chead{} \rhead{\scshape January 2017}
+\lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+
+\newcommand\cors[2]{\textit{#1: #2}}
+%\newcommand\crsu[3]{\href{#3}{#1: #2}}
+\newcommand\crsu[3]{\textit{#1: #2} (\href{#3}{\small link to course})}
+\newcommand\semr[1]{\hfill #1\\[\Xpt]}
+    
+\section{Courses Taught}
+\newcommand\myskip{2mm}
+\subsection{University of Colorado, Boulder}
+Burnett Meyer Instructor\\[3pt]
+\noindent \cors{Math 2001}
+     {Discrete Mathematics}
+\semr{Spring 2019}
+\crsu{Math 2001}
+     {Discrete Mathematics}
+     {https://github.com/williamdemeo/math2001-fall2018}
+\semr{Fall 2018}
+\crsu{Math 3140}
+     {Abstract Algebra}
+     {https://github.com/williamdemeo/math3140-fall2018}
+\semr{Fall 2018}
+\crsu{Math 6000}
+     {Model Theory (graduate course)}
+     {https://github.com/williamdemeo/math6000-spring2018}
+\semr{Spring 2018}
+\crsu{Math 2130}{Linear Algebra}
+     {https://github.com/williamdemeo/math2130-spring2018}
+     \semr{Spring 2018}
+\cors{Math 2130}{Linear Algebra}
+\semr{Fall 2017}
+    
+\medskip
+
+\subsection*{University of Hawaii}
+%% Visiting Assitant Professor: 8/2016--present.\\[3pt]
+Visiting Assistant Professor.\\[3pt]
+\noindent
+\textsl{Math 215: Applied Calculus} \hfill  Spring 2017\\[\Xpt]
+\textsl{Math 480: Senior Seminar}\hfill  Spring 2017\\[\Xpt]
+\textsl{Math 244: Calculus IV} \href{https://github.com/williamdemeo/math244-fall2016}{{\small (link to course)}} \hfill  Fall 2016\\[\Xpt]
+\textsl{Math 321: Introduction to Advanced Math (intro to proofs)} \href{https://github.com/williamdemeo/math321-fall2016}{{\small (link to course)}} \hfill  Fall 2016
+
+\medskip
+
+%% \subsection{Iowa State University} Postdoctoral Associate: 8/2014--5/2016.\\[3pt]
+\subsection*{Iowa State University} Postdoctoral Associate.\\[3pt]
+\textsl{Math 317: Linear Algebra} \href{https://github.com/williamdemeo/Math317-Spring2016}{{\small (link to course)}} \hfill  Spring 2016\\[\Xpt]
+\textsl{Math 317: Linear Algebra} %% \href{https://github.com/williamdemeo/Math317-Spring2016}{course page}
+\hfill  Fall 2015\\[\Xpt]
+\textsl{Math 160: Survey of Calculus} \href{https://github.com/williamdemeo/Math160-Fall2015}{{\small (link to course)}} \hfill  Fall 2015\\[\Xpt]
+\textsl{Math 207: Elementary Linear Algebra} \href{https://github.com/williamdemeo/Math207-Spring2015}{{\small (link to course)}} \hfill  Spring 2015\\[\Xpt]
+\textsl{Math 165: Calculus I} \href{https://github.com/williamdemeo/Math165-Spring2015}{{\small (link to course)}} \hfill  Spring 2015\\[\Xpt]
+\textsl{Math 301: Abstract Algebra} \href{https://github.com/williamdemeo/Math301-Fall2014}{{\small (link to course)}} \hfill  Fall 2014\\[\Xpt]
+\textsl{Math 165: Calculus I} \hfill  Fall 2014
+
+\medskip
+
+%% \subsection{University of South Carolina} Visiting Assistant Professor: 8/2012--5/2014.\\[3pt]
+\subsection*{University of South Carolina} Visiting Assistant Professor.\\[3pt]
+\textsl{Math 700: Linear Algebra (graduate level)} \href{https://github.com/williamdemeo/Math700Spring2014}{{\small (link to course)}} \hfill  Spring 2014\\[\Xpt]
+\textsl{Math 141: Calculus I} \href{https://github.com/williamdemeo/Math141Spring2014}{{\small (link to course)}} \hfill  Spring 2014\\[\Xpt]
+\textsl{Math 374: Discrete Structures} \hfill  Fall 2013\\[\Xpt]
+\textsl{Math 122: Calculus for Business and Social Sciences} \hfill  Fall 2013\\[\Xpt]
+\textsl{Math 374: Discrete Structures} \hfill  Spring 2013\\[\Xpt]
+\textsl{Math 122: Calculus for Business and Social Sciences} \hfill  Spring 2013\\[\Xpt]
+\textsl{Math 241: Vector Calculus} \hfill  Fall 2012\\[\Xpt]
+\textsl{Math 122: Calculus for Business and Social Sciences} \hfill  Fall 2012
+
+\medskip
+
+%% \subsection{University of Hawaii} Graduate Student Lecturer: Summers 2009, 2010, 2011.\\[3pt]
+\subsection*{University of Hawaii} Graduate Student Lecturer.\\[3pt]
+\textsl{Math 371: Probability Theory} \href{http://math.hawaii.edu/~williamdemeo/Math371-Summer2011/Math371.html}{{\small (link to course)}} \hfill   Summer 2011\\[\Xpt]
+\textsl{Math 100: Mathematical Reasoning} \hfill   Summer 2010\\[\Xpt]
+\textsl{Math 215: Applied Calculus I} \hfill   Summer 2009
+
+\medskip
+
+%% \subsection{University of Hawaii} Teaching Assistant: 8/2008--5/2011.\\[3pt]
+\subsection*{University of Hawaii} Teaching Assistant.\\[3pt]
+\textsl{Math 242: Calculus II} (for Profs.~Ramsey, Watanabe, Zelenyuk)\hfill  Spring, Fall 2011\\[\Xpt]
+\textsl{Math 242: Calculus II} (for Profs.~Guerzhoy, Ramsey) \hfill  Spring, Fall 2010\\[\Xpt]
+\textsl{Math 241: Calculus I} (for Prof.~William Lampe) \hfill Fall 2009\\[\Xpt]
+\textsl{Math 242: Calculus II} (for Profs.~Broadhead, Dovermann, Ortel) \hfill Spring, Fall 2009\\[\Xpt]
+\textsl{Math 241: Calculus I} (for Prof.~Thomas Hoover)  \hfill Fall 2008
+
+
+\end{document}
