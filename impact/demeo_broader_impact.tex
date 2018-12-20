@@ -1,0 +1,77 @@
+\documentclass[12pt]{amsart}
+\usepackage[margin=1.5in]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue,citecolor=black]{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amscd}
+\usepackage{amsfonts}
+\usepackage{graphicx}%
+\usepackage{fancyhdr}
+\usepackage{url}
+
+\theoremstyle{plain} \numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{finalremark}[theorem]{Final Remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{question}{Question} 
+
+\newcommand{\TA}{{\small T.A.}}
+\newcommand{\webwork}{{\small WeBWork}}
+\newcommand{\Xpt}{5pt}
+
+%% \pagestyle{fancy}\chead{Teaching Philosophy and Experience} \rhead{January 2017}
+%% \lhead{{\bf William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+% \pagestyle{fancy}\chead{\scshape{Teaching Philosophy}} \rhead{January 2018}
+% \lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+%% \pagestyle{fancy}\chead{\scshape{Teaching Experience}} \rhead{\scshape January 2017}
+%% \lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+\pagestyle{fancy}\chead{} \rhead{\scshape December 2018}
+\lhead{{\scshape William DeMeo}} \lfoot{} \rfoot{\thepage} \cfoot{}
+
+
+\begin{document}
+\begin{center}
+ {\large {\scshape Broader Impact Statement}}\\[5pt]
+  {\scshape William DeMeo}
+\end{center}
+\thispagestyle{empty}
+\vskip1cm
+
+\noindent \textbf{Unique Curriculum Development.} I have extensive experience presenting course materials in (sometimes nontraditional) ways that more actively engage students.  I will briefly mention a concrete example here, but more examples along with more details are found in my teaching statement.
+
+In the fall semester (2018) I taught an undergraduate discrete math course at the University of Colorado, Boulder. At this school, the discrete math course is assumed to be the first course to expose students to abstract math, including logic and methods of proof.  Thus, more of the class is typically devoted to logic than to discrete math {\it per se}.  
+The most commonly used text for this course (not only at CU, but also at Iowa State where taught previously) is the \emph{Book of Proof}.  This book has some merits, most notably that it's free.  It seems user friendly and welcoming to immature students, which is important at this level. The book is probably a reasonable choice for teaching non-math or non-cs majors a little bit about logic and about how statements are proved.  
+
+However, for math and cs majors \emph{Book of Proof} seems totally inadequate.  Fundamental mistakes are made from the outset. The book portends to base the presentation on the axioms of ZF set theory, but then does not say up front what these axioms are and does not treat natural numbers as sets.\footnote{The natural numbers are not even defined and it seems we are supposed to know that natural numbers are to be treated treated as some sort of primitive objects satisfying certain axioms.}
+
+Disatisfied with the ``standard'' textbook, I decided to take a chance and try out a new book called \textit{Logic and Proof}. This exposition of logic and ``how to prove'' was authored by (CMU Professor) {\bf Jeremy Avigad}, along with Robert Lewis and Floris van Doorn, and was an absolute pleasure to teach from. The book led my students and me on a wonderful journey through logic and discrete math from a uniquely modern point of view, with an emphasis on constructive logic and Gentzen style natural deduction, yet still touching on classical logic, and even making the distinction between the two styles quite clear.  
+
+In my view, the book by Avigad, et al, is a revolution in the teaching of logic to undergraduates. That this more modern and more useful style of logic could be presented so coherently at this level came as a surprise to me. Though, in retrospect, it should have been obvious to me that the constructive, natural deduction approach would be the simpler and easier of the two to learn and teach.
+
+\noindent \textbf{Formal Foundations for Informal Mathematics.} Besides teaching, another passion of mine is research in logic and foundations of mathematics. My most recently conceived research goal in this area is described in my research program description,\footnote{Please see the document 
+\href{https://github.com/williamdemeo/job-app/blob/master/research/demeo_formal_foundations.pdf}{demeo\_formal\_foundations.pdf}}
+but I will share a couple of broad strokes here. I expect that the Lean programming language, along with my recently launched research project---the mission of which is to codify all major definitions and results of universal algebra in Lean---will revolutionize the way research is done in our main areas of expertise (universal algebra and lattice theory).  Although many mathematicians in our area are comfortable using the computer to support their own research (e.g.,  UACalc, GAP, Java, etc.), I don't know any colleagues who are seriously exploiting the power of a modern proof assistant like Lean.  One of my main goals is to change this by developing a Lean library for the foundations of universal algebra (called \href
+{https://github.com/UniversalAlgebra/lean-ualib}{{\tt lean-ualib}}),  
+and to teach others in my area how to harness the power of such libraries for finding and verifying new proofs in a much more efficient and product way than paper and pencils could achieve alone.
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
