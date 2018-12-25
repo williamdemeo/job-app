@@ -470,7 +470,7 @@ An inhabitant of the type \lstinline{algebra_on} assigns an interpretation to ea
 
 Finally, we define an algebra.  Since an algebra pairs a carrier with an interpretation of the operation symbols, we use the \emph{dependent pair type}, 
 \lstinline{Σ (x : A), B x}, also known as 
-a \emph{Sigma type}. This is the type of ordered pairs \lstinline{<a, b>}, where \lstinline{a : A}, and \lstinline{b} has type \lstinline{B a} which may depend on \lstinline{a}. Just as the \emph{Pi type} \lstinline{Π (x : A), B x} generalizes the notion of function type \lstinline{A → B} by allowing the codomain \lstinline{B x} to depend on the value \lstinline{x} of the input argument, a Sigma type \lstinline{Σ (x : A), B x} generalizes the Cartesian product \lstinline{A × B} by allowing the type \lstinline{B x} of the second argument of the ordered pair to depend on the value \lstinline{x} of the first.\footnote{Lean's built-in \lstinline{sigma} type is defined as follows:\\
+a \emph{Sigma type}. This is the type of ordered pairs \lstinline{<a, b>}, where \lstinline{a : A}, and \lstinline{b} has type \lstinline{B a} which may depend on \lstinline{a}. Just as the \emph{Pi type} \lstinline{Π (x : A), B x} generalizes the notion of function type \lstinline{A → B} by allowing the codomain \lstinline{B x} to depend on the value \lstinline{x} of the input argument, a Sigma type \lstinline{Σ (x : A), B x} generalizes the cartesian product \lstinline{A × B} by allowing the type \lstinline{B x} of the second argument of the ordered pair to depend on the value \lstinline{x} of the first.\footnote{Lean's built-in \lstinline{sigma} type is defined as follows:\\
 \lstinline{structure sigma {α : Type u} (β : α → Type v) := mk :: (fst : α) (snd : β fst)}}
   
 Since an algebra $\<A, F^{\alg A}\>$ is an ordered pair where the type of the second argument depends on the first, it is natural to encode an algebra in type theory using a Sigma type, and we do so in the \lstinline{lean-ualib} library as follows:
@@ -518,7 +518,7 @@ the function whose value at $i < \rho f$ is
 $g\, i = g_i$. We want to define a \emph{generalized composition} of $f$ 
 with $g_0, g_1, \dots, g_{\rho f -1}$.  We could obviously do this component-wise,
 and specify the value of $f \circ g$ component-wise,
-but that makes computing with such compositions unwieldy: for all $a : m \to A$, we define
+but that makes computing with such compositions unweildy: for all $a : m \to A$, we define
 \[
   f [g](a) := f[g_0, \dots, g_{\rho f -1}](a) := f (g_0 a, \dots, g_{\rho f-1} a).
   \]
@@ -652,7 +652,7 @@ because $\prod_{j\in J} A_{\sigma(j)}$ depends on $\sigma$, but no $\sigma$
 is available from earlier in the expression~(\ref{eq:9}).
 
 The solution is again to denote the function type as a Pi type.
-Pi types are more expressive and allow concise specification of a dependent
+Pi types are more expresive and allow concise specification of a dependent
 product.  Before demonstrating this, we make one more notational adjustment.  
 Instead of denoting set membership by $a \in A$, we will use the 
 type-theoretic notation $a \colon A$, which
@@ -760,7 +760,7 @@ namespace subuniverse
     parameter {I : Type}        -- a collection of indices
     parameter {R : I → set α}  -- an indexed set of sets of type α
     definition F := S.F         -- the type of operation symbols
-    definition ρ := S.ρ         -- the operation arity function
+    definition ρ := S.ρ         -- the opereation arity function
 
     -- Definition of subuniverse
     definition Sub (β : set α) : Prop :=
@@ -952,7 +952,7 @@ collection $\mathbb T (X)$ of all terms of a given signature.
     def Term : algebra S := ⟨term, term.app⟩
   end
 \end{lstlisting}
-The set of terms along with the operations $F^{\alg T} := \{\mathtt{app \,f} \mid f : F\}$ forms an algebra $\alg T(X) = \< \mathbb T(X), F^{\alg T}\>$ in the signature $S = (F, \rho)$. Suppose $\alg A = \< A, F^{\alg A}\>$ is an algebra in the same signature and $h \colon X \to A$ is an arbitrary function.  We will show that $h \colon X \to A$ has a unique \emph{extension} (or \emph{lift}) to a homomorphism from $\mathbf T(X)$ to $\alg A$.  Since $\alg A$ and $h \colon X \to A$ are arbitrary, this unique homomorphic lifting property holds universally; accordingly we say that the term algebra $\alg T(X)$ is \emph{universal} for $S$-algebras.
+The set of terms along with the operations $F^{\alg T} := \{\mathtt{app \,f} \mid f : F\}$ forms an algebra $\alg T(X) = \< \mathbb T(X), F^{\alg T}\>$ in the signature $S = (F, \rho)$. Suppose $\alg A = \< A, F^{\alg A}\>$ is an algebra in the same signature and $h \colon X \to A$ is an arbitrary function.  We will show that $h \colon X \to A$ has a unique \emph{extension} (or \emph{lift}) to a homomorphism from $\mathbf T(X)$ to $\alg A$.  Since $\alg A$ and $h \colon X \to A$ are aribtrary, this unique homomorphic lifting property holds universally; accordingly we say that the term algebra $\alg T(X)$ is \emph{universal} for $S$-algebras.
 Before implementing the formal proof of this fact in Lean, let us first define some domain specific syntactic sugar.
 \begin{lstlisting}
 section
@@ -1275,6 +1275,7 @@ such that $h(y_i) = a_i$ for $i \leq n$. Then
 = q^{\alg A}(h(y_1), \dots, h(y_n))\\
 &= q^{\alg A}(a_1, \dots, a_n).
 \end{align*}
+ese general goals 
 \end{proof}
 
 It follows from Lemma~\ref{lem:4.36} that every equational class is a variety. 
@@ -1452,7 +1453,7 @@ more productive and more confident in their results.
 This project also presents us with the opportunity to formalize theorems emerging from our research in universal algebra and lattice theory. The PI is involved in three different research projects in universal algebra.  A proof assistant equipped with special libraries and tactics for formalizing universal algebra would be an invaluable tool for these research problems. 
 
 Furthermore, a number of results and ideas on which our work depends appear in journals and conference proceedings with many important details missing.  Using Lean allows us to not only verify the correctness of theorems and proofs, but
-also determine the precise foundational assumptions required to confirm the validity of the result. Thus, when doing mathematics with the help of modern proof assistant technology,  we are presented with the possibility of automating the process of generalizing results.
+also determine the precise foundational assumptions required to confirm the validity of the result. Thus, when doing mathematics with the help of modern proof assustant technology,  we are presented with the possibility of automating the process of generalizing results.
 
 The idea is that implementing theorems as types
 and proofs as ``proof objects'' would produce the following:
@@ -1516,8 +1517,6 @@ Our goal is to formally prove theorems and do research mathematics while at the 
 
 As scientists, we should take seriously any theory that may exposes weaknesses in our assumptions or our research habits.  We should not be threatened by these disruptive forces; we must embrace them, deconstruct them, and take from them whatever they can offer our mission of advancing pure mathematics.
 
-
-\section*{Acknowledgements} I am greatly indebted to Jasmin Blanchette who shared with me the original proposal for his \emph{Lean Forward Project}~\cite{blanchette:2018}. That had a significant impact on me, and inspired me to focus a significant part of my research activities on Lean development. In short, the idea and design of the present document owes a great deal to Jasmin's \emph{Lean Forward Project Proposal}~(cf.~\cite{blanchette:2018}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
@@ -1621,8 +1620,8 @@ As scientists, we should take seriously any theory that may exposes weaknesses i
 \section{complementary projects}
 
 \subsection{Lean Forward}
-The Netherlands Organization for Scientific Research recently awarded a five-year grant to Jasmin Blanchette for his \emph{Lean Forward} project, which is similar but complementary to our project. First, Dr.~Blanchette is a computer scientist enlisting the support of mathematicians, whereas we are mathematicians enlisting support of computer scientists.  
-Moreover, Jasmin works primarily with number theorists, whereas we are focused on universal algebra. We have had fruitful contact with Jasmin at the \emph{Big Proof} workshop last summer at Cambridge University's Isaac Newton Institute, and will attend the inaugural meeting of the Lean Forward project in January 2019 in Amsterdam. We look forward to productive future collaborations with the Lean Forward scientists.
+The Netherlands Organization for Scientific Research recently awarded a five-year grant to Jasmin Blanchette for his \emph{Lean Forward} project, which is similar but complementary to our project. First, Dr.~Blanchette is a computer scientist enlisting the support of mathematicians, whereas we are mathematicians enslisting support of computer scientists.  
+Moreover, Jasmin works primarily with number theorists, whereas we are focused on universal algebra. We have had fruitful contact with Jasmin at the \emph{Big Proof} workshop last summer at Cambridge University's Isaac Newton Institute, and will attend the inaugural meeting of the Lean Forward project in January 2019 in Amsterdamn. We look forward to productive future collaborations with the Lean Forward scientists.
 
 % \subsubsection{Lean Forward Domain Specific Automation}
 % One of the primary objectives of Lean is to bridge the gap between automatic and interactive theorem proving. A cornerstone for this vision is \emph{white-box automation}---the key techniques underlying SMT solvers for reasoning about equality, such as \emph{congruence closure}~\cite{MR3536762}, and the quantifier instantiation heuristics~\cite{MR2458080}, are available to users via the metaprogramming framework. Despite this, several reasoning components, as well as some important metaprogramming ``tape and glue,'' are missing. For all its potential, Lean is not as automated as Isabelle/HOL.
@@ -2205,7 +2204,7 @@ The agenda for this part of the project includes parallelizing the important sub
 building in conjecture-testing and search features, adding further algorithms,
 and further developing the community of users and contributors. An additional
 effort to incorporate some of the latest technologies developed in the Type
-Theory and Programming Languages research community is also under way.
+Theory and Programming Lagnuages research community is also under way.
 
 
 
@@ -2214,7 +2213,7 @@ The Universal Algebra Calculator (UACalc) was initiated by Emil Kiss and Matthew
 and has been developed by Ralph Freese for the past two decades.  In that time 
 the UACalc has grown to include many very powerful tools for analyzing various 
 classes of algebraic structures and revealing their properties in a computationally 
-tractable way whenever possible.  UACalc is designed to be used through a  
+tractable way whenever possible.  UACalc is desinged to be used through a  
 graphical user interface (GUI), which is ideal for researchers with little programming experience 
 and for those situations in which we are interested in a single algebraic structure 
 whose (Cayley) operation tables we don't mind entering by hand. 
