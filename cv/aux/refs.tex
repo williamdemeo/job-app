@@ -1,118 +1,95 @@
-\newcommand\Arefname{Ralph Freese}
-\newcommand\Areftitle{Professor of Mathematics}
-\newcommand\Arefinst{University of Hawaii}
-\newcommand\Arefaddressi{2565 McCarthy Mall}
-\newcommand\Arefaddressii{Honolulu, HI 96822}
-\newcommand\Arefphone{808-956-4680}
-\newcommand\Arefemail{\url{ralph@math.hawaii.edu}}
 
-\newcommand\Erefname{J.B.~Nation}
-\newcommand\Ereftitle{Emeritus Professor of Mathematics}
-\newcommand\Erefinst{University of Hawaii}
-\newcommand\Erefaddressi{2565 McCarthy Mall}
-\newcommand\Erefaddressii{Honolulu, HI 96822}
-\newcommand\Erefphone{808-956-4680}
-\newcommand\Erefemail{\url{jb@math.hawaii.edu}}
-
-\newcommand\Frefname{Bill Lampe}
-\newcommand\Freftitle{Emeritus Professor of Mathematics}
-\newcommand\Frefinst{University of Hawaii}
-\newcommand\Frefaddressi{2565 McCarthy Mall}
-\newcommand\Frefaddressii{Honolulu, HI 96822}
-\newcommand\Frefphone{808-956-4680}
-\newcommand\Frefemail{\url{bill@math.hawaii.edu}}
-
-\newcommand\Grefname{Peter Mayr}
-\newcommand\Greftitle{Assistant Professor of Mathematics}
-\newcommand\Grefinst{University of Colorado, Boulder}
-\newcommand\Grefaddressi{2300 Colorado Avenue}
-\newcommand\Grefaddressii{Boulder, CO 80309}
-\newcommand\Grefphone{303-492-7754} %720-470-4687}
-\newcommand\Grefemail{\url{peter.mayr@colorado.edu}}
-
-\newcommand\Hrefname{Agnes Szendrei}
-\newcommand\Hreftitle{Professor of Mathematics}
-\newcommand\Hrefinst{University of Colorado, Boulder}
-\newcommand\Hrefaddressi{2300 Colorado Avenue}
-\newcommand\Hrefaddressii{Boulder, CO 80309}
-\newcommand\Hrefphone{303-492-7683}
-\newcommand\Hrefemail{\url{szendrei@colorado.edu}}
-
-\newcommand\Brefname{Clifford Bergman}
-\newcommand\Breftitle{Professor of Mathematics}
-\newcommand\Brefinst{Iowa State University}
-\newcommand\Brefaddressi{396 Carver Hall}
-\newcommand\Brefaddressii{Ames, Iowa 50011}
-\newcommand\Brefphone{515-294-1752}
-\newcommand\Brefemail{\url{cbergman@iastate.edu}}
-
-\newcommand\Crefname{Peter Jipsen}
-\newcommand\Creftitle{Professor of Mathematics}
-\newcommand\Crefinst{Chapman University}
-\newcommand\Crefaddressi{545 W. Palm Ave}
-\newcommand\Crefaddressii{Orange, CA 92866}
-\newcommand\Crefphone{714-744-7918}
-\newcommand\Crefemail{\url{jipsen@chapman.edu}}
+\newcommand\referee[7]{\textbf{#1} \\ #2  \\#3  \\#4  \\#5 \\phone: #6 \\ email: \url{#7}}
 
 
-\newcommand\Drefname{George McNulty}
-\newcommand\Dreftitle{Professor of Mathematics}
-\newcommand\Drefinst{University of South Carolina}
-\newcommand\Drefaddressi{1523 Greene Street}
-\newcommand\Drefaddressii{Columbia, SC 29208}
-\newcommand\Drefphone{803-777-7469}
-\newcommand\Drefemail{\url{mcnulty@math.sc.edu}}
+    \begin{tabular}{@{}p{6cm}p{6cm}}
+      \referee
+          {Ralph Freese}
+          {Professor of Mathematics}
+          {University of Hawaii}
+          {2565 McCarthy Mall}
+          {Honolulu, HI 96822}
+          {808-956-4680}
+          {ralph@math.hawaii.edu}
+    \end{tabular}
+    \begin{tabular}{@{}p{6cm}p{6cm}}
+      \referee
+          {Clifford Bergman$^\dag$}
+          {Professor of Mathematics}
+          {Iowa State University}
+          {396 Carver Hall}
+          {Ames, Iowa 50011}
+          {515-294-1752}
+          {cbergman@iastate.edu}
+    \end{tabular}
 
 
-\vskip1mm
-
-% Freese & Bergman
-\begin{tabular}{@{}p{6cm}p{6cm}}
-\textbf{\Arefname}       &  \textbf{\Brefname}$^\dag$   \\
-\Areftitle    &  \Breftitle  \\
-\Arefinst      & \Brefinst     \\
-\Arefaddressi      &  \Brefaddressi \\
-\Arefaddressii     & \Brefaddressii   \\
-phone: \Arefphone & phone: \Brefphone \\
-email: \Arefemail &  email: \Brefemail 
-\end{tabular}
-
-% McNulty & Mayr
-\begin{tabular}{@{}p{6cm}p{6cm}}
-\textbf{\Drefname}       &  \textbf{\Grefname}$^\dag$   \\
-\Dreftitle    &  \Greftitle  \\
-\Drefinst      & \Grefinst     \\
-\Drefaddressi      &  \Grefaddressi \\
-\Drefaddressii     & \Grefaddressii   \\
-phone: \Drefphone & phone: \Grefphone \\
-email: \Drefemail &  email: \Grefemail 
-\end{tabular}
-
-% Jipsen & Szendrei
-\begin{tabular}{@{}p{6cm}p{6cm}}
-\textbf{\Crefname}       &  \textbf{\Hrefname}$^\dag$   \\
-\Creftitle    &  \Hreftitle  \\
-\Crefinst      & \Hrefinst     \\
-\Crefaddressi      &  \Hrefaddressi \\
-\Crefaddressii     & \Hrefaddressii   \\
-phone: \Crefphone & phone: \Hrefphone \\
-email: \Crefemail &  email: \Hrefemail 
-\end{tabular}
-
-% Nation & Lampe
-\begin{tabular}{@{}p{6cm}p{6cm}}
-\textbf{\Erefname}       &  \textbf{\Frefname}$^\dag$   \\
-\Ereftitle    &  \Freftitle  \\
-\Erefinst      & \Frefinst     \\
-\Erefaddressi      & \Frefaddressi \\
-\Erefaddressii     & \Frefaddressii   \\
-phone: \Erefphone & phone: \Frefphone \\
-email: \Erefemail &  email: \Frefemail 
-\end{tabular}
+    \begin{tabular}{@{}p{6cm}p{6cm}}
+      \referee
+          {George McNulty}
+          {Professor of Mathematics}
+          {University of South Carolina}
+          {1523 Greene Street}
+          {Columbia, SC 29208}
+          {803-777-7469}
+          {mcnulty@math.sc.edu}
+    \end{tabular}
+    \begin{tabular}{@{}p{6cm}p{6cm}}
+      \referee
+          {Peter Mayr$^\dag$}
+          {Assistant Professor of Mathematics}
+          {University of Colorado, Boulder}
+          {2300 Colorado Avenue}
+          {Boulder, CO 80309}
+          {303-492-7754} 
+          {peter.mayr@colorado.edu}
+    \end{tabular}
 
 
-\vskip5mm
+    \begin{tabular}{@{}p{6cm}p{6cm}}
+      \referee
+          {Peter Jipsen}
+          {Professor of Mathematics}
+          {Chapman University}
+          {545 W. Palm Ave}
+          {Orange, CA 92866}
+          {714-744-7918}
+          {jipsen@chapman.edu}
+    \end{tabular}
+    \begin{tabular}{@{}p{6cm}p{6cm}}
+          \referee
+              {Agnes Szendrei$^\dag$}
+              {Professor of Mathematics}
+              {University of Colorado, Boulder}
+              {2300 Colorado Avenue}
+              {Boulder, CO 80309}
+              {303-492-7683}
+              {szendrei@colorado.edu}
+    \end{tabular}
 
-%\hskip64mm $\dag$ teaching reference
-$\dag$ teaching reference
+    \begin{tabular}{@{}p{6cm}p{6cm}}
+      \referee
+          {J.B.~Nation}
+          {Emeritus Professor of Mathematics}
+          {University of Hawaii}
+          {2565 McCarthy Mall}
+          {Honolulu, HI 96822}
+          {808-956-4680}
+          {jb@math.hawaii.edu}
+    \end{tabular}
+    \begin{tabular}{@{}p{6cm}p{6cm}}
+      \referee
+          {Bill Lampe$^\dag$}
+          {Emeritus Professor of Mathematics}
+          {University of Hawaii}
+          {2565 McCarthy Mall}
+          {Honolulu, HI 96822}
+          {808-956-4680}
+          {bill@math.hawaii.edu}
+    \end{tabular}
+
+    \vskip5mm
+
+    %\hskip64mm $\dag$ teaching reference
+    $\dag$ teaching reference
 
