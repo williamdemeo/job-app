@@ -1,0 +1,22 @@
+\documentclass[12pt]{article}
+\usepackage{url}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue,citecolor=blue]{hyperref}
+% \usepackage[colorlinks=true]{hyperref}
+\usepackage[margin=1in]{geometry}
+\begin{document}
+\thispagestyle{empty}
+
+
+\newcommand\pubitem[6]{\item \href{#5}{#1} #2 \textit{#3}~#4 preprint link: \href{#5}{{\small #6}}}
+
+
+\newcommand\bookitem[4]{\item \href{#3}{#1} #2 \href{#3}{{\small #4}}}
+
+
+\noindent \textsc{Five Recent Publications} (as of January 2019) \hfill \textsc{William DeMeo}
+
+\medskip
+
+\input{../cv/aux/recent_pubs.tex}
+
+\end{document}
