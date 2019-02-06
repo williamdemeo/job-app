@@ -1,0 +1,316 @@
+
+~
+\vskip5mm
+
+\section{Structure and Complexity Theory}
+
+
+%% \noindent {\bf Summary.}
+%% A \acfi{CSP} asks for an assignment of
+%% \acused{CSP}
+%% appropriate values to variables subject to a given set of constraints.
+%% Such problems arise in a very wide variety of industrial and scientific applications
+%% including scheduling, resource allocation, vehicle routing, structure matching
+%% in bio-molecular databases, to name just a few. As a simple example, suppose we 
+%% have 50 chemical containers that must be stored in 6 sheds, and certain 
+%% chemicals cannot be stored together safely. Given a list of unsafe combinations,
+%% can we determine whether a solution (a safe assignment of containers to sheds)
+%% exists? If so, how do we find such a solution?  Assuming we develop an algorithm
+%% that solves the problem, does it scale well?  What if we are faced with 50,000
+%% chemical containers? %% \\[4pt]
+%  Is the solution that worked for 50 containers still  effective?
+%% \noindent {\it The algebraic approach to \CSP.}
+
+%% \section{Background}
+Consider the following problems:
+\begin{enumerate}
+\item 
+\emph{Solving a system of linear equations.}
+Given $n$ linear equations of the form $a_1x_1+\cdots +a_mx_m=b$
+(i.e., $n$ equations in $m$ unknowns), is there a \emph{solution},
+that is, an assignment of values to the variables $x_i$
+that satisfies all the equations simultaneously?
+
+\item
+  \emph{Storing chemical containers.}
+  Suppose we have 6 storage sheds in which to store $500$
+  chemical containers, and suppose some pairs of chemicals cannot be stored
+  safely in the same shed.
+  Given a list of unsafe pairs of chemicals, can we determine whether or not
+  it's possible to store the containers safely?
+  If so, how do we find a safe assignment of containers to sheds?
+  %% If some of the containers
+  %% are already safely in some of the sheds, can we leave them in place
+  %% and safely put the rest in the sheds?
+\end{enumerate}
+
+In problem (1)
+the goal is to assign values to variables in such a way as to satisfy 
+all the \emph{equational constraints} of the system.
+Problem (2) is similar in that it
+also asks for an assignment of values to variables, this time subject to
+\emph{relational constraints}. If we introduce a variable for every chemical container, 
+the value to be assigned to a variable is the name of the storage shed
+to which it is assigned, and the list of constraints on the assignment
+is the list of unsafe chemical pairs.
+
+Problems (1) and (2) are typical examples of
+{\it constraint satisfaction problems} (\csps).
+%% insert my version %%
+A central aim of mathematical research in this area is to discover
+methods for deciding when a \csp is ``easy,'' so scalable
+solutions exist, and when it is ``hard,'' so scalable solutions do not exist
+(unless \PeqNP).
+By ``scalable solution'' we mean that the running time of the
+algorithm that solves the \csp is bounded by a polynomial function of the
+size of the input. (Input here refers to a particular problem instance.)
+Problems for which such a ``polynomial-time'' algorithm exist belong to the 
+class \P of \emph{polynomial-time-solvable} problems, and we call such
+problems \emph{tractable}.
+
+A problem is in the class \NP if there exists a polynomial-time
+algorithm that takes an alleged solution to the problem and determines whether
+that solution is valid.  If a problem in \NP is
+at least as hard as any other problem in \NP, it is called \emph{\NPcomplete}.
+We sometimes call such problems \emph{intractable}.
+
+It is known that Problem (1), solving linear equations, is tractable.
+(For example, Gaussian elimination is a polynomial-time algorithm.)
+Problem (2)---the problem of deciding if it is possible to store
+$n$ chemical containers in $k$ sheds (considered as a problem
+with $k$ fixed and $n$ varying)---is tractable if $k\leq 2$,
+while it is intractable if $k>2$.
+(Readers familiar with the class of \csps known as ``graph coloring problems''
+will surely have recognized that Problem~(2) is equivalent to
+$k$-coloring an $n$-vertex graph.) 
+
+%%%%%% More details and notation %%%%%%
+%% More generally, each finite relational structure 
+%% $\bR=\< U, R_1,\ldots,R_k\>$, $R_i\subseteq U^{n_i}$, 
+%% poses an algorithmic problem
+%% %, denoted 
+%% $\CSP (\bR)$.  Namely, given any finite relational
+%% structure $\bS=\< V,S_1,\ldots,S_k\>$ similar to  $\bR$,
+%% determine if there exists a homomorphism $f: \bS \rightarrow \bR$ (and if
+%% possible, find one). Each $\bS$ is an \emph{instance} of
+%% the problem $\CSP (\bR)$. An instance can be recast in terms 
+%% of variables and constraints.
+%% Take the set of variables to be $V$, the universe of $\bS$,
+%% and the constraints to be the relational
+%% statements of the form $S_i(v_{j_1},\ldots, v_{n_{n_i}})$ that are 
+%% true in $\bS$.
+%% Then a homomorphism $\bS \to \bR$ is
+%% just a mapping of all the variables to elements of $U$ that 
+%% satisfies all the constraints.
+
+
+%% In Problem (2) involving chemical containers the structure $\bR$
+%% has universe $U$ equal to the set of storage sheds, and the only
+%% relation of $\bR$ is $\neq$ (not-equals). 
+%% A structure $\bS$ as in the definition of 
+%% $\mbox{CSP}(\bR)$ may be interpreted
+%% as having universe
+%% equal to a set of chemical containers, while the binary relation
+%% of $\bS$ represents those pairs of containers that
+%% are unsafe in combination. A homomorphism of $\bS$ to $\bR$
+%% assigns containers to sheds so that unsafe pairs of containers
+%% are assigned to unequal sheds.
+%%%%%% More details and notation %%%%%%
+
+\vskip2mm
+
+\noindent {\bf The Main Problem.}
+Richard Ladner \cite{MR0464698} showed that if \PneqNP,
+then there is a densely ordered set of complexity classes
+%% polynomial-time reducibility classes
+of problems in \NP that are neither \P nor \NP-complete.  
+The \csp-{\it dichotomy conjecture} of Tom\'as Feder and 
+Moshe Vardi~\cite{MR1630445} roughly states that no \csp 
+belongs to such a class of ``intermediate complexity;''
+i.e., every \csp is either in \P or is \NP-complete.
+This conjecture has so far resisted all efforts and continues to be plausible.
+%The Feder-Vardi Dichotomy Conjecture, \cite{FV99}, is 
+%that every \csp is in P or is \NP-complete.
+The main goal of our research in this area is to prove
+the conjecture by developing methods for all classes of \csps
+that can determine whether
+any given \csp is in P or is \NP-complete. %% It is expected that the conjecture
+%% will be proved by providing a polynomial time algorithm for solving
+%% those \csps that fall into \P.
+
+%% \newpage
+
+
+
+~
+\vskip5mm
+
+\section{Algebras and Algorithms}
+
+\subsection{Algebraic CSP Theory}
+At issue in the study of \csps is the increase in complexity
+that results when moving from a single equational or relational constraint
+to a system of such constraints. It is hard to overstate the usefulness
+of the ability to identify systems that can be solved quickly,
+and to provide fast algorithms for their solutions. Twenty years ago
+this would have been considered an impossible dream,
+but in the intervening years algebraic \csp theory
+has come into its own and has helped turn that dream into reality.
+
+There is a vast and growing literature describing this development.
+See for example~\cite{%
+  MR2953899,
+  MR2893395,
+  MR3374664,
+  MR3350338,
+  MR2563736,
+  MR2137072,
+  MR2926316}.
+  %% MR2648455,
+Our manuscript \cite{Bergman-DeMeo:2016} also describes a subset of
+these developments, as well as our latest contributions, in much greater detail
+that we present here. We will touch on some of our recent accomplishments
+below, but first we summarize the central
+program of algebraic \csp  theory in very simple terms.
+
+With each \csp there is an algebraic structure that corresponds to the given \csp
+in a natural way. This structure has easily computable algebraic invariants, 
+and the classes of algebras defined by different sets of algebraic invariants
+have well defined borders. 
+The known examples of \csps from different complexity classes
+produce algebras that suggest an ``algebraically natural'' dividing line between
+the easy and the hard \csps.
+Thus, the main goal of algebraic \csp theory is to use properties
+of algebras to determine the complexity class of the \csps associated with those
+algebras.
+
+This program of classifying \csps according to properties of the algebraic
+structures they induce has enjoyed tremendous success over the last
+decade. We now describe the program and some of its successes in more detail.
+%% It has produced deep new results concerning the complexity of
+%% \csps and explained and united most of the older results. 
+%% Moreover, most of the new results have been turned around and used to produce
+%% startling new algebraic results of a kind never seen before in universal
+%% algebra.
+
+
+\subsection{Reduction of the main problem}
+Due to the extensive body of work cited above, the algebraic version of the
+{\it \csp-dichotomy conjecture} now reduces to the following
+assertion:
+\begin{quote}
+\emph{Every local constraint satisfaction problem associated with a finite
+idempotent algebra is tractable if and only if the algebra has a Taylor term operation.}
+%% \emph{If a finite idempotent algebra $\mathbf{A}$ has a
+%%   so called weak near-unanimity term operation, then the associated constraint satisfaction problem 
+%% $\mathrm{CSP}(\mathbf{A})$ is tractable.}
+\end{quote}
+%(The converse of this statement is known to be true.)
+
+We further simplify the present discussion by focusing on a special class of algebras
+called \acp{cib}. %% commutative idempotent binars (\cibs).
+These are algebras with a single commutative binary operation $\cdot$
+that satisfies $x \cdot x = x$ for all $x$.
+For the purpose of this brief research statement, we don't need a
+precise definition of Taylor term operation; it
+suffices to observe that a binary operation is a Taylor term operation
+%% satisfies the definition of a
+%% ``weak near-unanimity''  term 
+if and only if it is idempotent and commutative. This, together with 
+the statement of the conjecture above, suggests the following question:
+Is every finite \cib tractable?
+
+\subsection{Recent progress}
+%% The algebraic version of the dichotomy conjecture asserts that a finite algebra
+%% $\mathbf A$ has a tractable constraint satisfaction problem if and only if it
+%% has a weak NU term operation. The left-to-right direction is known, the converse is
+%% open. 
+A semilattice is an associative \cib. It has been known for quite some time that
+semilattices are tractable. %% , in fact, they have finite width.
+Starting from that fact, Clifford Bergman and David Failing considered various
+axioms that do not imply associativity even when coupled with commutativity and
+idempotence. In \cite{MR3350338}, these authors
+show that a finite \cib is tractable if it satisfies an identity of 
+Bol-Moufang type or the self-distributive law. 
+
+By applying {\'A}gnes Szendrei's characterization of finite, idempotent,
+strictly simple algebras in~\cite[Thm.~2.1]{MR911575}, %% Szendrei:1987}), 
+we proved that every locally finite, equationally complete
+variety of \cibs, except for semilattices, is congruence-permutable (hence, has
+a tractable \csp).
+%% Moreover, Bergman proved that such varieties are pairwise
+%% independent. Consequently, the join of any two of these minimal varieties is
+%% congruence-permutable. It follows from this, together with techniques
+%% from~\cite{MR3350338}, that the join of any two minimal varieties of
+%% \cibs has a tractable \csp.  
+%% Next, Bergman and I showed that every locally finite, equationally
+%% complete variety of \cibs, except for semilattices, is
+%% congruence-permutable. (This follows easily from previous work of A. Szendrei.) 
+%% Furthermore, Bergman showed that they are pairwise independent. Consequently, the
+%% join of any two of these minimal varieties is congruence-permutable. It follows
+%% from this, together with the Bergman-Failing techniques that the join of any two
+%% minimal varieties of CIB's is tractable. 
+Next, we observed that if $\bA$ is a finite
+\cib, then the following are equivalent
+(where $\mathbf S_2$ denotes the two-element semilattice):
+(i) $\mathbf S_2$ is not a homomorphic image of $\bA$
+(ii) $\bA$ has a so called ``cube term'' (and is thus tractable).
+%% The proof is an easy application of cube-term blockers.
+As a result we conclude that any variety of
+\cibs that omits semilattices is tractable.  
+
+Based on computational experiments, we were led to conjecture that if a
+locally finite variety of \cibs is disjoint from semilattices, then it must be
+congruence-permutable.  Keith Kearnes confirmed this conjecture using 
+\cite[Lem.~2.8]{MR2333368}.
+Thus, we have established that a finite \cib either is congruence permutable (and therefore
+tractable) or has a proper semilattice divisor.
+To settle the \csp-dichotomy conjecture for finite \cibs, then, 
+it remains to show that a finite \cib with a proper semilattice  
+divisor is tractable. Work on this problem continues.
+
+To complete the initial phase of our research project, we set out to prove that all
+four-element \cibs are tractable.
+Using the Scala language and the \UACalc
+Java libraries, we produced a list of all four-element \cibs with
+two-element semilattice subalgebras.   
+The program revealed that all but 32 of these algebras generate a congruence
+$\mbox{SD}_\wedge$  variety, so the associated \csps are known to be solvable
+by local consistency methods. 
+Thus, we focused on the 32 remaining algebras,
+hoping to find new polynomial-time algorithms that solve the \csps
+associated with these algebras, or prove them tractable by other means.
+We accomplished this goal in October of 2016 and thus settled the
+\csp-dichotomy conjecture for four-element \cibs.  Our manuscript
+\cite{Bergman-DeMeo:2016} presents these results; it
+has been submitted for publication in {\it Logical Methods in
+  Computer}, and is also available online from
+\href{https://arxiv.org/abs/1611.02867}{arxiv.org/abs/1611.02867}.
+
+
+%% {\bf Future Work and Collaboration.} Perhaps the most promising new idea
+%% for making further progress on this problem %Petar Markovi\'{c} and 
+%% is due to \textsf{Mikl\'{o}s Mar\'{o}ti}.  In unpublished notes, 
+%% \textsf{Mar\'{o}ti} describes a delicate procedure for proving that certain algebras
+%% yield tractable \csps. %%  The idea is quite technical, so at the risk of
+%% oversimplifying I will give a very rough synopsis.  Start with a certain family
+%% of algebras related in a particular way to the algebra whose tractability is
+%% in question. Inductively eliminate from consideration algebras in this family
+%% until we are left with .
+%% The details of his approach are quite a bit more complicated than could be
+%% usefully described here.  Suffice it to say that we are currently engaged in
+%% an attempt to exploit this method, along with our previous results, to
+%% resolve the dichotomy conjecture for \cibs.
+
+%% four element cases, which you seem to have resolved using methods
+%% similar to those we're also looking at (such as Maroti's "tree on top"
+%% idea).  
+
+%% \noindent {\bf Summary of main objectives.}
+%% Understand what has been accomplished in algebraic CSP and
+%% master the tools that have been developed. If that happens, we should see
+%% breakthrough results in year two.
+
+%% Our work in CSP, and in particular our most recent work with \Maroti's idea, has
+
+

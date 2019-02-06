@@ -1,0 +1,178 @@
+\section*{Postscript on leveraging technology}
+Our most recent work indicates that progress could be significantly accelerated
+by exploiting some new developments in the programming
+languages, type theory, and constructive logic communities.
+For example, the Coq formal proof system~\cite{MR2229784}, is based on a version of
+higher-order logic, the Calculus of inductive Constructions (CiC)~\cite{MR935892} whose
+specific features---propositions as types, dependent types,
+and computational reflection---seem ideally suited to the task of formalizing \csp theory,
+verifying its correctness, and developing new
+theorems and strategies for solving \csps. Yet
+it seems there has been very little prior work on formalizing \csp theory 
+using these powerful tools.
+
+Furthermore, a number of results and ideas on which our work depends
+appear in journals and conference proceedings with many important details
+missing.  Using Coq, we could not only verify the correctness of the results, but
+also determine the precise setting (axiomatic system and assumptions) 
+required to make them valid.  To begin, some informal arguments that we
+want to have formalized are those in the seminal work of Feder and Vardi mentioned
+above.  Miklos Maroti has already guided students' attempts to reprove some of
+these theorems in detail,  but the
+proofs are far from trivial. One direction is formalizing and
+certifying of theorems in Coq. Another is formalizing the algebraic
+approach to \csp.  The idea is that implementing theorems as types
+and proofs as ``proof objects'' would produce the following:
+%% \begin{enumerate}
+%% \item computer verified, and possibly simplified, proofs of known results
+%% \item better understanding of existing theory and algorithms
+%% \item new and/or improved theorems and algorithms
+%% \end{enumerate}
+(i) computer verified and possibly simplified proofs of known results,
+(ii) better understanding of existing theory and algorithms, and
+(iii) new and/or improved theorems and algorithms.
+
+There is substantial evidence that Coq provides a suitable platform for
+formalizing \csp.  The type theory on which Coq is based provides
+a foundation for computation that is more powerful than
+first-order logic and seems well suited to the specification of
+constraint satisfaction problems.
+%% In first-order logic, higher-level (meta) arguments are second class citizens:
+%% they are interpreted as informal procedures that should be expanded to primitive
+%% arguments to achieve full rigor. This is fine for informal proofs, but becomes
+%% impractical in a formal one. Type theory supplies a much more satisfactory
+%% solution, by providing a language that can embed meta-arguments in types. 
+%% In the limited space here, we can't provide many details, so we
+%% conclude by remarking that 
+%% Constraints are conditions that require
+%% satisfaction, which are ,
+%% Moreover, the definition of `
+Indeed, a \csp is most naturally specified using typed predicate calculus
+expressions and explicitly requires variable-dependent sets,
+just like the specification language of Martin-L\"{o}f's 
+Theory of Types~\cite{MR769301}.
+In order to support this feature, programming constructs should be
+able to return set or type values, hence \emph{dependent types}. 
+This accommodates a stronger form of function definition than is available in
+most programming languages; specifically, it allows the type of a result of a
+function application to depend on a formal parameter, the value (not merely the
+type) of the input.
+
+For formalizing long complex mathematical arguments Coq 
+relies on \emph{computational reflection}.
+Dependent types make it possible for data, functions, and \emph{potential}
+computations to appear inside types. Standard mathematical practice is
+to interpret and expand these objects, 
+%% replacing a constant
+%% by its definition, instantiating formal parameters, etc.
+while Coq supports this through typing rules that lets such computation happen 
+transparently. 
+%% \[\frac{t : A \quad A \equiv_{\beta \iota \delta \zeta} B}{t : B}\]
+%% This rule states that the 
+%% $\beta \iota \delta \zeta$-computation rules
+%% of CiC yield equivalent types. 
+%% It is a subsumption
+%% rule: there is no record of its use in the proof
+%% term $t$.
+Arbitrarily long computations can thus
+be elided from a proof. %% , as CiC has an $\iota$-rule for
+%% recursion.
+This yields an entirely new way of proving
+results about specific calculations.
+With these tools at our disposal, we can quickly and efficiently formalize many
+of our results.  Beyond merely certifying the correctness of our proofs, we hope
+that this effort will result in an accelerated pace of scientific discovery.
+
+Finally, we remark that a growing number of mathematicians, including Field's
+Medalist Vladimir Voevodsky, have been using proof assistants and type theory
+in their mathematics.
+Constructive type theory and higher-order logics have played a noteworthy
+role in mathematics, both in mechanically confirming the solution of important
+problems such as the Four Color Theorem and Odd Order Theorem (Feit-Thompson
+Theorem) and in settling the Kepler Conjecture.
+Proof assistants have obvious potential for improving the
+referee and validation process, and the type theory on which they are based may
+have the potential to enrich the foundations of mathematics.
+If mathematical discoveries are reaching the limits of our
+ability to confirm and publish them in a timely and cost effective way, 
+it is likely that proof assistants have an increasingly
+important role in the mathematics of the future.
+%% : computing!
+
+%% \vskip2cm
+
+
+%% %%% LEFT OFF HERE %%%%
+%% Kazda believes that a better understanding of absorption can yield an algorithm
+%% to test whether a finite algebra is finitely related. (This decision problem was
+%% formulated by E. Aichinger.) 
+
+%% \vskip2cm
+
+
+%% {\bf Near-term goals for algebraic CSP work:} 
+%% \begin{enumerate}
+%% \item
+%% {\bf Settle the CSP-dichotomy conjecture for finite \cibs.} To achieve this,
+%% it remains to show that a finite \cib with a proper semilattice  
+%% divisor is tractable. To begin with, DeMeo used the Universal Algebra Calculator to find
+%% all four-element \cib that have the two-element semilattice as a subalgebra. 
+%% All but 32 of these algebras generate a congruence $\mbox{SD}_\wedge$  variety
+%% (so the associated \csp is known to be solvable by the ``local consistency algorithm'').
+%% Therefore, we will study the 32 algebras that do not generate congruence
+%% $\mbox{SD}_\wedge$ varieties, starting with the simple ones, and attempt to
+%% find new polynomial-time algorithms that solve the \csps associated with
+%% these algebras.
+%% \end{enumerate}
+
+
+
+%% \begin{thebibliography}{1}
+
+%% \bibitem{BergmanFailing2013}
+%% C.~Bergman and D.~Failing, \emph{Commutative, idempotent groupoids and the
+%%   constraint satisfaction problem}, submitted to Algebra Universalis.
+
+%% \bibitem{DeMeo:2014}
+%% W.~DeMeo, 
+%% \emph{Isotopic algebras with nonisomorphic congruence lattices},
+%% Algebra Universalis \textbf{72} (2014), no.~3.
+
+%% \bibitem{KearnesTschantz:2007}
+%% K.~Kearnes and S.~Tschantz, \emph{Automorphism groups of squares and of free algebras},
+%% Internat. J. Algebra Comput. \textbf{17} (2007),
+%% no.~3, 461--505. %\MR{08A35 (08B20 20B25)}.
+
+
+%% \bibitem{Szendrei:1987}
+%% {\'A}.~Szendrei, \emph{Idempotent algebras with restrictions on subalgebras}, 
+%% Acta. Sci. Math. \textbf{51} (1987), 251--268.
+
+
+%% \end{thebibliography}
+
+%% \bibitem{MarkovicMarotiMcKenzie:2012}
+%% P.~Markovi{\'c} and M.~Mar{\'o}ti and R.~McKenzie,
+%% \emph{Finitely related clones and algebras with cube terms},
+%% Order \textbf{29} (2012), no.~2, 345--359.
+%% %\MR{08A62 (08A99 08B05 08B10)}.
+
+%% \bibitem{alvi:1987}
+%% R.~McKenzie and G.~McNulty and W.~Taylor,
+%% \emph{Algebras, lattices, varieties. {V}ol. {I}},
+%% Wadsworth \& Brooks/Cole (1987).
+%% %\MR{08-01 (06-01)}
+
+
+%% \bibitem{Escardo:2008}
+%% M.~Escard{\'{o}}, \emph{Exhaustible sets in higher-type
+%%   computation}, Logical Methods in Computer Science \textbf{4} (2008), no.~3.
+
+%% \bibitem{Freese:2009}
+%% R.~Freese and M.~Valeriote, \emph{On the complexity of some
+%%   {M}altsev conditions}, Internat. J. Algebra Comput. \textbf{19} (2009),
+%%   no.~1, 41--77. \MR{2494469 (2010a:08008)}
+
+
+
+
