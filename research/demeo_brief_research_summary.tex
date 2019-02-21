@@ -1,0 +1,115 @@
+\documentclass[11pt]{amsart}
+
+\usepackage{inputs/macros}
+
+\pagestyle{fancy}
+\lhead{William DeMeo} \chead{} \rhead{January 2019}
+%\lfoot{} \rfoot{\bf \thepage} \cfoot{}
+
+
+\newcommand\alg[1]{\mathbf{#1}}
+\newcommand\defn[1]{\textit{#1}}
+\newcommand\sV{\mathcal{V}}
+\newcommand{\comm}[2]{\ensuremath{[#1, #2]}} % [r, s] (relation spacing)
+\newcommand{\malcev}{Maltsev\xspace}
+
+
+\begin{document}
+\begin{center}
+  \textsc{Brief Summary of Research Activities}\\[3pt]
+  William DeMeo
+\end{center}
+%\noindent \textsc{Brief Summary of Research Activities} \hfill \textsc{William DeMeo}
+
+\section{Introduction}
+The last two decades have witnessed explosive growth in the number of applications of abstract mathematics, especially in computer science, and this trend continues on a steep upward trajectory. Mathematical fields like \emph{universal algebra} and \emph{category theory} have long had a substantial influence on the development of theoretical computer science, particularly in \emph{domain theory}, \emph{denotational semantics}, and \emph{programming languages research} (e.g.,~\cite{MR2328298,MR1006873,Plotkin2003,MR1249550}). Dually, progress in theoretical computer science has informed and inspired a substantial amount of pure mathematics in the last half-century (e.g.,~\cite{MR3233442,MR1321662,MR1249550}), just as physics and physical intuition motivated so many of the mathematical discoveries of the last two centuries.  
+
+% \emph{Functional programming languages} that support \emph{dependent} and \emph{(co)inductive types} have brought about new opportunities to apply abstract concepts from universal algebra and category theory to the practice of programming, to yield code that is more modular, reusable, and safer, and to express ideas that would be difficult or impossible to express in \emph{imperative} or \emph{procedural programming languages}~\cite[Chs. 5 \& 10]{baueroplss:2018,hughes:1989,chiusano:2014}. 
+% The \emph{Lean Programming Language}~\cite{lean} is one example of a functional language that supports dependent and (co)inductive types, and it is ideally suited for expressing the key concepts and result of universal algebra.  As such, Lean is the primary language we have chosen for our most recently launched project, \emph{Formal Foundations for Informal Mathematics Research}. 
+
+Universal algebra has also been invigorated by a recently discovered connection to complexity theory, and this connection was the primary focus of my work from 2015 to 2017. 
+The theory of finite algebras has turned out to be broadly applicable in obtaining deep and definitive results about the complexity of algorithmic problems in the broad class of  {\it constraint satisfaction problems} (\csps).   We call this area {\it algebraic \csp theory}.
+The tools of universal algebra, combined with combinatorial reasoning about polymorphisms (multi-variable endomorphisms) acting on finite graphs and other relational structures, has produced deep new results concerning the complexity of \csps, and has explained and united older results. Furthermore, almost all of the new results have been turned around and used to produce
+startling new algebraic results of a kind never seen before in universal algebra.
+
+More recently my focus has been the mechanization of mathematics in functional programming languages and proof assistants such as Coq~\cite{the_coq_development_team_2019_2554024}, Lean~\cite{lean}, and Scala~\cite{odersky2004overview} (see, for example, Section~\ref{sec:formal} below).
+
+\section{Some Recent Work}
+
+\subsection{Formal Foundations for Informal Mathematics Research}
+\label{sec:formal}
+After a half century of progress in universal algebra, category theory, proof theory, and type theory, it is now possible to present the foundations of mathematics and computer science in a unified way.  Every mathematician and theoretical computer scientist knows from experience that the choices one makes at the outset---about logical foundations, languages, notations---play a decisive role in the theory that develops.  Indeed, every new theorem is a product of the language in which it is expressed, and a poor choice of language or foundations can severely limit what is possible. In my view this is among the most fascinating aspects of scientific research.
+
+Universal algebra (my field of specialty) was developed by some of the most brilliant mathematicians of the 20th century. Nonetheless, it seems that some important parts of the subject were created with little or no regard for the computational content of the theory.  With the advent of dependent type theory, functional programming, and proof assistants, this aspect of our subject makes universal algebra less relevant and less powerful than it has the potential to be. It is this conviction that motivated me to embark on an ambitious new project to reexamine the core foundations of universal algebra, redevelop them as necessary in a category theoretic and constructive language, and produce a library of formalized universal algebra in the language of dependent type theory, and codified in the Lean proof assistant language.  For more details about this research program, including some early progress, please see the document \href{https://github.com/williamdemeo/job-app/blob/master/research/demeo_informal_foundations.pdf}{demeo\_informal\_foundations.pdf}, which is the full proposal for the \emph{Formal Foundations for Informal Mathematics Research} (FFIMR) project.
+
+  
+\subsection{New Characterizations of Bounded Lattices and Fiber Products}
+\label{sec:fiber}
+About a year ago I began collaborating with Peter Mayr (CU Boulder) and Nik Ruskuc (University of St. Andrews) who were interested in knowing when a homomorphism $\varphi \colon \mathbf{F} \to \mathbf{L}$ from a finitely generated free lattice $\mathbf{F}$ onto a finite lattice $\mathbf L$ has a kernel $\ker \varphi$ that is a finitely generated sublattice of $\mathbf{F}^2$.  We conjectured that this could be characterized by whether or not the homomorphism is \emph{bounded},\footnote{See~\cite{MR1319815} for the definition of a bounded lattice homomorphism.} and I presented a proof of one direction of this conjecture at the \href{https://universalalgebra.github.io/ALH-2018/}{Algebras and Lattices in Hawai'i} conference earlier this year. Last month we proved the converse and thus confirmed our conjecture.  Mayr and Ruskuc have had in mind an application for the fact that our new result is equivalent to a characterization of \emph{fiber products} of lattices.  With the proof of our new characterization theorem complete, we expect to have a manuscript ready for submission by the end of February 2019.  
+% In the meantime, preliminary drafts may be found in our project's \href{https://github.com/UniversalAlgebra/fg-free-lat}{github repository}.
+
+
+\subsection{Tractability of Deciding Existence of Special Terms}
+\label{sec:diffterm}
+Among my most recent research accomplishments was the discovery that a certain decision problem about algebraic structures that previously seemed out of reach is actually tractable. In collaborative project with Ralph Freese (University of Hawaii) and Matthew Valeriote (McMaster University), we considered the following practical question: Given a finite algebra $\alg{A}$ in a finite language, can we efficiently decide whether the variety generated by $\alg{A}$ has a so called \emph{difference term}? In a paper that will soon appear in the \emph{International Journal of Algebra and Computation} (IJAC), we answer this question (positively) in the idempotent case and then describe algorithms for constructing difference term operations~\cite{DFV:2018}.
+ 
+A \defn{difference term} for a variety $\sV$ is a ternary term $d$ in the language of $\sV$ that satisfies the following:  if $\alg{A} = \<A, \dots \> \in \sV$, then for all $a, b \in A$ we have
+  \begin{equation}
+  \label{eq:3}
+  d^{\alg{A}}(a,a,b) = b \quad \text{ and } \quad
+  d^{\alg{A}}(a,b,b) \mathrel{\comm \theta \theta} a,
+  \end{equation}
+  where $\theta$ is any congruence %% of $\alg{A}$
+  containing $(a,b)$
+  and $[\cdot, \cdot]$ denotes the \defn{commutator}.
+  %% (see Section~\ref{sec:defin-notat}).
+  When the relations in (\ref{eq:3}) hold for a single algebra $\alg{A}$ and term $d$ we call $d^{\alg{A}}$
+  a \defn{difference term operation} for $\alg{A}$.
+  
+Difference terms are widely studied in the general algebra literature. (See, for example, \cite{MR3449235,MR1358491,MR1663558,KSW}.) There are many reasons to study difference terms, but
+one obvious reason is the following: if we know that a variety has a difference term, this fact allows us to deduce that the algebras inhabiting this variety must satisfy certain interesting properties.  Perhaps the most important property can be summarized in the following heuristic slogan: \emph{varieties with a difference term have a commutator that behaves nicely}.  
+  
+% The class of varieties that have a difference term is fairly broad and includes those varieties that are congruence modular or congruence meet-semidistributive. Since the commutator of two congruences of an algebra in a congruence meet-semidistributive variety is just their intersection~\cite{MR1663558}, it follows that the term $d(x,y,z) := z$ is a difference term for such varieties.  A special type of difference term $d(x,y,z)$ is one that satisfies the equations $d(x,x,y) = y$ and $d(x,y,y) = x$.  Such terms are called \emph{\malcev\ terms}. So if $\alg A$ lies in a variety that has a difference term $d(x,y,z)$ and if $\alg A$ is \emph{abelian} (i.e., $[1_A, 1_A] = 0_A$), then $d$ will be a \malcev\ term for $\alg A$.
+  
+% Difference terms also play a role in recent work of Keith Kearnes,
+% Agnes Szendrei, and Ross Willard. In~\cite{MR3449235} these authors give a positive answer J\'onsson's famous question---whether a variety of finite residual bound must be finitely axiomatizable---for the
+% special case in which the variety has a difference term.\footnote{To say a variety has \emph{finite residual bound} is to say there is a finite bound on the size of the subdirectly irreducible members of the variety.}
+  
+Computers have become invaluable as a research tool and have helped to broaden and deepen our understanding of algebraic structures and the varieties they inhabit.  This would not be possible without  the efforts of researchers who, over the last three decades, have found ingenious ways to coax computers into solving challenging abstract algebraic decision problems, and to do so very quickly.
+To give a couple of examples related to our own work, it is proved in~\cite{MR3239624} (respectively,~\cite{Freese:2009}) that deciding whether a finite idempotent algebra generates a variety that is congruence-$n$-permutable (respectively, congruence-modular) is \emph{tractable}. Our work continues this effort by presenting an efficient algorithm for deciding whether a finitely generated idempotent variety has a difference term.
+
+\subsection{Algebras and Algorithms, Structure and Complexity}
+\label{sec:csp}
+There is now an extensive and growing research literature on algebraic \csp theory. Consequently, the field of universal algebra is more active now than at any other time in its brief eighty-five year history. In 2015, I joined a group of 8 other scientists to form a universal algebra research group and secure a 3-year \textsc{nsf} grant for a project called ``Algebras and Algorithms, Structure and Complexity Theory.'' We focus primarily on classes of algebraic problems whose solutions yield definitive results about the complexity of \csps. These include scheduling problems, resource allocation problems, and problems reducible to solving systems of linear equations. \csps are theoretically solvable, but some are not solvable efficiently in practice.  Our work provides procedures for deciding whether a given instance of a \csp is tractable or intractable, and we develop efficient algorithms for finding solutions in the tractable cases. 
+A number of new results in algebraic \csp theory that I proved in the last two years are presented in a 50-page manuscript entitled ``Universal Algebraic Methods for Constraint Satisfaction Problems,''~\cite{Bergman-DeMeo:2016} which I authored with Cliff Bergman and which was recently accepted for publication in \textit{Logical Methods in Computer Science} (LMCS).
+
+%% Many fundamental problems in mathematics and computer science can be
+%% formulated as \csps, and progress here would have both practical and theoretical
+%% significance.
+
+
+%% Broadly speaking, if we achieve are able to attain the goals described above
+%% will play a pivotal role in the rapidly developing area of algebraic \csp
+%% theory.
+%%  Some of the more specific
+%% goals of the project are summarised below, but the reader may consult the
+%% latest draft of our working paper~\cite{Bergman-DeMeo:2016} for more details.
+
+
+%% \newpage
+
+% \input{inputs/Project1-CSP.tex}
+
+%% \input{inputs/postscript.tex}
+
+
+%% \input{inputs/Project2-FLRP.tex}
+ %% \bibliographystyle{plain}
+ %% \bibliography{inputs/refs.bib}
+     \bibliographystyle{plainurl}
+    %  \bibliography{inputs/refs2,../refs}
+     \bibliography{../refs}
+
+\end{document}
+
+

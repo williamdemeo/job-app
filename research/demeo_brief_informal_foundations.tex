@@ -1,0 +1,824 @@
+%% [25] L. de Moura and N. Bjørner. Efficient e-matching for SMT solvers. In F. Pfenning, editor,
+%% Conference on Automated Deduction (CADE-21), volume 4603 of LNCS, pages
+%% 183–198. Springer, 2007.
+%% [62] D. Selsam and L. de Moura. Congruence closure in intensional type theory. In N. Olivetti
+%% and A. Tiwari, editors, International Joint Conference on Automated Reasoning (IJCAR
+%% 2016), volume 9706 of LNCS, pages 99–115. Springer, 2016.
+%% [30] G. Ebner, S. Ullrich, J. Roesch, J. Avigad, and L. de Moura. A metaprogramming
+%% framework for formal verification. In International Conference on Functional
+%% Programming (ICFP 2017), pages 34:1–34:29. ACM, 2017.
+%% [13] J. C. Blanchette, M. Haslbeck, D. Matichuk, and T. Nipkow. Mining the Archive of Formal
+%% Proofs. In M. Kerber, editor, Conference on Intelligent Computer Mathematics (CICM
+%% 2015), volume 9150 of LNCS, pages 1–15. Springer, 2015.
+\documentclass[11pt]{amsart}  %[11pt]
+\usepackage[utf8x]{inputenc}
+
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.7, 0.1, 0.1}   % red
+\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}   % grey
+\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}      % green
+\usepackage{comment}
+\usepackage{listings}
+\def\lstlanguagefiles{aux/lstlean.tex}
+\lstset{language=lean}
+
+
+
+\makeatletter
+\def\@settitle{\begin{center}%
+  \ifx\@subtitle\@empty\else
+  \uppercasenonmath\@subtitle
+     \footnotesize\mdseries\@subtitle     \\[1ex]
+  \fi
+  \baselineskip14\p@\relax
+  \bfseries
+  \uppercasenonmath\@title
+  \@title
+  \end{center}%
+}
+\def\subtitle#1{\gdef\@subtitle{#1}}
+\def\@subtitle{}
+\makeatother
+
+
+%%%%%%% wjd: added these packages vvvvvvvvvvvvvvvvvvvvvvvvv
+% PAGE GEOMETRY
+% These settings are for letter format
+%% \usepackage[margin=1.5in]{geometry}
+
+%% \def\OPTpagesize{8.5in,11in}     % Page size
+%% \def\OPTtopmargin{0.75in}     % Margin at the top of the page
+%% \def\OPTbottommargin{0.75in}  % Margin at the bottom of the page
+%% \def\OPTinnermargin{.5in}    % Margin on the inner side of the page
+%% \def\OPTbindingoffset{0.35in} % Extra offset on the inner side
+%% \def\OPToutermargin{0.5in}   % Margin on the outer side of the page
+%% \usepackage[papersize={\OPTpagesize},
+%%   top=\OPTtopmargin,
+%%   bottom=\OPTbottommargin,
+%%   inner=\OPTinnermargin,
+%%   outer=\OPToutermargin
+%%   twoside,
+%%   includehead,
+%%   bindingoffset=\OPTbindingoffset]{geometry}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[yyyymmdd,hhmmss]{datetime}
+% \usepackage{background}
+% \backgroundsetup{
+%   position=current page.east,
+%   angle=-90,
+%   nodeanchor=east,
+%   vshift=-1cm,
+%   hshift=8cm,
+%   opacity=1,
+%   scale=1,
+%   contents={\textcolor{gray!80}{WORK IN PROGRESS (compiled on \today\ at \currenttime)}}
+% }
+%%%%%%  (end wjd addition of packages)
+
+\usepackage{amsmath,amssymb,url,mathrsfs,enumerate,ifthen,xspace}
+\usepackage{latexsym,amscd,amsthm,stmaryrd,scalefnt}
+\usepackage{enumerate,latexsym,relsize,bussproofs}
+\usepackage{aux/unixode}
+\usepackage[colorlinks=true,urlcolor=black,linkcolor=black,citecolor=black]{hyperref}
+%\usepackage{graphicx}
+\usepackage{tikz}
+
+\usepackage{aux/macros_master}
+
+\input{aux/figures}
+
+\newboolean{extver}
+\setboolean{extver}{false}
+%\setboolean{extver}{true}
+
+\newcommand\extverurl{https://goo.gl/9mcWBi}
+\newcommand\extverURL{https://github.com/williamdemeo/job-app/tree/master/research_statement/extended_version}
+
+
+%% \usepackage{fancyhdr}
+%% \pagestyle{fancy}
+%% \lhead{{\it \workingtitle}} \chead{} \rhead{William DeMeo}
+%% \lfoot{} \cfoot{\thepage}  \rfoot{}
+
+%% \renewcommand{\headrulewidth}{0pt}
+%% \renewcommand{\footrulewidth}{0pt}
+%% \setlength{\footskip}{20pt}
+
+%%% EDIT THIS %%%
+\newcommand\workingtitle{{\large PROJECT SUMMARY}\\[8pt] {\large Formal Foundations for Informal Mathematics Research}\\[20pt] {\large William DeMeo}}
+\newcommand\workingsubtitle{}
+%\newcommand\workingsubtitle{universal algebra and computer-aided theorem proving} %\\ Universal Algebra and Lattice Theory}
+% \newcommand\workingtitle{Practical Foundations for Universal Algebra and Lattice Theory}
+
+\title[Formal Foundations for Informal Mathematics]{\workingtitle}
+% :\\\workingsubtitle}%% Lean Universal Algebra:}
+% \subtitle{Research Program} %formalized universal algebra and \\computer-aided mathematical proof}
+
+% \author{\large William D\protect{e}Meo}
+
+
+\begin{document}
+
+\maketitle
+
+We present an overview of a recently initiated research project, \textit{Formal Foundations for Informal Mathematics Research} (\textsc{ffimr}). The full in the project proposal is available in the document \href{https://github.com/williamdemeo/job-app/blob/master/research/FFIMR.pdf}{FFIMR.pdf}.
+
+\bigskip
+
+% {\footnotesize
+% \begin{quote}
+%   % ``There are certain dangers inherent in the formalization of mathematics.
+%   ``Systems of axioms acquire a certain sanctity with age, and in the 
+%   \emph{how} of churning out theorems we forget \emph{why} we were studying 
+%   these conditions in the first place...
+% Computer languages suffer far more from this problem:
+% nobody would claim any intrinsic merit for \textsc{Fortran} or \textsc{Html}, but
+% sheer weight of existing code keeps them in use. Through the need for a
+% standard---\emph{any} standard---a similar disaster could befall mathematics
+% if set theory were chosen. 
+% As with any programming, and also with the
+% verification of programs, far more detail is required than is customary in
+% mathematics. G. H. Hardy (1940) claimed that there is no permanent
+% place in the world for ugly mathematics, but I have never seen a program
+% which is not ugly. 
+% Even when the mathematical context and formal
+% language are clear, we should not perpetuate old proofs but instead look
+% for new and more perspicuous ones.''\\\\
+% % --Paul Taylor~\cite[p.~45]{MR1694820}
+% ~ \phantom{x} \hfill {\it --Paul Taylor}\\
+% ~ \phantom{x} \hfill in {\it Practical Foundations of Mathematics}\\
+% % ~\cite{MR1694820}
+% \end{quote}
+% \vskip2cm
+% }
+
+\section{Introduction and Motivation}
+A significant portion of the professional mathematician's time is typically occupied by tasks other than \textit{Deep Research}. (By Deep Research we mean such activities as discovering truly non-trivial, publishable results, inventing novel proof techniques, or conceiving new research areas or programs.) Indeed, consider how much time we spend on ``mental drudgery;'' that is, looking for and fixing minor flaws in an argument, handling straightforward special cases of a long proof, or performing clever little derivations which, if we're honest, reduce to mere exercises that a capable graduate student could probably solve.  Add to this the time spent checking proofs when collaborating with others or reviewing journal submissions and it's safe to say that the time most of us spend on Deep Research is fairly limited.
+
+It may come as a surprise, then, that computer-aided theorem proving technology, which is capable of managing much of the straight-forward and less interesting aspects of our work, has not found its way into mainstream mathematics. The reasons for this are simple to state, but difficult to resolve. For most mathematicians, the potential benefit of the currently available tools is outweighed by the time and patience required to learn how to put them to effective use.  The high upfront cost is due to the fact that most researchers carry out their work in a very \emph{efficient informal dialect} of mathematics---a common dialect that we share with our collaborators, and without which proving and communicating new mathematical results is difficult, if not impossible.
+
+% One hopes that published mathematical results \emph{could} be translated into  the rigorous language of some system of logic and formally verified. Nonetheless, few would relish spending the substantial time and energy that such an exercise would require. 
+A mathematician's job is to discover new theorems and to present them in a language that is rigorous enough to convince colleagues, yet informal enough to be efficient for developing and communicating new mathematics. Such a language is what we refer to as the \emph{Informal Language} of mathematics research. 
+% A relatively recent trend is challenging this status quo, however, and the number of mathematicians engaging in computer-aided mathematics research is on the rise~\cite{gowers:2017,harris:2015,pierce:2009}. Indeed, at the \emph{Computer-aided Mathematical Proof} workshop of the \emph{Big Proof Programme}, held in 2017 at the Isaac Newton Institute of Cambridge University, we witnessed the serious interest that leading mathematicians (including two Fields Medalists) showed in computer-aided theorem proving technology~\cite{bigproof:2017}.
+To verify mathematical arguments by computer, the arguments must be be written in a language that allows machines to interpret and check them. We refer to the practice of writing such proofs as \emph{interactive theorem proving}, and to the programming languages and software systems that check such proofs as \emph{proof assistants} or \emph{interactive theorem provers}.  While most mainstream mathematicians have not yet adopted such systems, their use in academia and industry to verify the correctness of hardware, software, and mathematical proofs is spreading rapidly. Indeed, \emph{constructive type theory} and \emph{higher-order logics}, on which most modern proof assistants are based, have played vital roles in the recent formalizations of landmark mathematical results, such as~the \emph{Four-Color Theorem}~\cite{MR2463991} and the \emph{Feit-Thompson Odd Order Theorem}~\cite{gonthier:2013b}, as well as settling major open problems, such as the \emph{Kepler Conjecture}~\cite{MR3659768}.
+
+% There is another kind of computer-based theorem proving tool called an \emph{automated theorem prover}. Such systems are quite different from proof assistants in that the former are designed to independently search for a proof of a given statement with little or no help from the user, in contrast to the \emph{interactive} nature of most proof assistants.  Unfortunately, proofs found by automated theorem provers are typically difficult for humans to parse and understand, and it can be impossible to translate an automatically generated proof into an Informal Language proof.
+
+Further justification for the use of proof assistants is their potential for improving the referee and validation process.  The main issues here are human fallibility and the high opportunity cost of human talent. Indeed, a substantial amount of time and effort of talented individuals is expended on refereeing journal submissions. Despite this the typical review process concludes without supplying any guarantee of validity of the resulting publications~\cite{fasel:2017}.
+Moreover, the emergence of large computational proofs (e.g., Hales' proof of the Kepler Conjecture) lead to referee assignments that are impossible burdens on individual reviewers~\cite{heule:2017}. Worse than that, even when such work survives peer review, there remain disputes over correctness, completeness, and whether nontrivial gaps exist. Some recent examples include Atiyah's claim to have proved the \emph{Riemann Hypothesis} and Zhuk's proof of the \emph{\csp dichotomy conjecture} of Feder and Vardi~\cite{zhuk:2017}.
+%   and Fasel's proposed solution to 
+% %   \emph{Murthy's conjecture}.\footnote{Fasel's solution survived peer review 
+%   and was published in the \emph{Annals of Mathematics} before it emerged that a lemma was flawed and the entire proof collapsed~\cite{fasel:2017}.} 
+
+% \begin{quote}
+%   ``The mathematical community today invests a good deal of time and resources in the refereeing process... surely any computational tools that can help in that regard should be valued.''\\[4pt]
+%   ~ \phantom{x} \hfill  --Jeremy Avigad
+% \end{quote}
+
+We can also enlist the help of computers for discovering and checking new mathematics. Consider the space of all proofs comprehensible by the unassisted human mind, and then observe that this is but a small fraction of the collection of all potential mathematical proofs in the universe. The real consequences of this fact are becoming more apparent as mathematical discoveries reach the limits of our ability to confirm and publish them in a timely and cost effective way. Thus, it seems inevitable that proof assistants will have an increasingly important role to play in future mathematics research~\cite{harris:2015}.
+
+% Tom Hales of the University of Pittsburgh, like Vladimir Voevodsky of Princeton’s Institute for Advanced Study (IAS), sees proof-checking by electronic mathematicians as a necessity in an age when some proofs have grown too complex to be certified reliable by human readers. While their immediate projects treat computers as an adjunct to human imagination, Hales and Voevodsky have both made it clear that they also expect the new technology to transform the way mathematics is done. Similarly, Sir Timothy Gowers, at Cambridge University, expects collaboration with a ``semi-intelligent database'' to ``take a great deal of the drudgery out of research.''
+
+% Gowers and his collaborators are seeking to design computer systems that reason synthetically, like human mathematicians, rather than relying on brute speed and storage capacity. Gowers has written that, although he ``does not feel particularly happy'' about the prospect, he anticipates a future of fully automated theorem-proving, with mathematicians reduced to running the machines and finding ``interesting applications'' for their theorems.
+
+
+
+
+
+
+%% that the programming language technology required to liberate us from
+%% these tedious tasks is now available.
+%% Perhaps I am wrong about this. Perhaps exceptional mathematicians are like Gromov, who
+%% recounts stretches of his career during which he focused seriously, each day from 9am to 9pm,
+%% on deep mathematical problems. Indeed, it may be that
+%% exceptional mathematicians consistently operate at the cutting edge of their field,
+%% always skipping past the trivial steps that lead to new and striking results.
+%% If that is true, then I am not an exceptional mathematician.
+%% I suspect that on a good day I spend little more than an hour working
+%% at the very heart of a problem, at the point where a true advance might be discovered.
+%% However, despite the
+%% trustworthiness guarantees they offer, most mathematicians find them too laborious to use.
+% Thus, progress in programming language technology has presented us with
+% an opportunity to liberate ourselves from much of the tedious busy work of mathematics.
+% \emph{Proof assistants} (also known as \emph{interactive theorem provers}) are increasingly 
+% used in academia and industry to verify the correctness of hardware, software, and protocols.
+% However, this technology, in its current state, comes with substantial upfront costs,
+% not the least of which is the time and energy required to learn a new 
+% programming language. Evidently, most mathematicians find these costs prohibitive.
+%% Indeed, this is a real risk;
+%% if it turns out that the investment cost exceeds the eventual rewards,
+%% this could seriously jeopardize one's career, especially when that demands frequent and
+%% significant publications of new theorems.
+
+% \emph{The main strength of a proof assistant is trustworthiness:} all definitions and lemmas are
+% checked for well-formedness, and even the most trivial proof steps are verified by an inference
+% kernel with respect to a logical system. It took a formal proof to dispel doubts about Hales's proof.
+% Another remarkable achievement of proof technology is Leroy's verified compiler~\cite{MR2559087}, 
+% which is set to become a key component of the Airbus Corporation's 
+% toolchain.\footnote{Airbus relies on proof technology because with it they are able to produce \emph{reliably}
+% optimized code. Without guarantees provided by a proof assistants, %such ``proof-carrying code,''
+% such optimizations would not meet the strict certification standards 
+% imposed by the authorities regulating applications where human safety is
+% a concern, such as commercial aircraft design and construction.} %(See~\cite{blazy}.)
+
+
+% Beyond their importance as a means of establishing trust in mathematical results, formal proofs can also expose and clarify difficult steps in an argument.
+% Even before one develops a formal proof, the mere act of expressing a theorem statement (including the foundational axioms, definitions, and hypotheses on which it depends) in a precise and (when possible) computable way almost always leads to a deeper understanding of the result. Moreover, as Blanchette notes in~\cite{blanchette:2018}, proof assistants can help us keep track of changes across a collection of results (axioms, hypotheses, etc), which facilitates experimenting with variations and generalizations. When changing a definition, a mathematician equipped with a proof assistant is alerted to proofs that need repair, unnecessary or missing hypotheses, etc.
+
+Finally, modern proof assistants support automated proof search and this can be used to discover long sequences of first-order deduction steps.
+Consequently, mathematicians can spend less time carrying out the parts of an argument that are more-or-less obvious, and more time contemplating deeper questions.
+Indeed, Fields Medalist Tim Gowers expects collaboration with a ``semi-intelligent database'' to ``take a great deal of the drudgery out of research.''~\cite{gowers:2017}.
+
+% Automation is especially useful for highly computational proofs with hundreds or
+% thousands of cases.
+
+
+% \subsection{The usability gap}
+% Despite the many advantages and the noteworthy success stories mentioned above, proof assistants remain relatively obscure. There are a number of obvious reasons for this.  First and foremost, proof assistant software tends to be tedious to use. Most mathematicians experience a significant slow down in progress when they must not only formalize every aspect of their arguments, but also express such formalizations in a language that the software is able to parse and comprehend.
+
+% One question that leads to insight into this ``usability gap'' that plagues most modern proof assistants is why \emph{computer algebra systems} do not suffer from the same problem. Simply put, computer algebra systems are more popular than interactive theorem provers. One reason is that the up-front cost to end users seems substantially higher for interactive theorem provers than for  computer algebra systems, and this is because the latter are typically conceived of by mathematicians whose primary aim is to build a system that presents things ``as they should be,'' that is, as a mathematically educated user would expect. 
+% % To a mathematician, such systems are \emph{well-designed}. 
+
+% In many proof assistants and automated theorem provers, the mathematics are often not presented as we would expect or like them to be. In~\cite{PolletKerber:2007}, Pollet and Kerber argue that this is not just a deficiency of the user interface. The problem with theorem provers goes much deeper; it goes to the core of these systems, namely to \emph{the formal representation of mathematical concepts and knowledge}. How easy or hard it is to codify theorems and translate informal mathematical arguments into formal proofs in a particular system depends crucially on the 
+% formal foundations of that system, and the way in which these foundations are represented in the system.
+
+% \subsection{Closing the usability gap}
+% Our research program addresses some of the major roadblocks to wide-spread adoption of proof assistants.  The following were identified by Jasmin Blanchette, Principle Investigator of the \emph{Lean Forward Project}~\cite{blanchette:2018}:
+
+% \begin{itemize}
+% \item \emph{Incomplete mathematical libraries.} Before applying proof assistants to our own research, we must formalize even the most basic definitions, theorems, and proofs. If we expect mathematicians to adopt proof assistants, it must be possible to do so without spending an inordinate amount of time formalizing all of the basics.
+% % Even the largest formal libraries currently available (e.g., Mizar~\cite{mizar:2005,gonthier:2017}) cover only a small fraction of mathematics.
+
+% \item \emph{Weak automation of mathematics.} Proof assistants typically combine general-purpose logical automation and procedures for arithmetic. However, we need \textsl{domain-specific automation} (\dsa) to ensure that more technical or advanced theorems, which may have short proofs  in the Informal Language, don't require dozens or hundreds of lines to render in the formal language.
+
+% \item \emph{Poor interoperability with computer algebra systems.} Apart from a few counteraxamples~\cite{MR1730396,MR1656868}, integrating a \emph{computer algebra system} (\cas) in a  proof assistant is a challenging problem.  Results produced with a \cas rarely come with a certificate of correctness and few \cas algorithms provide termination guarantees. Such guarantees are required by most proof assistants. 
+
+% \item \emph{Steep automation learning curve.}  Extending a proof
+%   assistant to support \textsl{domain-specific automation} requires a high level
+%   of expertise because the metalanguages used to extend proof assistants tend to be very hard to learn. For example, extending the Coq proof assistant~\cite{CoqManual:2017} requires knowing the Ltac tactic language, the low-level OCaml interfaces, and the Gallina specification language.
+% \end{itemize}
+
+% Despite the many obstacles, there is a strong
+% feeling in various parts of the research community that mathematics deserves to
+% be formalized. Fields medalist Vladimir Voevodsky was one of
+% the strongest advocates of this view. His research area was plagued by flawed theorems, and entually he stopped believing paper-and-pencil proofs~\cite{rehmeyer:2013}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{The Lean Theorem Prover and its Role in the Project}
+Given our motivation, the choice of proof assistant was easy; we chose the \emph{Lean Programming Language}~\cite{lean}---developed by Leonardo de Moura (Microsoft Research), Jeremy Avigad (Carnegie Mellon), and their colleagues---for a number of reasons.
+First, Lean is designed and developed by logicians and computer scientists working together to create a language and syntax that presents things \emph{as they should be}, so that the working in the language feels almost as natural as working in the Informal Language. Thus it is reasonable to expect mathematicians, even those lacking special training in computer science, to adopt the system and use the libraries we develop.    
+
+% Other considerations that make Lean ideally suited to this project are the following:
+% \begin{itemize}
+%   \item {\bf Clean and efficient design.} Lean's design and engineering is unusually clean and efficient, as the Lean developers have combined the best features from existing proof assistants (e.g., Coq, Isabelle/HOL, and Z3).
+%   \item {\bf Powerful and extensible proof automation support.}  Lean's logic is very expressive, with emphasis placed on \emph{powerful proof automation}. In fact, the proof automation system is easy to extend via \emph{metaprograms that one can implement right in the Lean language itself!} In this way, Lean aims to \emph{bridge the gap between interactive and automated theorem proving}.
+%   \item {\bf Easy-to-read proofs.} Lean is unique among computer-based theorem proving tools in that its \emph{proofs tend to be easy to read and understood}, without any special training.  In fact, working in Lean often leads to formal proofs that are cleaner, more concise, and shorter than the corresponding proofs in the Informal Language. (We provide examples in Section~\ref{sec:proof-of-concept} below.) This is a crucial feature if we expect the system to be adopted by mathematicians.  
+%   % \item {\bf A rich type system supporting type classes.} For the design of basic algebraic libraries, Lean's developers turned to Isabelle/HOL for inspiration. The libraries rely on \emph{type classes}, a mechanism to categorize types and their operations (e.g., ``$\langle \mathbb Z, 0, -, +\rangle$ forms a group''). Type classes interact well with Lean's dependent types. By contrast, in Isabelle/HOL, there is no way to use type classes to reason about the integers modulo $n$ as a ring, as observed in~\cite[Section 3.1]{MR3718212}. 
+%   \item {\bf A rich type system supporting type classes, dependent types, and quotient types.} Lean's logical foundation is a variant of Coq's---a dependent type theory called the \emph{Calculus of Inductive Constructions} (\cic)~\cite{MR935892}. But Lean has a number of advantages over Coq, especially for pure mathematicians.  Most notably Lean's support of \emph{quotient types} allows reasoning about quotients without relying mainly on setoids~\cite{MR1985376}, and Lean's support for dependent types is smoother than Coq's, thanks to flexible pattern matching and a generalized congruence closure algorithm~\cite{MR3536762}. 
+%   \end{itemize}
+
+
+
+\subsection{Domain specific automation}
+To support the formalization of theorems, we will develop libraries that contain formal statements and proofs of all of the core definitions and theorems of universal algebra. We will automate proof search in the specific domain of universal algebra, and develop tools to help find and formalize theorems emerging from our own mathematics research. We are currently involved in four research projects in universal algebra~\cite{Bergman-DeMeo:2016,fin-lat-rep,DFV:2018,fg-free-lat}, and an invaluable tool for our work would be a proof assistant with rich libraries for general algebra, equipped with \emph{domain-specific proof tactics for automatically invoking the standard mathematical idioms from our field}. The latter is called \emph{domain-specific automation} (\dsa), and one of our primary goals is to demonstrate the utility of \dsa for proving new theorems.
+
+% As Lean is a very young language, its domain-specific libraries are relatively small, but they are growing rapidly. \emph{It is vital for mathematicians to get involved at this early stage and play a leading role in the development.}  If we leave this entirely to our colleagues in computer science, they will base the development on their perception of our needs, history will likely repeat itself, and the resulting libraries and tools may fail meet the needs and expectations of working mathematicians.
+
+
+
+\section{Foundations of mathematics and computing science}
+The overriding goal of our project is to re-examine and formalize the foundations of mathematics, with a particular focus on our primary areas of expertise, universal algebra, to do so in a \emph{practical} and \emph{computable} way, and to codify these foundations and advance the state-of-the-art in computer-aided theorem proving technology. The goal will be achieved when the software becomes a natural, if not necessary, part of the working mathematician's toolbox.  We envision a future in which we can hardly imagine proving new theorems, completing referee assignments, or communicating and disseminating new mathematics without the support of a proof assistant.
+
+\emph{Functional programming languages} that support \emph{dependent} and \emph{(co)inductive types} have brought about new opportunities to apply abstract concepts from universal algebra and category theory to the practice of programming, to yield code that is more modular, reusable, and safer, and to express ideas that would be difficult or impossible to express in \emph{imperative} or \emph{procedural programming languages}~\cite[Chs. 5 \& 10]{baueroplss:2018,hughes:1989,chiusano:2014}. The \emph{Lean Programming Language}~\cite{lean} is one example of a functional language that supports dependent and (co)inductive types, and it is the language in which we will carry out our practical foundations program.
+
+Let us summarize in broad terms, using nontechnical language, the main objectives of the project. We intend to
+\begin{enumerate}
+  \item present the core of universal algebra using \emph{practical logical foundations}; in particular, definitions, theorems and proofs shall be constructive and have computational meaning, whenever possible;
+  
+  \item develop software that extends the \emph{Lean Mathematical Components Library}~\cite{lean-mathlib:2018} to include the output of (1), implementing the core results of our field as \emph{types} and their proofs as \emph{programs} (or \emph{proof objects}) in the \emph{Lean Programming Language}~\cite{lean,lean-ualib}.
+        
+  \item develop \emph{domain-specific automation (\dsa)} tools that make it easier for working mathematicians harness the power of modern proof assistant technology;
+        
+  \item teach mathematicians how to use the assets developed in items (1)--(3)
+        to do the following:
+  \begin{enumerate}[{\bf a.}]
+    \item translate existing or proposed Informal Language proofs (typeset in \LaTeX, say) into Lean so they can be formally verified and tagged with a certificate of correctness;
+    \item construct and formally verify proofs of new theorems using Lean;
+    \item import (into Lean) software packages and algorithms used by algebraists 
+    (e.g. UACalc or GAP) so that these tools can be certified and subsequently 
+    invoked when constructing formal proofs of new results.
+  \end{enumerate}
+\end{enumerate}
+
+A primary motivation for this project was our observation that, on the one hand, many important constructs in universal algebra can be defined inductively, and on the other hand, type theory in general, and Lean in particular, offers excellent support for defining inductive types and powerful tactics for proving their properties. These two facts suggest that there is much to gain from implementing universal algebra in an expressive type system that offers powerful tools for proving theorems about inductively defined types.
+
+
+\section{Conclusion} 
+This project presents us with the opportunity to formalize theorems emerging from our research in universal algebra and lattice theory. The PI is involved in three different research projects in universal algebra.  A proof assistant equipped with special libraries and tactics for formalizing universal algebra would be an invaluable tool for these research problems. 
+
+Furthermore, a number of results and ideas on which our work depends appear in journals and conference proceedings with many important details missing.  Using Lean allows us to not only verify the correctness of theorems and proofs, but also determine the precise foundational assumptions required to confirm the validity of the result. Thus, when doing mathematics with the help of modern proof assistant technology,  we are presented with the possibility of automating the process of generalizing results.
+
+The idea is that implementing theorems as types and proofs as ``proof objects'' would produce the following:
+\begin{enumerate}
+\item computer verified, and possibly simplified, proofs of known results
+\item better understanding of existing theory and algorithms
+\item new and/or improved theorems and algorithms
+\end{enumerate}
+
+There is substantial evidence that Lean is the best platform for formalizing universal algebra.  The type theory on which Lean is based provides a foundation for computation that is more powerful than first-order logic and is ideally suited to the specification of the basic objects and most common proof strategies found in of our field.
+
+The full project proposal demonstrates the utility of dependent and inductive types by expressing some fundamental concepts of universal algebra in Lean.  
+Please see the document \href{https://github.com/williamdemeo/job-app/blob/master/research/FFIMR.pdf}{FFIMR.pdf} for more details.
+
+As scientists, we should take seriously any theory that may exposes weaknesses in our assumptions or our research habits.  We should not be threatened by these disruptive forces; we must embrace them, deconstruct them, and take from them whatever they can offer our mission of advancing pure mathematics.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+\bigskip
+
+\appendix
+
+\section{Metadata}
+
+\begin{table}[h]
+  \begin{tabular}{|l|l|}
+  \hline
+  {\bf Title} & Formal Foundations for Informal Mathematics Research \\
+  \hline
+  % {\bf Subtitle} & Computer-aided proof and the Lean universal algebra library\\
+  % \hline
+  {\bf Primary Field} & 03C05 Equational classes, universal algebra\\ % (\msc\ {\small 2010: 03C05}) \\
+  \hline
+  {\bf Secondary Fields} & 
+  03B35 Mechanization of proofs and logical operations\\ % % [See also 68T15]
+  & 08B05  Equational logic, Malcev conditions\\
+  & 68N18  Functional programming and lambda calculus\\ % [See also 03B40]
+  \hline
+  \end{tabular}
+  \end{table}
+  
+\noindent {\bf Principal Investigator.}
+
+\vskip2mm
+\hskip4.7mm {\bf William DeMeo} (Burnett Meyer Instructor, University of Colorado, Boulder)
+
+\vskip5mm
+
+\noindent {\bf Collaborators.}
+
+\vskip2mm
+\hskip4.7mm {\bf Clifford Bergman} (Professor, Iowa State University)
+
+\vskip2mm
+\hskip4.7mm {\bf Ralph Freese} (Professor, University of Hawaii)
+
+\vskip2mm
+\hskip4.7mm {\bf Peter Jipsen} (Professor, Chapman University)
+
+\vskip2mm
+\hskip4.7mm {\bf Connor Meredith} (Graduate Student, University of Colorado, Boulder)
+
+\vskip2mm
+\hskip4.7mm {\bf Hyeyoung Shin} (Graduate Student, Northeastern University)
+
+\vskip2mm
+\hskip4.7mm {\bf Siva Somayyajula} (Graduate Student, Carnegie Mellon University)
+
+
+
+\vskip5mm
+
+\noindent {\bf External Contributors and Advisors.}
+
+\vskip2mm
+\hskip4.7mm {\bf Jeremy Avigad} (Professor, Carnegie Mellon University)
+
+\vskip2mm
+\hskip4.7mm {\bf Andrej Bauer} (Professor, University of Ljubljana)
+
+\vskip2mm
+\hskip4.7mm {\bf Jasmin Blanchette} (Assistant Professor, Vrije Universiteit Amsterdam)
+
+\vskip2mm
+\hskip4.7mm {\bf Venanzio Capretta} (Professor, University of Nottingham)
+
+
+  
+
+
+
+
+
+\bibliographystyle{plainurl}
+\bibliography{../refs}
+
+\end{document}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%         END         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%       DOCUMENT      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+%% \providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+%% \providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+%% % \MRhref is called by the amsart/book/proc definition of \MR.
+%% \providecommand{\MRhref}[2]{%
+%%   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+%% }
+%% \providecommand{\href}[2]{#2}
+%% \begin{thebibliography}{1}
+
+%% \bibitem{BergmanFailing2013}
+%% C.~Bergman and D.~Failing, \emph{Commutative, idempotent groupoids and the
+%%   constraint satisfaction problem}, submitted to Algebra Universalis.
+
+%% \bibitem{Maltsev1967}
+%% A.~I. Mal'cev, \emph{Multiplication of classes of algebraic systems}, Siberian
+
+
+%%   Math. J. \textbf{8} (1967), 254--267.
+
+%% \bibitem{Neumann1967}
+%% H.~Neumann, \emph{Varieties of groups}, Springer--Verlag, Berlin, 1967.
+
+
+
+
+
+
+
+% \def\cprime{$'$} \def\cprime{$'$} \def\cprime{$'$}
+%   \def\ocirc#1{\ifmmode\setbox0=\hbox{$#1$}\dimen0=\ht0 \advance\dimen0
+%   by1pt\rlap{\hbox to\wd0{\hss\raise\dimen0
+%   \hbox{\hskip.2em$\scriptscriptstyle\circ$}\hss}}#1\else {\accent"17 #1}\fi}
+% \providecommand{\href}[2]{#2}
+% \providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+% \providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% % \MRhref is called by the amsart/book/proc definition of \MR.
+% \providecommand{\MRhref}[2]{%
+%   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+% }
+% \begin{thebibliography}{1}
+% 
+% \bibitem{BergmanFailing2013}
+% C.~Bergman and D.~Failing, \emph{Commutative, idempotent groupoids and the
+%   constraint satisfaction problem}, submitted to Algebra Universalis.
+% 
+% \bibitem{Maltsev1967}
+% A.~I. Mal'cev, \emph{Multiplication of classes of algebraic systems}, Siberian
+%   Math. J. \textbf{8} (1967), 254--267.
+% 
+% \bibitem{Neumann1967}
+% H.~Neumann, \emph{Varieties of groups}, Springer--Verlag, Berlin, 1967.
+% 
+% \bibitem{Escardo:2008}
+% M.~Escard{\'{o}}, \emph{Exhaustible sets in higher-type
+%   computation}, Logical Methods in Computer Science \textbf{4} (2008), no.~3.
+% 
+% \bibitem{Freese:2009}
+% R.~Freese and M.~Valeriote, \emph{On the complexity of some
+%   {M}altsev conditions}, Internat. J. Algebra Comput. \textbf{19} (2009),
+%   no.~1, 41--77. \MR{2494469 (2010a:08008)}
+% 
+% \bibitem{KearnesTschantz:2007}
+% K.~Kearnes and S.~Tschantz, \emph{Automorphism groups of squares and of free algebras},
+% Internat. J. Algebra Comput. \textbf{17} (2007),
+% no.~3, 461--505 \MR{08A35 (08B20 20B25)}
+% 
+% 
+% 
+% Conjecture. A variety of CIB's disjoint from the variety of semilattices
+% is congruence permutable.
+% 
+% This conjecture is true. Proof follows.
+% -------------------------------------------------------------
+% -------------------------------------------------------------
+% Lm 2.8 from page 7 of Paper #63 on my website:
+% Let V be an idempotent variety that is not congruence permutable. If
+% F = F_V(x,y) is the 2-generated free algebra in V, then F has
+% subuniverses U and V such that
+% (1) x \in U, x \in V ,
+% (2) y \notin U, y \notin V , and
+% (3) (UxF) \cup (FxV) is a subuniverse of FxF.
+% -------------------------------------------------------------
+% 
+% Proof of the Conjecture:
+% 
+% Let V be a variety of CIB's that is not CP.
+% Let x, y, F, U, V be as in Lemma 2.8.
+% 
+% Case 1:
+% there are elements u\in U; v\in V; f, g\in F such that
+% u*f \notin U and g*v \notin V.
+% In this case, (u,g)\in UxF and (f,v)\in FxV, but the product
+% is not in (UxF)\cup(FxV), contradicting the fact that this union
+% is a subuniverse.
+% 
+% Thus Case 1 cannot occur, which means U*F\subseteq U or
+% F*V\subseteq V. Assume the former, that is, U*F\subseteq U.
+% Using the commutativity of the binary operation, we are
+% led to the alternative case
+% 
+% Case 2: U is an ideal. (U*F=F*U \subseteq U).
+% 
+% We still have x\in U and y\notin U. Since U is an ideal,
+% S := U\cup \{y\} is a subuniverse of F.
+% Since U is an ideal, the subuniverse S has a congruence
+% \theta with 2 nonempty blocks, U and {y}.
+% The quotient S/\theta is a 2-element semilattice,
+% which belongs to V. \\\\
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% Let us recall that NP denotes the family of algorithmic problems that are polynomial-time reducible to the digraph three-coloring problem. NP-complete consists of those problems in NP to which digraph three-coloring can be polynomial-time reduced. P is the family of problems in NP that can be solved by a deterministic algorithm working in polynomial time. Richard Ladner [29] showed that if P = NP then there is a densely ordered set of polynomial-time reducibility classes of problems in NP that are neither P nor NP-complete. The \ac{CSP}-dichotomy conjecture of Tom ́
+% as Feder and Moshe Vardi [18] states that no such problem can be found in the family CSP; i.e., for each R, CSP(R) is either NP-complete, or in P. The conjecture has resisted all efforts and continues to be plausible. The work on this conjecture has wonderfully energized several research communities. The universal algebraic approach to this conjecture has been especially successful, producing a rich harvest of results and insights, in algebra as well as in complexity theory. Many conferences and workshops over the past decade, for example at Vanderbilt (2007), the American Institute of Mathematics (2008), the Fields Institute (2011), Dagstuhl Institute (Germany) (2012) and Banf International Research Station (2014) had or will have, as a prominent theme, the algebraic approach. Algebra becomes relevant through these observations of Jeavons, Krokhin and Bulatov [14]: A relational structure R = A, · · · has its relational clone Clo(R) of derived relations, which is the smallest set of relations over A containing the given relations, the trivial relations, and closed under intersection, concatenation (or product), permutations of variables, and projections. A universal algebra A = A, · · · has its operational clone Clo(A) of derived operations, which is the smallest set of operations containing the given ones, and the trivial (projection) operations, and closed under all compositions. The relational structure R also defines a clone of operations on A, and an algebra A(R) = A, Poly(R) where Poly(R) (the set of polymorphisms of R) is the set of all operations on A that respect the given relations or, in other terms, Poly(R) is the collection of all homomorphisms R n → R (for any non-negative integer n). The algebra A also defines a relational structure R(A) = A, Rel(A) where Rel(A) is the set of all relations that respect the given operations (the set of admissible relations of A), or in other terms, is the set of all subuniverses of finite powers of A. When A is finite, the Galois connection between relations and operations is exact. Indeed, an old and easy result states that
+% Rel(A(R)) = Clo(R) and Poly(R(A)) = Clo(A), if A is finite.R. McKenzie 13 Now if R = A, R 1 , . . . , R k is as above with A finite, then it is easy to see that for every structure R = A, S 1 , . . . , S m with {S 1 , . . . , S m } ⊆ Clo(R), CSP(R ) admits a polynomial time reduction to CSP(R). If B is any finite algebra in the variety generated by A(R), then for every relational structure S = B, T 1 , . . . , L u formed from relations in Rel(B), there is a polynomial time reduction of CSP(S) to CSP(R). The algorithmic complexity of CSP(R) is thus defined by the algebra A(R), and persists as a bound on the complexity of all CSP problems residing anywhere in the variety generated by A(R). If any “difficult” set of relations appears among the admissible relations on some finite algebra in the variety generated by A(R), then CSP(R) is forced to be NP-complete. On the other hand, the non-occurence of such difficult sets is likely to force R to have some interesting polymorphisms, and we can hope to use these operations to fashion a polynomial-time algorithm for resolving CSP(R). We now discuss at some length how these observations have proved their worth.
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% Due to a rich body of recent work in the area of algebraic CSP, the algebraic
+% version of the \emph{\csp-dichotomy conjecture} now boils down to 
+% the following assertion:
+% \begin{quote}
+% \emph{If a finite idempotent algebra $\mathbf{A}$ generates a variety with a weak near
+% unanimity term operation, then the associated constraint satisfaction problem 
+% $\mathrm{CSP}(\mathbf{A})$ is tractable.}
+% \end{quote}
+% (The converse of this statement is known to be true.)
+% 
+% It follows directly from the definition that a binary operation is a weak
+% near-unanimity operation if and only if it is idempotent and commutative. This
+% suggests the following question: Is every finite commutative idempotent binar
+% tractable? (A \emph{binar} is an algebra with a single binary basic operation.)
+% We denote the variety of commutative idempotent binars by \cib. 
+% 
+% By applying {\'A}gnes Szendrei's characterization of finite, idempotent, strictly simple
+% algebras in~\cite[Thm.~2.1]{MR911575}, %% Szendrei:1987}), 
+% Bergman and DeMeo proved that every locally finite, equationally complete
+% variety of \cibs, except for semilattices, is congruence-permutable (hence, has
+% a tractable CSP). Moreover, Bergman proved that such varieties are pairwise
+% independent. Consequently, the join of any two of these minimal varieties is
+% congruence-permutable. It follows from this, together with techniques
+% from~\cite{MR3350338}, that the join of any two minimal varieties of
+% \cibs has a tractable CSP.  
+% 
+% 
+% \vskip2cm
+% 
+% 
+% 
+% 
+% 
+% \section{distinguishing characteristics of popular proof assistants}
+% We now briefly discuss the ways in which Lean differs from other popular proof assistants.
+% Some close relatives of Lean are Agda, Coq, and \nuprl.
+% All four of these languages are founded upon some interpretation of intuitionistic type theory (\itt).
+% %(Isabelle is based on \fol and \hol.)
+% 
+% 
+% \begin{center}
+%   \begin{figure}
+% \begin{tabular}{|r|c|c|c|}
+%                   &  {\bf extensional} & {\bf quasi-intensional} & {\bf intentional} \\
+%   \hline
+%   {\bf predicative} &       \href{http://www.nuprl.org/}{\nuprl}          &                 &             \\
+%   \hline
+%   {\bf quasi-predicative} &             &   \href{https://leanprover.github.io}{Lean}         &     \\
+%   \hline
+%   {\bf impredicative} &                    &              &     \\
+%   \end{tabular}
+% \caption{Comparison of paradigms of some popular proof assistants}
+%   \end{figure}
+%   \end{center}  
+% 
+% Coq and Lean both have an impredicative Prop type as well as a predicative type hierarchy.
+% The difference is that 
+% 
+% \begin{center}
+%   \begin{figure}
+% \begin{tabular}{|r|l|l|l|l|}
+% {\bf Language}   &  {\bf style of logic } & {\bf predicative} & {\bf extensional} & {\bf origin} \\
+%   \hline
+%   \href{http://wiki.portal.chalmers.se/agda}{Agda} &  & &                                                       & 2007, Chalmers, SE \\
+%   \hline
+%   \href{https://coq.inria.fr/}{Coq}   &  & &                                                     &     IRNIA, FR  \\
+%   \hline
+%   \href{https://isabelle.in.tum.de/}{Isabelle}     &  meta-logic (a weak \TT) & & &1986, Cambridge, GB; TU Munich, DE\\
+%   \hline
+%   \href{https://leanprover.github.io}{Lean}   &  & &                                                    & Microsoft and CMU, US \\
+%   \hline
+%   \href{http://www.nuprl.org/}{NuPrl}  &  & &                                                   & Cornell, US \\
+%   \end{tabular}
+% \caption{Some properties five popular proof assistants based on intuitionistic type theory}
+%   \end{figure}
+%   \end{center}  
+% Initial release	[1]
+% 
+% \begin{center}
+%   \begin{figure}
+% \begin{tabular}{|r|c|c|c|c|c|c|c|c|}
+% {\bf Language} & {\bf Paradigm} & {\bf Predicative} & {\bf Extensional} & {\bf Tactics} & {\bf Proof terms} & {\bf Termination checking} & {\bf Proof irrelevance} & {\bf Program extraction}\\
+% \hline
+%   \href{http://wiki.portal.chalmers.se/agda}{Agda}   &     \utt          &            &        &                  & No &                                      & 2007, Chalmers, SE& \\
+%   \hline
+%   \href{https://coq.inria.fr/}{Coq}                      &  \cic & &                                         &            &     IRNIA, FR & \\
+% \href{https://isabelle.in.tum.de/}{Isabelle}         &  meta-logic (a weak type theory), &&&&\\
+%     \hline
+%   \href{https://leanprover.github.io/}{Lean}   & \cic  & &                                     &               & Microsoft and CMU, US & \\
+%   \hline
+%       \href{http://www.nuprl.org/}{NuPrl}   & MLTT & &                                  &                 & Cornell, US & \\
+%       \hline
+% \end{tabular}
+%   \end{figure}
+% \end{center}
+% 
+% 
+% \subsection{Agda}
+% %% http://www.cse.chalmers.se/~ulfn/papers/thesis.pdf
+% {\bf Proof automation.}
+% Programming in pure type theory involves a lot of tedious and repetitive proofs, and Agda has no support for tactics. Instead, Agda has support for automation via \emph{reflection}.
+% The reflection mechanism allows one to quote program fragments into---or unquote them from---the abstract syntax tree.
+% Another mechanism for proof automation is proof search action in emacs mode. It enumerates possible proof terms (limited to 5 seconds), and if one of the terms fits the specification, it will be put in the meta variable where the action is invoked. This action accepts hints, e.g., which theorems and from which modules can be used, whether the action can use pattern matching, etc.[9]
+% 
+% {\bf Termination checking.}
+% Agda is a total language, i.e., each program in it must terminate and all possible patterns must be matched. Without this feature, the logic behind the language becomes inconsistent, and it becomes possible to prove arbitrary statements. For termination checking, Agda uses the approach of the Foetus termination checker.[10]
+% 
+% 
+% \subsection{Isabelle}
+% The \href{https://isabelle.in.tum.de/}{Isabelle theorem prover} is an interactive theorem prover, a Higher Order Logic (HOL) theorem prover. It is an LCF-style theorem prover (written in Standard ML), so it is based on a small logical core to ease logical correctness. Isabelle is generic: it provides a meta-logic (a weak type theory), which is used to encode object logics like first-order logic (FOL), higher-order logic (HOL) or Zermelo–Fraenkel set theory (ZFC). Isabelle's main proof method is a higher-order version of resolution, based on higher-order unification. Though interactive, Isabelle also features efficient automatic reasoning tools, such as a term rewriting engine and a tableaux prover, as well as various decision procedures.
+% 
+% Isabelle has been used to formalize numerous theorems from mathematics and computer science, like G\"odel's completeness theorem, G\"odel's theorem about the consistency of the axiom of choice, the prime number theorem, correctness of security protocols, and properties of programming language semantics. The Isabelle theorem prover is free software, released under the revised BSD license.
+% 
+% 
+% 
+% 
+% 
+% 
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Extensional vs.~Intensional}
+A fundamental distinction in type theory is that of \emph{extensional} vs \emph{intensional}.
+In \emph{extensional type theory}, definitional (i.e., computational) equality is not distinguished
+from propositional equality, which requires proof.
+For example, \emph{function extensionality} means that two functions $f$ and $g$ are
+indistinguishable if they give the same output for every input. (This is sometimes called ``Leibniz equality.'')
+Briefly, \emph{intensional} means not extensional, but let us elaborate.
+An \emph{intensional definition} of a term gives the meaning of a term by specifying necessary 
+and sufficient conditions that such a term satisfies.  In the case of nouns, this is equivalent 
+to specifying all the properties that an object must have in order to be something to which the term refers.
+
+If we adopt an extensional type theory, then one undesirable consequence is that \emph{type-checking is undecidable}
+because programs in the theory might not terminate.\footnote{For example, one can define 
+the Y-combinator in extensional type theory; for a detailed example, see~\cite{NPS:1990}.}
+Of course, a program that doesn't terminate is practically indistinguishable from a program
+that takes many lifetimes to terminate, and some practical proof assistants---like
+Lean and \nuprl---employ extensional types in certain instances where it is safe and sensible to do so.
+
+\emph{Intensional type theory} (\itt) enjoys decidable type-checking, but 
+the cost is that representing some important mathematical objects can be cumbersome.
+In particular, intensional reasoning relies on constructions such as \emph{setoids} to
+represent classes of objects that are (intensionally) equivalent. Consequently,
+encoding certain mathematical objects in \itt can be inelegant and difficult to work with,
+in contrast to their simple informal representations.
+Some examples are integers, rational numbers, and real numbers.\footnote{Although
+  integers and rational numbers can be represented in \itt without setoids, the
+  representation is not very easy to work with; real numbers cannot be represented in \itt
+  without setoids.~\cite{MR3396201,MR2163416}.
+%% [3] Altenkirch, Thorsten, Thomas Anberrée, and Nuo Li. "Definable Quotients in Type Theory."
+Homotopy type theory works on resolving this problem. It allows one to define higher inductive types,
+which define not only first order objects (values or points), but also higher order objects,
+e.g., equalities between elements, equalities between equalities (homotopies), etc.}
+
+
+
+
+\subsection{Predicative vs.~Impredicative}
+A self-referencing definition is called \emph{impredicative}. More precisely, 
+a definition is said to be impredicative if it invokes (mentions or quantifies over) the set being defined, 
+or (more commonly) another set that contains the thing being defined.
+An (in)famous example of an impredicative construction is Russel's set of all sets that do not contain themselves,
+but there are less ``exotic'' examples. Even the \emph{greatest lower bound} of a set $X$,
+$\bigwedge X$, has an impredicative definition: $y = \bigwedge (X)$ if and only if for all elements
+$x$ of $X$, $y$ is less than or equal to $x$, and any $z$ less than or equal to all elements of $X$ is less than or equal to $y$.
+This definition quantifies over the set whose members are the lower bounds of $X$, one of which is
+the greatest lower bound itself.
+%% ---namely, the set of all sets that do not contain themselves. The paradox is that such a set cannot exist: If it would exist, the question could be asked whether it contains itself or not---if it does then by definition it should not, and if it does not then by definition it should.
+
+The opposite of impredicativity is \emph{predicativity}, which depends on a 
+\emph{stratified} (or \emph{ramified}) theory where quantification over lower levels
+results in variables of some new type of higher type, separate from the lower types
+over which the variable ranges. A prototypical example is Per Martin-L\"of's
+\emph{intuitionistic type theory} (\itt),
+which provides the theoretical basis for most of the popular modern proof assistants
+in use today.\footnote{In fact, Martin-L\"of modified his type theory a number of times;
+  his 1971 impredicative formulation was shown to be inconsistent by Girard's paradox,
+  and his later formulations were predicative. Martin-L\"of proposed both intensional and extensional variants of the theory.}
+
+
+% \subsection{Set theory vs. type theory}
+% There are many different set theories and many different systems of type theory. Nonetheless, this brief section describes a few general principles.
+% \begin{itemize}
+% \item Set theory is built on top of logic. It requires a separate system like \emph{predicate logic} underneath it.
+% In type theory, concepts like ``and'' and ``or'' can be encoded as types in the type theory itself.
+% \item In set theory, an element can belong to multiple sets, either to a subset or to a superset.
+% In type theory, terms (generally) belong to only one type. (Where a subset would be used, type
+% theory tends to use a predicate function that returns true if the term is in the subset and returns
+% false if the value is not. The union of two types can be done by creating a new type called a sum type,
+% which contains new terms.)
+% \item Set theory usually encodes numbers as sets. (0 is the empty set, 1 is a set containing the empty set, etc.)
+% Type theory can encode numbers as functions using Church encoding or more naturally as inductive types.
+% Inductive types create new constants for the successor function and zero, and closely resembles Peano's axioms.
+% \item Set theory allows set builder notation.  Type theory has a simple connection to constructive mathematics through
+% the BHK interpretation. It can be connected to logic by the Curry Howard isomorphism. And some type theories are closely connected to Category theory.
+% \end{itemize}
