@@ -132,18 +132,9 @@
 
 
 \begin{abstract}  
-This document describes a research program, the primary goal of which 
-is to develop and implement new theory and software libraries to support 
-computer-aided mathematical proof in universal algebra and related fields.
-A distinguishing feature of this effort is the high priority placed on 
-\emph{usability} of the formal libraries produced.
-We aim to codify the core definitions and theorems of our area
-of expertise in a language that feels natural to working mathematicians 
-with no special training in computer science. 
-Thus our goal is a formal mathematical library that has the look and feel of the 
-informal language in which most mathematicians are accustomed to working.
+This document describes a research program, the primary goal of which is to develop and implement new theory and software libraries to support computer-aided mathematical proof in universal algebra and related fields. A distinguishing feature of this effort is the high priority placed on \emph{usability} of the formal libraries produced. We aim to codify the core definitions and theorems of our area of expertise in a language that feels natural to working mathematicians with no special training in computer science. Thus our goal is a formal mathematical library that has the look and feel of the informal language in which most mathematicians are accustomed to working.  A second goal of the project is to develop a machine learning platform for domain specific automation of mathematical proofs.
 
-This research is part of a broader effort currently underway in a number of countries, carried out by disparate research groups with a common goal---to develop the next generation of \textbf{practical formal foundations for informal mathematics}, and to codify these foundations in a formal language that feels natural to mathematicians. In short, our goal is to present \emph{mathematics as it should be}.
+This research is part of a broader effort currently underway in a number of countries, carried out by disparate research groups with a common goal---to develop the next generation of \textbf{practical formal foundations for informal mathematics}, and to codify these foundations in a formal language that feels natural to mathematicians. 
 \end{abstract}
 
 \null
@@ -188,10 +179,9 @@ It may come as a surprise, then, that computer-aided theorem proving technology,
 One hopes that published mathematical results \emph{could} be translated into  the rigorous language of some system of logic and formally verified. Nonetheless, few would relish spending the substantial time and energy that such an exercise would require. A mathematician's job is to discover new theorems and to present them in a language that is rigorous enough to convince colleagues, yet informal enough to be efficient for developing and communicating new mathematics. Such a language is what we refer to as the \emph{Informal Language} of mathematics research. A relatively recent trend is challenging this status quo, however, and the number of mathematicians engaging in computer-aided mathematics research is on the rise~\cite{gowers:2017,harris:2015,pierce:2009}. Indeed, at the \emph{Computer-aided Mathematical Proof} workshop of the \emph{Big Proof Programme}, held in 2017 at the Isaac Newton Institute of Cambridge University, 
 we witnessed the serious interest that leading mathematicians (including two Fields Medalists) showed in computer-aided theorem proving technology~\cite{bigproof:2017}.
 
-To verify mathematical arguments by computer, the arguments must be be written in a language that allows machines to interpret and check them. We refer to the practice of writing such proofs as \emph{interactive theorem proving}, and to the programming languages and software systems that check such proofs as \emph{proof assistants} or \emph{interactive theorem provers}.  While most mainstream mathematicians have not yet adopted such systems, their use in academia and industry to verify the correctness hardware, software, and mathematical proofs is on the rise. In fact, \emph{constructive type theory} and \emph{higher-order logics}, on which most modern proof assistants are based, have been vital in formalizing and confirming the proofs of landmark mathematical results, such as~the \emph{Four-Color Theorem}~\cite{MR2463991} and the 
-\emph{Feit-Thompson Odd Order Theorem}~\cite{gonthier:2013b}, as well as settling major open problems, such as the \emph{Kepler Conjecture}~\cite{MR3659768}.
+To verify mathematical arguments by computer, the arguments must be be written in a language that allows machines to interpret and check them. We refer to the practice of writing such proofs as \emph{interactive theorem proving}, and to the programming languages and software systems that check such proofs as \emph{proof assistants} or \emph{interactive theorem provers}.  While most mainstream mathematicians have not yet adopted such systems, their use in academia and industry to verify the correctness of hardware, software, and mathematical proofs is spreading rapidly. Indeed, \emph{constructive type theory} and \emph{higher-order logics}, on which most modern proof assistants are based, have played vital roles in the recent formalizations of landmark mathematical results, such as~the \emph{Four-Color Theorem}~\cite{MR2463991} and the \emph{Feit-Thompson Odd Order Theorem}~\cite{gonthier:2013b}, as well as settling major open problems, such as the \emph{Kepler Conjecture}~\cite{MR3659768}.
 
-Another kind of computer-based theorem proving tool is called an \emph{automated theorem prover}, which is quite different from a proof assistant in that the former is designed to independently search for a proof of a given statement with little or no help from the user. (Contrast this with the \emph{interactive} nature of a proof assistant.) Unfortunately, when a proof is found by an automated theorem prover, it tends to be very difficult to read and understand, and it often seems impossible to translate an automatically generated proof into an Informal Language proof.
+There is another kind of computer-based theorem proving tool called an \emph{automated theorem prover}. Such systems are quite different from proof assistants in that the former are designed to independently search for a proof of a given statement with little or no help from the user, in contrast to the \emph{interactive} nature of most proof assistants.  Unfortunately, proofs found by automated theorem provers are typically difficult for humans to parse and understand, and it can be impossible to translate an automatically generated proof into an Informal Language proof.
 
 Further justification for the use of proof assistants is their potential for improving the referee and validation process.  The main issues here are human fallibility and the high opportunity cost of human talent. Indeed, a substantial amount of time and effort of talented individuals is expended on refereeing journal submissions. Despite this the typical review process concludes without supplying any guarantee of validity of the resulting publications~\cite{fasel:2017}.
 Moreover, the emergence of large computational proofs (e.g., Hales' proof of the Kepler Conjecture) lead to referee assignments that are impossible burdens on individual reviewers~\cite{heule:2017}. Worse than that, even when such work survives peer review, there remain disputes over correctness, completeness, and whether nontrivial gaps exist. Some recent examples include Atiyah's claim to have proved the \emph{Riemann Hypothesis} and Zhuk's proof of the \emph{\csp dichotomy conjecture} of Feder and Vardi~\cite{zhuk:2017}.
@@ -470,7 +460,7 @@ An inhabitant of the type \lstinline{algebra_on} assigns an interpretation to ea
 
 Finally, we define an algebra.  Since an algebra pairs a carrier with an interpretation of the operation symbols, we use the \emph{dependent pair type}, 
 \lstinline{Σ (x : A), B x}, also known as 
-a \emph{Sigma type}. This is the type of ordered pairs \lstinline{<a, b>}, where \lstinline{a : A}, and \lstinline{b} has type \lstinline{B a} which may depend on \lstinline{a}. Just as the \emph{Pi type} \lstinline{Π (x : A), B x} generalizes the notion of function type \lstinline{A → B} by allowing the codomain \lstinline{B x} to depend on the value \lstinline{x} of the input argument, a Sigma type \lstinline{Σ (x : A), B x} generalizes the cartesian product \lstinline{A × B} by allowing the type \lstinline{B x} of the second argument of the ordered pair to depend on the value \lstinline{x} of the first.\footnote{Lean's built-in \lstinline{sigma} type is defined as follows:\\
+a \emph{Sigma type}. This is the type of ordered pairs \lstinline{<a, b>}, where \lstinline{a : A}, and \lstinline{b} has type \lstinline{B a} which may depend on \lstinline{a}. Just as the \emph{Pi type} \lstinline{Π (x : A), B x} generalizes the notion of function type \lstinline{A → B} by allowing the codomain \lstinline{B x} to depend on the value \lstinline{x} of the input argument, a Sigma type \lstinline{Σ (x : A), B x} generalizes the Cartesian product \lstinline{A × B} by allowing the type \lstinline{B x} of the second argument of the ordered pair to depend on the value \lstinline{x} of the first.\footnote{Lean's built-in \lstinline{sigma} type is defined as follows:\\
 \lstinline{structure sigma {α : Type u} (β : α → Type v) := mk :: (fst : α) (snd : β fst)}}
   
 Since an algebra $\<A, F^{\alg A}\>$ is an ordered pair where the type of the second argument depends on the first, it is natural to encode an algebra in type theory using a Sigma type, and we do so in the \lstinline{lean-ualib} library as follows:
@@ -518,7 +508,7 @@ the function whose value at $i < \rho f$ is
 $g\, i = g_i$. We want to define a \emph{generalized composition} of $f$ 
 with $g_0, g_1, \dots, g_{\rho f -1}$.  We could obviously do this component-wise,
 and specify the value of $f \circ g$ component-wise,
-but that makes computing with such compositions unweildy: for all $a : m \to A$, we define
+but that makes computing with such compositions unwieldy: for all $a : m \to A$, we define
 \[
   f [g](a) := f[g_0, \dots, g_{\rho f -1}](a) := f (g_0 a, \dots, g_{\rho f-1} a).
   \]
@@ -652,7 +642,7 @@ because $\prod_{j\in J} A_{\sigma(j)}$ depends on $\sigma$, but no $\sigma$
 is available from earlier in the expression~(\ref{eq:9}).
 
 The solution is again to denote the function type as a Pi type.
-Pi types are more expresive and allow concise specification of a dependent
+Pi types are more expressive and allow concise specification of a dependent
 product.  Before demonstrating this, we make one more notational adjustment.  
 Instead of denoting set membership by $a \in A$, we will use the 
 type-theoretic notation $a \colon A$, which
@@ -760,7 +750,7 @@ namespace subuniverse
     parameter {I : Type}        -- a collection of indices
     parameter {R : I → set α}  -- an indexed set of sets of type α
     definition F := S.F         -- the type of operation symbols
-    definition ρ := S.ρ         -- the opereation arity function
+    definition ρ := S.ρ         -- the operation arity function
 
     -- Definition of subuniverse
     definition Sub (β : set α) : Prop :=
@@ -935,7 +925,7 @@ Finally, the uniqueness of $g$ follows from Lemma~\ref{ex:1.16.6.brief}.
 
 \subsection{Terms and Free Algebras in Lean \href{https://github.com/UniversalAlgebra/lean-ualib/blob/master/src/free.lean}{(\lstinline{lean-ualib/free.lean})}}\
 
-\noindent As a second demonstrate of inductive types in Lean, 
+\noindent As a second demonstration of inductive types in Lean, 
 we define a type representing the (infinite) 
 collection $\mathbb T (X)$ of all terms of a given signature.
 \begin{lstlisting}
@@ -952,7 +942,7 @@ collection $\mathbb T (X)$ of all terms of a given signature.
     def Term : algebra S := ⟨term, term.app⟩
   end
 \end{lstlisting}
-The set of terms along with the operations $F^{\alg T} := \{\mathtt{app \,f} \mid f : F\}$ forms an algebra $\alg T(X) = \< \mathbb T(X), F^{\alg T}\>$ in the signature $S = (F, \rho)$. Suppose $\alg A = \< A, F^{\alg A}\>$ is an algebra in the same signature and $h \colon X \to A$ is an arbitrary function.  We will show that $h \colon X \to A$ has a unique \emph{extension} (or \emph{lift}) to a homomorphism from $\mathbf T(X)$ to $\alg A$.  Since $\alg A$ and $h \colon X \to A$ are aribtrary, this unique homomorphic lifting property holds universally; accordingly we say that the term algebra $\alg T(X)$ is \emph{universal} for $S$-algebras.
+The set of terms along with the operations $F^{\alg T} := \{\mathtt{app \,f} \mid f : F\}$ forms an algebra $\alg T(X) = \< \mathbb T(X), F^{\alg T}\>$ in the signature $S = (F, \rho)$. Suppose $\alg A = \< A, F^{\alg A}\>$ is an algebra in the same signature and $h \colon X \to A$ is an arbitrary function.  We will show that $h \colon X \to A$ has a unique \emph{extension} (or \emph{lift}) to a homomorphism from $\mathbf T(X)$ to $\alg A$.  Since $\alg A$ and $h \colon X \to A$ are arbitrary, this unique homomorphic lifting property holds universally; accordingly we say that the term algebra $\alg T(X)$ is \emph{universal} for $S$-algebras.
 Before implementing the formal proof of this fact in Lean, let us first define some domain specific syntactic sugar.
 \begin{lstlisting}
 section
@@ -1275,7 +1265,6 @@ such that $h(y_i) = a_i$ for $i \leq n$. Then
 = q^{\alg A}(h(y_1), \dots, h(y_n))\\
 &= q^{\alg A}(a_1, \dots, a_n).
 \end{align*}
-ese general goals 
 \end{proof}
 
 It follows from Lemma~\ref{lem:4.36} that every equational class is a variety. 
@@ -1453,7 +1442,7 @@ more productive and more confident in their results.
 This project also presents us with the opportunity to formalize theorems emerging from our research in universal algebra and lattice theory. The PI is involved in three different research projects in universal algebra.  A proof assistant equipped with special libraries and tactics for formalizing universal algebra would be an invaluable tool for these research problems. 
 
 Furthermore, a number of results and ideas on which our work depends appear in journals and conference proceedings with many important details missing.  Using Lean allows us to not only verify the correctness of theorems and proofs, but
-also determine the precise foundational assumptions required to confirm the validity of the result. Thus, when doing mathematics with the help of modern proof assustant technology,  we are presented with the possibility of automating the process of generalizing results.
+also determine the precise foundational assumptions required to confirm the validity of the result. Thus, when doing mathematics with the help of modern proof assistant technology,  we are presented with the possibility of automating the process of generalizing results.
 
 The idea is that implementing theorems as types
 and proofs as ``proof objects'' would produce the following:
@@ -1518,6 +1507,8 @@ Our goal is to formally prove theorems and do research mathematics while at the 
 As scientists, we should take seriously any theory that may exposes weaknesses in our assumptions or our research habits.  We should not be threatened by these disruptive forces; we must embrace them, deconstruct them, and take from them whatever they can offer our mission of advancing pure mathematics.
 
 
+\section*{Acknowledgements} I am greatly indebted to Jasmin Blanchette who shared with me the original proposal for his \emph{Lean Forward Project}~\cite{blanchette:2018}. That had a significant impact on me, and inspired me to focus a significant part of my research activities on Lean development. In short, the idea and design of the present document owes a great deal to Jasmin's \emph{Lean Forward Project Proposal}~(cf.~\cite{blanchette:2018}).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
@@ -1527,8 +1518,6 @@ As scientists, we should take seriously any theory that may exposes weaknesses i
 \appendix
 
 \section{Metadata}
-
-
 
 \begin{table}[h]
   \begin{tabular}{|l|l|}
@@ -1554,10 +1543,6 @@ As scientists, we should take seriously any theory that may exposes weaknesses i
   \end{tabular}
   \end{table}
   
-
-
-
-
 \subsection{Project Personnel}\
 \vskip5mm
 \noindent {\bf Principal Investigator.}
@@ -1602,6 +1587,9 @@ As scientists, we should take seriously any theory that may exposes weaknesses i
 \vskip2mm
 \hskip4.7mm {\bf Jasmin Blanchette} (Assistant Professor, Vrije Universiteit Amsterdam)
 
+\vskip2mm
+\hskip4.7mm {\bf Venanzio Capretta} (Professor, University of Nottingham)
+
 
   
 
@@ -1620,8 +1608,8 @@ As scientists, we should take seriously any theory that may exposes weaknesses i
 \section{complementary projects}
 
 \subsection{Lean Forward}
-The Netherlands Organization for Scientific Research recently awarded a five-year grant to Jasmin Blanchette for his \emph{Lean Forward} project, which is similar but complementary to our project. First, Dr.~Blanchette is a computer scientist enlisting the support of mathematicians, whereas we are mathematicians enslisting support of computer scientists.  
-Moreover, Jasmin works primarily with number theorists, whereas we are focused on universal algebra. We have had fruitful contact with Jasmin at the \emph{Big Proof} workshop last summer at Cambridge University's Isaac Newton Institute, and will attend the inaugural meeting of the Lean Forward project in January 2019 in Amsterdamn. We look forward to productive future collaborations with the Lean Forward scientists.
+The Netherlands Organization for Scientific Research recently awarded a five-year grant to Jasmin Blanchette for his \emph{Lean Forward} project, which is similar but complementary to our project. First, Dr.~Blanchette is a computer scientist enlisting the support of mathematicians, whereas we are mathematicians enlisting support of computer scientists.  
+Moreover, Jasmin works primarily with number theorists, whereas we are focused on universal algebra. We have had fruitful contact with Jasmin at the \emph{Big Proof} workshop last summer at Cambridge University's Isaac Newton Institute, and will attend the inaugural meeting of the Lean Forward project in January 2019 in Amsterdam. We look forward to productive future collaborations with the Lean Forward scientists.
 
 % \subsubsection{Lean Forward Domain Specific Automation}
 % One of the primary objectives of Lean is to bridge the gap between automatic and interactive theorem proving. A cornerstone for this vision is \emph{white-box automation}---the key techniques underlying SMT solvers for reasoning about equality, such as \emph{congruence closure}~\cite{MR3536762}, and the quantifier instantiation heuristics~\cite{MR2458080}, are available to users via the metaprogramming framework. Despite this, several reasoning components, as well as some important metaprogramming ``tape and glue,'' are missing. For all its potential, Lean is not as automated as Isabelle/HOL.
@@ -2204,7 +2192,7 @@ The agenda for this part of the project includes parallelizing the important sub
 building in conjecture-testing and search features, adding further algorithms,
 and further developing the community of users and contributors. An additional
 effort to incorporate some of the latest technologies developed in the Type
-Theory and Programming Lagnuages research community is also under way.
+Theory and Programming Languages research community is also under way.
 
 
 
@@ -2213,7 +2201,7 @@ The Universal Algebra Calculator (UACalc) was initiated by Emil Kiss and Matthew
 and has been developed by Ralph Freese for the past two decades.  In that time 
 the UACalc has grown to include many very powerful tools for analyzing various 
 classes of algebraic structures and revealing their properties in a computationally 
-tractable way whenever possible.  UACalc is desinged to be used through a  
+tractable way whenever possible.  UACalc is designed to be used through a  
 graphical user interface (GUI), which is ideal for researchers with little programming experience 
 and for those situations in which we are interested in a single algebraic structure 
 whose (Cayley) operation tables we don't mind entering by hand. 
