@@ -16,7 +16,7 @@
 \usepackage[colorlinks=true]{hyperref}
 \hypersetup{
      citecolor    = gray,
-     urlcolor=Blue
+     urlcolor=blue
      %% linkcolor=Emerald
 }
 % \usepackage[yyyymmdd,hhmmss]{datetime}
@@ -50,6 +50,9 @@ scale=1.1,
 }
 %%%%%%  (end wjd addition of packages)
 
+\newcommand\mmskip{-6mm}
+\newcommand\pubitem[6]{\item \href{#5}{#1} #2 \textit{#3} #4 preprint link: \href{#5}{#6}}
+\newcommand\pubit[5]{\item \href{#5}{#1} #2 \textit{#3} #4 \href{#5}{preprint link}.}
 
 
 \usepackage{ifthen}
@@ -68,11 +71,6 @@ scale=1.1,
 \newboolean{UH-grad-extra}
 \setboolean{UH-grad-extra}{true}
 \setboolean{UH-grad-extra}{false}
-
-
-\newboolean{pagenumbers}
-\setboolean{pagenumbers}{true}
-\setboolean{pagenumbers}{false}
 
 \newboolean{qrcode}
 \setboolean{qrcode}{true}  % set to true to include qrcode
@@ -137,7 +135,7 @@ scale=1.1,
 
     %======================================================================================
     % ACADEMIC APPOINTMENTS
-    \vspace{-1mm}
+    %\vspace{-1mm}
     \section{\mysidestyle Academic Appointments}
     Burnett Meyer Instructor, University of Colorado, Boulder \hfill  2017--2019 \\[3pt]
     Visiting Assistant Professor, University of Hawaii, Honolulu \hfill  2016--2017 \\[3pt]
@@ -151,7 +149,7 @@ scale=1.1,
 
     %======================================================================================
     % Professional Experience
-    \vspace{-1mm}
+    %\vspace{-1mm}
     \section{\mysidestyle Professional\\Experience}
     
     Senior Research Scientist, Textron Systems Corporation  \hfill 2001--2006\\
@@ -173,7 +171,7 @@ scale=1.1,
     
     %======================================================================================
     % Honours and Awards
-    \vspace{-1mm}
+    %\vspace{-1mm}
     \section{\mysidestyle Grants \& Awards}
 
     NSF Research Grant {\small (no.~1500218)} \hfill 2015--2018\\
@@ -193,25 +191,19 @@ scale=1.1,
     \vspace{-2mm}
     Best Paper Award, International Symposium on Musical Acoustics \hfill  2004 
 
-\vspace{-2mm}
+%\vspace{-2mm}
     %======================================================================================
     \section{\mysidestyle Publications}
 
-    \input{aux/pubs.tex}
+    \input{aux/pubs0.tex}
     
-
-    % %======================================================================================
-    % \section{\mysidestyle Publications (continued)}
-
-    % \input{aux/pubs2.tex}
-
-\vspace{-1mm}    
+%\vspace{-1mm}    
     %======================================================================================
     \section{\mysidestyle Summer Schools Attended}
 
     \input{aux/summerschools.tex}
 
-\vspace{-1mm}    
+%\vspace{-1mm}    
     %======================================================================================
     \section{\mysidestyle Data Science Credentials}
 
@@ -219,133 +211,16 @@ scale=1.1,
     %% \section{\mysidestyle Courses with Certificates}
     \input{aux/training.tex}
 
-
-    %======================================================================================
-    \section{\mysidestyle Synergistic Activities}
-
-    % \input{aux/synergistic.tex}
-
-    \newcommand{\mytab}{\phantom{\textsl{Activities: }}}
-    \renewcommand{\mytab}{\phantom{XX}}
-    Organizer: \href{https://universalalgebra.github.io/ALH-2018/}
-    {\emph{Algebras and Lattices in \Hawaii Conf.~{\small to honor Freese, Lampe \& Nation}}} \hfill  Honolulu 2018
-    \\
-    Organizer: \href{http://universalalgebra.wordpress.com/meetings/2013-workshop-on-computational-universal-algebra/}
-    {\emph{Workshop on Computational Universal Algebra}} \hfill  Louisville 2013
-    \\
-    Referee for {\it Algebra Universalis}, {\it Order}, and {\it J.~Logic \& Analysis} \hfill 2012--present
-    \\
-    Editor for {\it Algebra Universalis} \hfill 2018--present
-    % \\
-    % Founder/editor: \href{http://universalalgebra.org}{universalalgebra.org}    \hfill 2013--present
-    % \\[6pt]
-    % \textbf{University of Colorado, Boulder} \\ %\textsl{faculty mentoring activities}\\
-    % Ph.D. Preliminary Exam Committee for Jordan DuBeau, Ali Latfi, Athena Sparks, Michael Wheeler\\
-    % Ph.D. Thesis Defense Committee for Jeffrey Shriner\\
-    % Honors Thesis Defense Committee for Zetong Xue
-    % \\[6pt]
-
-    %% \textbf{University of South Carolina}\\
-    %% Honors thesis mentor for
-    %% Matthew Corley (computer science major, honors program) \hfill 2013--2014\\ 
-    %% %% \mytab Project title: \href{http://www.ams.org/amsmtgs/2160_abstracts/1096-c5-2578.pdf}{\emph{What does a nonabelian group sound like?}}
-    %% %% \href{http://soundmath.github.io/GroupSound/}{soundmath.github.io/GroupSound} \mytab Project url: \url{http://soundmath.github.io/GroupSound/}
-    %% South Carolina High School Math Contest exam design committee  \hfill 2012--2014 \\
-    %% Faculty mentor for Pi Mu Epsilon (math honors society) \hfill 2012--2014
-    %% \\[6pt]
-    %% %% \mytab \href{http://www.ams.org/amsmtgs/2160_abstracts/1096-c5-2578.pdf}{Abstract} accepted for MAA Special Session at the 2014 JMM. \\
-    %% %% \mytab 2. Software development project: node.js webapp deployed with heroku.\\
-    %% \ifthenelse{\boolean{UH-grad-extra}}{
-    \ifthenelse{\boolean{UH-grad-extra}}{
-    %%   \textbf{University of Hawaii} \\
-    %% Working Group on Graduate Education \hfill 2010--2011\\
-    %% \mytab Graduate Student Representative on committee of deans and
-    %% department heads; \\
-    %% \mytab helped draft resolution for Committee on Research
-    %% and Graduate Education. 
-    %% \\
-    %% Graduate Student Organization: \hfill 2009--2011\\
-    %% \mytab Faculty Senate Student Rep., Academic Committee Chair, Math Department Rep.
-    %% \\
-    %% Mentor for Undergraduate Research: Mathematical Biology Program \hfill 2008\\
-    %% \nosmall \mytab Mentored students in math and dsp for classifying marine life audio signals.
-    %%     \newpage
-      \textbf{University of Hawaii} \\
-    Working Group on Graduate Education\\
-    \mytab Graduate Student Representative on committee of deans and
-    department heads; \\
-    \mytab helped draft resolution for Committee on Research
-    and Graduate Education. 
-    \\
-    Graduate Student Organization:\\
-    \mytab Faculty Senate Student Rep., Academic Committee Chair, Math Department Rep.
-    \\
-    Mentor for Undergraduate Research: Mathematical Biology Program\\
-    \nosmall \mytab Mentored students in math and dsp for classifying marine life audio signals.
-    }{}
-
-    % \ifthenelse{\boolean{pagenumbers}}{
-    %   \begin{center}
-    %     \vskip-15mm
-    %     \hfill (page 2 of 5)
-    %   \end{center}
-    % }{}
-
-    % \newpage
-    
-    
-    % %======================================================================================
-    % \section{\mysidestyle Student Advising}
-    \noindent \textbf{University of Colorado, Boulder}\\[2pt]
-    \noindent Served on doctoral candidacy exam committee for the following ph.d.~students:\\[2pt]
-    \textit{Jordan DuBeau}; exam topics: group theory, model theory, set theory.\\ [0pt]
-    % \textit{Dissertation topic:} Algebra, Foundations, J\'onsson Algebras (anticipated) \\[4pt]
-    \textit{Ali Latfi}; exam topics: category theory, commutative algebra, model theory.\\[0pt]
-    % \textit{Dissertation topic:} On the size of projective planes\\[4pt]
-    \textit{Athena Sparks}; exam topics: computability theory, group theory, model theory.\\[0pt]
-    % \textit{Dissertation topic:} Promise constraint satisfaction problems\\
-    \textit{Michael Wheeler}; exam topics: category theory, model theory, set theory.\\[4pt]
-    \noindent Served on dissertation defense committee for\\
-    \textit{Jeffrey Shriner}; thesis title: Hardness results for the subpower membership problem.
-
-    \noindent \textbf{Iowa State University} \\ %\textsl{faculty mentoring activities}\\
-    REU mentor for Charlotte Aten (mathematics major, University of Rochester)\\
-    Honors thesis advisor for Joshua Thompson (mathematics major, honors program)\\
-    Putnam Exam mentor at weekly exam practice meetings\\
-    Undergraduate Tea cohost of weekly undergraduate student gatherings\\
-    Iowa 4-H Youth Conference volunteer mentor
-    (\href{https://math.iastate.edu/2015/10/28/4-h-dared-to-discover-the-math-of-juggling/}{link})\\[6pt]
-    %% \textit{Iowa State University} \\ %\textsl{faculty mentoring activities}\\
-    %%    REU mentor for Charlotte Aten (mathematics major, University of Rochester)  \hfill Summer 2016 \\
-    %% %% \mytab Topics: category theory, lattice theory, Boolean algebras with operators\\[4pt]
-    %%    Honors thesis advisor for Joshua Thompson (mathematics major, honors program) \hfill 2015–--2016\\ 
-    %% %% \mytab Thesis topic: absorption properties of commutative idempotent binars\\[4pt]
-    %% Putnam Exam mentor at weekly exam practice meetings \hfill 2014–-2015\\
-    %% %% Iowa High School Math Contest volunteer proctor \hfill 2015 \\
-    %% Undergraduate Tea cohost of weekly undergraduate student gatherings \hfill 2014–-2015\\
-    %% Iowa 4-H Youth Conference volunteer mentor
-    %% (\href{https://math.iastate.edu/2015/10/28/4-h-dared-to-discover-the-math-of-juggling/}{link})\hfill 2015, 2016
-    %% \\[6pt]
-
     \newpage
 
-    \textbf{University of South Carolina}\\
-    Honors thesis mentor for
-    Matthew Corley (computer science major, honors program)\\ 
-    South Carolina High School Math Contest exam design committee\\
-    Faculty mentor for Pi Mu Epsilon (math honors society)
+%======================================================================================
+    \section{\mysidestyle Synergistic Activities}
+
+    \input{aux/synergistic.tex}
 
     \section{\mysidestyle Teaching Experience}
     \input{aux/teaching.tex}
     
-    \ifthenelse{\boolean{pagenumbers}}{
-      \begin{center}
-        %\vskip-4mm
-        \hfill (page 3 of 5)
-      \end{center}
-    }{}
-    \newpage
-
      %======================================================================================
     \section{\mysidestyle Talks}
 
@@ -359,34 +234,23 @@ scale=1.1,
     %% (Slides for some of the talks listed below are available at
     %% \href{https://github.com/williamdemeo/Talks}{github.com/williamdemeo/Talks})
 
-    \input{aux/talks1.tex}
 
-    \ifthenelse{\boolean{pagenumbers}}{
-      \begin{center}
-        %\vskip-4mm
-        \hfill (page 4 of 5)
-      \end{center}}{}
+    \input{aux/talks.tex}
 
-    \newpage
+    %  %======================================================================================
+    % \section{\mysidestyle Talks (continued)}
+    % \input{aux/talks2.tex}
 
-     %======================================================================================
-    \section{\mysidestyle Talks (continued)}
-    \input{aux/talks2.tex}
+    %\vskip1cm
 
-    \vskip1cm
+    % \newpage
 
     %______________________________________________________________________________
     \section{\mysidestyle References} 
-    \null
-    \vskip-2mm
+%    \null
+%    \vskip-2mm
     \input{aux/refs.tex}
 
-
-    \ifthenelse{\boolean{pagenumbers}}{
-      \begin{center}
-        \vskip2cm
-        \hfill (page 5 of 5)
-    \end{center}}{}
 
 \end{resume}
 
